@@ -1,0 +1,13 @@
+# VSCODE AND MACOS GEN FILES
+.DS_Store
+.vscode
+# LATEX INTERMEDIATE COMPILATION FILES
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.bbl
+*.bcf
+*.blg
+*.run.xml
