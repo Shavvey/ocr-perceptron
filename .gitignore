@@ -11,6 +11,7 @@
 *.bcf
 *.blg
 *.run.xml
+*.toc
 
 ### JetBrains ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
