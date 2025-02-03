@@ -68,3 +68,5 @@ fabric.properties
 
 # GRADLE
 .gradle
+# dont check build dir into VCS
+ocr-perceptron/build
