@@ -1,5 +1,5 @@
 \documentclass[english,12pt]{article}
-\usepackage{geometry}
+\usepackage[]{geometry}
 \usepackage{blindtext}
 \usepackage{enumerate}
 \usepackage{parskip} 
@@ -16,10 +16,13 @@
 \usepackage{float}
 \usepackage{titlesec}
 \usepackage{blindtext}
+\usepackage{multicol}
+\usepackage{varwidth}
+
 \author{
-        Cole Johnson - \texttt{cole.johnson@student.nmt.edu} \\
-        Lauren Giles - \texttt{lauren.giles@student.nmt.edu} \\
         Colin Grandjean - \texttt{colin.grandjean@student.nmt.edu} \\
+        Lauren Giles - \texttt{lauren.giles@student.nmt.edu} \\
+        Cole Johnson - \texttt{cole.johnson@student.nmt.edu} \\
         John Runyon  - \texttt{john.runyon@student.nmt.edu}
 }
 \title{ \textbf{CSE326: Software Engineering} \\
@@ -27,7 +30,6 @@
 }
 
 \begin{document}
-\newcommand{\Hrule{\rule{\linewidth}{0.5mm}}}
 \maketitle
 {\footnotesize\tableofcontents} % make a small table of contents on the first page
 \pagebreak
@@ -58,6 +60,29 @@ model. Our main objectives for the project include:
 \section{Risk Management Strategy}
 
 \subsection{Risk Table}
+\begin{varwidth}[t]{.4\textwidth}
+  \textbf{Category Values}
+  \begin{itemize}
+    \item \textbf{PS} - Product Size Risk
+    \item \textbf{BU} Business Impact Risk
+    \item \textbf{CU} - Customer Risk
+    \item \textbf{PR} - Process Risk
+    \item \textbf{TE} - Technology Risk 
+    \item \textbf{DE} - Development Environment Risk
+    \item \textbf{ST} - Risk Associated with Staff Size and Experience 
+  \end{itemize}
+  \end{varwidth}
+  \hspace{4em}
+  \begin{varwidth}[t]{.5\textwidth}
+  \textbf{Impact Values:}
+  \begin{itemize}
+    \item \textbf{4} - catastrophic
+    \item \textbf{3} - critical
+    \item \textbf{2} - marginal
+    \item \textbf{1} - negligible
+  \end{itemize}
+\end{varwidth}
+
 \begin{table}[H]
   \begin{center}
     \begin{tabular}[c]{|l|l|l|l|l|}
@@ -66,9 +91,9 @@ model. Our main objectives for the project include:
       \multicolumn{1}{|c|}{\textbf{Category}} & 
       \multicolumn{1}{|c|}{\textbf{Probability}} &
       \multicolumn{1}{|c|}{\textbf{Impact}} &
-      \multicolumn{1}{|c|}{\textbf{RMMM}} \\
-      \hline
-      a & b & c & d & e\\
+      \multicolumn{1}{|c|}{\textbf{RMMM}} \\ [0.5ex]
+      \hline\hline
+      a & \textbf{ST} & Moderate & High & e\\
       \hline
     \end{tabular}
   \end{center}
