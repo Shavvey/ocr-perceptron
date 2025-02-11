@@ -17,6 +17,7 @@
 \usepackage{float}
 \usepackage{titlesec}
 \usepackage{blindtext}
+\usepackage{longtable}
 \usepackage{multicol}
 \usepackage{varwidth}
 \usepackage{multirow}
@@ -66,29 +67,17 @@
 \section{Introduction}
 
 \subsection{Project Overview and Statement of Proposal}
-OCR (Optical Character Recognition) is a technique where an machine attempts
-to parse images, or a stream of images, into a matched set of some written
-alphabet -- often just a set of alphanumeric characters. OCR is used in banking,
-note taking applications, and many other services used on a daily basis.
-One of the most common implementations of OCR is the use of neural networks,
-often through supervised learning methods. We propose to create a simple neural
-network that will be trained and tested to classify a single image into an
-alphanumeric character using one such supervised learning technique. In
-the process of developing the neural network, we'll development a host of tools
-to test and view the networks created and some performance metrics to gauge
-effectiveness.
+OCR (Optical Character Recognition) is a technique that a program can use to parse individual or stream images into a matched set of some written alphabet; often just a set of alphanumeric characters. OCR is used in banking, note taking applications, and many other services used on a daily basis. One of the most common implementations of OCR is the use of neural networks, often through supervised learning methods. We propose to create a simple neural network that will be trained and tested to classify a single image into an alphanumeric character using one such supervised learning technique. In the process of developing the neural network, we'll develop a host of tools to test and view the networks created and some performance metrics to gauge effectiveness.
 
 \subsection{Project Scope and Objectives}
-The initial scope of the project is the create a simple Optical Character Recognition (OCR)
-system using a neural network and employ supervised learning techniques to test and train our
-model. Our main objectives for the project include:
+The initial scope of the project, as outlined in the overview, will be to create a simple Optical Character Recognition (OCR) system using a neural network and employ supervised learning techniques to test and train our model. Our main objectives for the project include:
 \begin{enumerate}[(a.)]
-  \item build the components of neural network using an object-oriented design principles and programming language
-  \item A training and test environment for our neural network
+  \item Build the components of neural network using object-oriented design principles and programming language (like Java).
+  \item A training and test environment for our neural network.
   \item A graphical user interface (GUI) that the user can draw characters
-    for the model to classify them
+    for the model to classify them.
   \item A graphical user interface (GUI) to view the created neural networks to
-    visually see how each model works
+    visually see how each model works.
 \end{enumerate}
 
 \section{Risk Management Strategy}
@@ -97,13 +86,13 @@ model. Our main objectives for the project include:
 \begin{varwidth}[t]{.5\textwidth}
   \textbf{Category Values}
   \begin{itemize}
-    \item \textbf{PS} - Product Size Risk
-    \item \textbf{BU} Business Impact Risk
+    \item \textbf{BU} - Business Impact Risk
     \item \textbf{CU} - Customer Risk
-    \item \textbf{PR} - Process Risk
-    \item \textbf{TE} - Technology Risk 
     \item \textbf{DE} - Development Environment Risk
+    \item \textbf{PR} - Process Risk
+    \item \textbf{PS} - Product Size Risk
     \item \textbf{ST} - Risk Associated with Staff Size and Experience 
+    \item \textbf{TE} - Technology Risk 
   \end{itemize}
   \end{varwidth}
   \hspace{4em}
@@ -116,53 +105,73 @@ model. Our main objectives for the project include:
     \item \textbf{1} - negligible
   \end{itemize}
 \end{varwidth}
-\begin{table}[H]
-  \caption{Risk Table}
-  \begin{center}
-    \begin{tabular}[c]{|P{0.20\linewidth}|P{0.10\linewidth}|P{0.10cm}|P{0.5cm}|P{5.5cm}|}
-      \hline
-      \multicolumn{1}{|c|}{\textbf{Risks}} & 
-      \multicolumn{1}{|c|}{\textbf{Category}} & 
-      \multicolumn{1}{|c|}{\textbf{Probability}} &
-      \multicolumn{1}{|c|}{\textbf{Impact}} &
-      \multicolumn{1}{|c|}{\textbf{RMMM}} \\ [0.5ex]
-      \hline\hline
-      \small
-      Most members on the project do not have a lof of experience with NNs & \textbf{ST} & Likely & 3 & 
-      \small \textbf{Mitigation}
-      - Hold meetings where we can review our knowledge of Neural Networks
-      and carefully plan how our learning strategy will work and what
-      technologies it will involve\\
-      \hline
-      No robust method for testing whether our model works & \textbf{PR} & Very Likely & 2 & 
-      \small \textbf{Mitigation}
-      - Introduce unit tests so that will can, at the very least,
-      test the functioning of individual components of the neural network,
-      to avoid errors made earlier in the development process.\\
-      \hline
-      Members on the project use a variety of different hardware and software,
-      complicating the development process  & \textbf{DE} & Very Likely  & 1 &  \small \textbf{Mitigation} -
-      use a virtual machine to help simplify the process of developing the software, and make
-      diagnosing issues easier by sticking to one platform \\
-      \hline
-    \end{tabular}
-  \end{center}
-\end{table}
+\begin{longtable}{|P{0.20\linewidth}|P{0.10\linewidth}|P{0.10cm}|P{0.5cm}|P{5.5cm}|}
+  \caption{Risk Table} \\
+  \hline
+  \multicolumn{1}{|c|}{\textbf{Risks}} & 
+  \multicolumn{1}{|c|}{\textbf{Category}} & 
+  \multicolumn{1}{|c|}{\textbf{Probability}} &
+  \multicolumn{1}{|c|}{\textbf{Impact}} &
+  \multicolumn{1}{|c|}{\textbf{RMMM}} \\ [0.5ex]
+  \hline
+  \endfirsthead
+  \hline
+  \multicolumn{5}{|c|}{\textit{Continued from previous page}} \\ 
+  \hline
+  \textbf{Risks} & \textbf{Category} & \textbf{Probability} & \textbf{Impact} & \textbf{RMMM} \\ 
+  \hline
+  \endhead
+  \hline
+  \multicolumn{5}{|c|}{\textit{Continued on the next page}} \\ 
+  \hline
+  \endfoot
+  \hline
+  \endlastfoot
+
+  Project scope may increase due to feature additions & \textbf{BU} & Possible & 2 & 
+  \small \textbf{Mitigation} - Define strict requirements at the beginning and have periodic reviews to control feature creep.\\
+  \hline
+
+  Model may not generalize well to unseen characters & \textbf{CU} & Likely & 3 & 
+  \small \textbf{Mitigation} - Incorporate diverse training data, test edge cases, and implement validation methods.\\
+  \hline
+
+  Members on the project use a variety of different hardware and software, complicating the development process  & \textbf{DE} & Very Likely & 1 &  
+  \small \textbf{Mitigation} - Use a virtual machine to help simplify the process of developing the software and make diagnosing issues easier by sticking to one platform.\\
+  \hline
+
+  No robust method for testing whether our model works & \textbf{PR} & Very Likely & 2 & 
+  \small \textbf{Mitigation} - Introduce unit tests to test the functioning of individual components of the neural network to avoid errors made earlier in the development process.\\
+  \hline
+
+  Neural network may be too computationally expensive to run efficiently & \textbf{PS} & Likely & 2 & 
+  \small \textbf{Mitigation} - Optimize the network design to reduce complexity using different algorithms.\\
+  \hline
+
+  Most members on the project do not have a lot of experience with NNs & \textbf{ST} & Likely & 3 & 
+  \small \textbf{Mitigation} - Hold meetings to review neural network knowledge and carefully plan the learning strategy, including which technologies to involve.\\
+  \hline
+
+  Technology stack may not support required performance & \textbf{TE} & Possible & 3 & 
+  \small \textbf{Mitigation} - Evaluate and select technologies that are proven for neural network applications, conduct early performance tests to not be stuck later.\\
+  \hline
+
+\end{longtable}
 
 \subsection{Discussion of Risks to Be Managed}
-The risk to be managed for this project primarily involve managing the technical complexity,
-and deal less with public-facing risks like product size or customer relations. The risks for 
+The risk to be managed for this project will primarily involve managing the technical complexity,
+and dealing with public-facing risks like product size or customer relations. The risks for 
 this project require mitigation measures that attempt to alleviate technical risks. For example,
 one mitigation effort requires unit testing to help ensure the behavior of each component
 of the neural network is functioning as expected.
+\pagebreak
 \subsection{Risk Mitigation, Monitoring, and Management Plan}
 \subsubsection{Risk Mitigation}
 \begin{enumerate}[1.]
   \item \textbf{No Robust Testing Method to Evaluate the Whole Neural Network - Process Risk:}
 
   It's very difficult to evaluate how a neural network is flawed, since it's connections
-  are often elaborate and difficult to understand. Instead, to help mitigate this risk,
-  we propose to introduce unit testing inside the components, and test smaller version
+  are often elaborate and difficult to understand (the black box effect). Instead, to help mitigate this risk we propose to introduce unit testing inside the components, and test smaller version
   of the models we will ultimately create.
 
   \item \textbf{Inexperience in Neural Networks - Staff Risk:}
@@ -176,7 +185,8 @@ of the neural network is functioning as expected.
   - Development Environment Risk:}
   
  If different hardware and software environments poses a risk, we can use a virtual machine
- to create a single development environment
+ to create a single development environment.
+ 
 \end{enumerate}
 \subsubsection{Risk Monitoring}
 Risk monitoring involves gauging understanding of each component of the project, ensure
