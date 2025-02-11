@@ -46,29 +46,33 @@
 \subsection{Project Overview and Statement of Proposal}
 OCR (Optical Character Recognition) is a technique where an machine attempts
 to parse images, or a stream of images, into a matched set of some written
-alphabet--often just a set of alphanumeric characters. OCR is used in banking,
-note taking applications, and many other services on a daily basis.
+alphabet -- often just a set of alphanumeric characters. OCR is used in banking,
+note taking applications, and many other services used on a daily basis.
 One of the most common implementations of OCR is the use of neural networks,
 often through supervised learning methods. We propose to create a simple neural
 network that will be trained and tested to classify a single image into an
-alphanumeric character.
+alphanumeric character using one such supervised learning technique. In
+the process of developing the neural network, we'll development a host of tools
+to test and view the networks created and some performance metrics to gauge
+effectiveness.
 
 \subsection{Project Scope and Objectives}
 The initial scope of the project is the create a simple Optical Character Recognition (OCR)
 system using a neural network and employ supervised learning techniques to test and train our
 model. Our main objectives for the project include:
 \begin{enumerate}[(a.)]
+  \item build the components of neural network using an object-oriented design principles and programming language
   \item A training and test environment for our neural network
-  \item A graphical user interface that the user can draw characters
+  \item A graphical user interface (GUI) that the user can draw characters
     for the model to classify them
-  \item A graphical user interface to view the created neural networks to
+  \item A graphical user interface (GUI) to view the created neural networks to
     visually see how each model works
 \end{enumerate}
 
 \section{Risk Management Strategy}
 
 \subsection{Risk Table}
-\begin{varwidth}[t]{.4\textwidth}
+\begin{varwidth}[t]{.5\textwidth}
   \textbf{Category Values}
   \begin{itemize}
     \item \textbf{PS} - Product Size Risk
@@ -90,7 +94,7 @@ model. Our main objectives for the project include:
     \item \textbf{1} - negligible
   \end{itemize}
 \end{varwidth}
-\begin{table}[ht]
+\begin{table}[H]
   \caption{Risk Table}
   \begin{center}
     \begin{tabular}[c]{|P{0.20\linewidth}|P{0.10\linewidth}|P{0.10cm}|P{0.5cm}|P{5.5cm}|}
@@ -102,30 +106,66 @@ model. Our main objectives for the project include:
       \multicolumn{1}{|c|}{\textbf{RMMM}} \\ [0.5ex]
       \hline\hline
       \small
-      Most members on the project do not have a lof of experience with NNs & \textbf{ST} & Moderate & 3 & 
+      Most members on the project do not have a lof of experience with NNs & \textbf{ST} & Likely & 3 & 
       \small \textbf{Mitigation}
       - Hold meetings where we can review our knowledge of Neural Networks
       and carefully plan how our learning strategy will work and what
       technologies it will involve\\
       \hline
-      No robust method for testing whether our model works & \textbf{PR} & High & 2 & 
+      No robust method for testing whether our model works & \textbf{PR} & Very Likely & 2 & 
       \small \textbf{Mitigation}
-      - \\
+      - Introduce unit tests so that will can, at the very least,
+      test the functioning of individual components of the neural network,
+      to avoid errors made earlier in the development process.\\
+      \hline
+      Members on the project use a variety of different hardware and software,
+      complicating the development process  & \textbf{DE} & Very Likely  & 1 &  \small \textbf{Mitigation} -
+      use a virtual machine to help simplify the process of developing the software, and make
+      diagnosing issues easier by sticking to one platform \\
       \hline
     \end{tabular}
   \end{center}
 \end{table}
 
 \subsection{Discussion of Risks to Be Managed}
-
+The risk to be managed for this project primarily involve managing the technical complexity,
+and deal less with public-facing risks like product size or customer relations. The risks for 
+this project require mitigation measures that attempt to alleviate technical risks. For example,
+one mitigation effort requires unit testing to help ensure the behavior of each component
+of the neural network is functioning as expected.
 \subsection{Risk Mitigation, Monitoring, and Management Plan}
-
 \subsubsection{Risk Mitigation}
+\begin{enumerate}[1.]
+  \item \textbf{No Robust Testing Method to Evaluate the Whole Neural Network - Process Risk:}
 
+  It's very difficult to evaluate how a neural network is flawed, since it's connections
+  are often elaborate and difficult to understand. Instead, to help mitigate this risk,
+  we propose to introduce unit testing inside the components, and test smaller version
+  of the models we will ultimately create.
+
+  \item \textbf{Inexperience in Neural Networks - Staff Risk:}
+
+  If this risk becomes a problem, our mitigation efforts involve
+  holding meetings to review relevant information about neural networks. 
+  Writing unit tests should also help, since they help the writer understand
+  how each component is supposed to function
+
+  \item \textbf{Team Members Use a Variety Different Hardware and Software 
+  - Development Environment Risk:}
+  
+ If different hardware and software environments poses a risk, we can use a virtual machine
+ to create a single development environment
+\end{enumerate}
 \subsubsection{Risk Monitoring}
+Risk monitoring involves gauging understanding of each component of the project, ensure
+that each part is properly understood and that tests are written properly to ensure each component
+is working as intended and understood by members of the project.
 
 \subsubsection{Risk Management (Contingency Plans)}
-
+Contingency plans to reduce risk involve creating and utilizing many different
+neural network performance metric, like hamming distances and F1 scores, the ensure
+the accuracy of our model and the soundness of our training process. If we encounter
+issues implementing the supervised learning process, we can try other techniques instead.
 \section{Schedule}
 
 \subsection{Task List}

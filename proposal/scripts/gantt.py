@@ -35,6 +35,12 @@ TASKS = pd.DataFrame(
             Finish="2025-2-28",
             Assigned=AssignedTo.Cole,
         ),
+        dict(
+            Task="Set up virtual machine environment for testing",
+            Start="2025-2-17",
+            Finish="2025-2-27",
+            Assigned=AssignedTo.John,
+        ),
     ]
 )
 
