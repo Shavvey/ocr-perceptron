@@ -26,20 +26,42 @@
 \usepackage{pifont}
 \usepackage{array,ragged2e}
 \newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
-\hfuzz=0.64pt % allow hbox to overflow a little
-\author{
-        Colin Grandjean - \texttt{colin.grandjean@student.nmt.edu} \\
-        Lauren Giles - \texttt{lauren.giles@student.nmt.edu} \\
-        Cole Johnson - \texttt{cole.johnson@student.nmt.edu} \\
-        John Runyon  - \texttt{john.runyon@student.nmt.edu}
-}
-\title{ \textbf{CSE326: Software Engineering} \\
-        Final Project Proposal
-}
+% Styling
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+
+\hfuzz=0.64pt % Allow hbox to overflow slightly
 
 \begin{document}
-\maketitle
-{\footnotesize\tableofcontents} % make a small table of contents on the first page
+
+\begin{titlepage}
+    \null
+    \vspace*{2cm}
+    
+    \begin{center}
+        {\Huge \bfseries CSE 326: Software Engineering}\\[1.5cm]
+        {\Large \bfseries Final Project Proposal}\\[2cm]
+        
+        \textbf{Authors:} \\[0.5cm]
+        Cole Johnson - \textit{cole.johnson@student.nmt.edu}\\
+        Colin Grandjean - \textit{colin.grandjean@student.nmt.edu}\\
+        John Runyon - \textit{john.runyon@student.nmt.edu}\\
+        Lauren Giles - \textit{lauren.giles@student.nmt.edu}\\[1cm]
+        
+        New Mexico Institute of Mining and Technology\\
+        Socorro, NM 87801, USA\\[2cm]
+        
+        {\large Date: February 13, 2025}
+    \end{center}
+    
+    \vfill
+    \hrule
+    \smallskip
+    \centerline{\sc New Mexico Tech}
+    \smallskip
+    \hrule
+\end{titlepage}
+
+{\footnotesize\tableofcontents} 
 \pagebreak
 \section{Introduction}
 
