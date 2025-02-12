@@ -71,3 +71,6 @@ fabric.properties
 .gradle
 # dont check build dir into VCS
 ocr-perceptron/build
+
+#MICROSOFT EXCEL TEMPORARY FILEs
+~$*.xlsx
