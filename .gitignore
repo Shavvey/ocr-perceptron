@@ -59,6 +59,9 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# ignoring precompiled class files for now
+ocr-perceptron/bin
+
 ### JetBrains Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
