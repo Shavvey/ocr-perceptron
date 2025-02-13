@@ -75,7 +75,7 @@ TASKS = pd.DataFrame(
             Task="Implement supervised learner",
             Start="2025-3-3",
             Finish="2025-3-18",
-            Assigned="Cole, John",
+            Assigned="Group",
         ),
         dict(
             Task="Make GUI for Drawing Characters",
