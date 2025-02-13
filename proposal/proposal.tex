@@ -145,7 +145,7 @@ The initial scope of the project, as outlined in the overview, will be to create
   \hline
 
   Model may not generalize well to unseen characters & \textbf{CU} & Likely & 3 & 
-  \small \textbf{Mitigation} - Incorporate diverse training data, test edge cases, and implement validation methods.\\
+  \small \textbf{Management} - Incorporate diverse training data, test edge cases, and implement validation methods.\\
   \hline
 
   Members on the project use a variety of different hardware and software, complicating the development process  & \textbf{DE} & Very Likely & 1 &  
@@ -165,7 +165,7 @@ The initial scope of the project, as outlined in the overview, will be to create
   \hline
 
   Technology stack may not support required performance & \textbf{TE} & Possible & 3 & 
-  \small \textbf{Mitigation} - Evaluate and select technologies that are proven for neural network applications, conduct early performance tests to not be stuck later.\\
+  \small \textbf{Monitoring} - Evaluate and select technologies that are proven for neural network applications, conduct early performance tests to not be stuck later.\\
   \hline
 
 \end{longtable}
@@ -173,7 +173,8 @@ The initial scope of the project, as outlined in the overview, will be to create
 \subsection{Discussion of Risks to Be Managed}
 The risk to be managed for this project will primarily involve managing the technical complexity,
 and dealing with public-facing risks like product size or customer relations. The risks for 
-this project require mitigation measures that attempt to alleviate technical risks. For example,
+this project require mitigation, management, and monitoring
+ measures that attempt to alleviate primarily technical or staff risks. For example,
 one mitigation effort requires unit testing to help ensure the behavior of each component
 of the neural network is functioning as expected.
 \pagebreak
@@ -209,7 +210,10 @@ is working as intended and understood by members of the project.
 Contingency plans to reduce risk involve creating and utilizing many different
 neural network performance metrics, like hamming distances and F1 scores, the ensure
 the accuracy of our model and the soundness of our training process. If we encounter
-issues implementing the supervised learning process, we can try other techniques instead.
+issues implementing the supervised learning process, we can try different objective
+functions and performance metric that are easier to evaluate and control -- allowing
+for some degree of freedom in implementation and the development of contingencies
+as required.
 \section{Schedule}
 
 \subsection{Task List}
@@ -230,9 +234,10 @@ issues implementing the supervised learning process, we can try other techniques
     \item Project Presentation 2
     \item Final Report
 \end{enumerate}
+
 \subsection{Timeline Chart}
 \begin{figure}[H]
-  \includegraphics[width=15cm]{images/gantt_chart.png}
+  \includegraphics[width=15cm, height=10cm]{images/Colin's Gantt Chart.png}
 \end{figure}
 \subsection{Resource Table}
 \begin{longtable}{|P{0.20\linewidth}|P{0.10\linewidth}|P{0.2\linewidth}|P{0.5cm}|}
@@ -260,7 +265,7 @@ issues implementing the supervised learning process, we can try other techniques
   Collect OCR Dataset & Colin and John & Computer and VM & None\\
   \hline
 
-  Create Basic NN Components & Cole Johnson & \textit{openJDK22} and \textit{Java Programming Language} & None \\
+  Create Basic NN Components & Cole Johnson & \textit{openJDK22} and \textit{Java Language} & None \\
   \hline
 
   Interim Report & Group & \textit{LaTex} & None \\
@@ -281,7 +286,7 @@ issues implementing the supervised learning process, we can try other techniques
   Make GUI for Viewing NNs & Cole and Lauren & \textit{openJDK22} and \textit{Java Language}  & None\\
   \hline
 
-  Make Web-Based Version of the System & John & (Change later) & None\\
+  Make Web-Based Version of the System & John & \textit{nginx}, \textit{JSweet}, and \textit{React} & None\\
   \hline
 
   Project Presentation & Group & \textit{Google Slides} and \textit{LaTex} & None \\
@@ -309,7 +314,9 @@ write our reports and keep track of documentation.
 
 \subsection{Special Resources}
 The only possible special resource we may need for the project is a Virtual Machine 
-to manage the running and building of the final project, since it will be hosted online.
+to manage the development environment. Later, we will use
+special software to try and port our java application to web, which may need
+special considerations.
 
 \section{Appendices}
 
