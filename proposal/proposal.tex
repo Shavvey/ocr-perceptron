@@ -30,6 +30,7 @@
 \newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
 % Styling
 \titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\sloppy
 \addtolength{\topmargin}{-2.5pt}
 \setlength{\headheight}{15pt}
 \fancyhead{}
@@ -67,7 +68,6 @@
     \smallskip
     \hrule
 \end{titlepage}
-
 {\tableofcontents} 
 \pagebreak
 \section{Introduction}
@@ -89,9 +89,8 @@ view the networks created and some performance metrics to gauge effectiveness.
 
 There are a few motivations for the project. First, the development of this tool
 can help people learn more about neural networks and how they work using our graphical user interface. 
-Second, OCR has a manifold of applications, as discussed previously, so the tool we create
-could be used for a variety of applications -- such as written to digital
-text translation software. 
+Second, OCR has a range applications -- such as written text to digital transcription --
+that could be adapted from the code base we aim to create.
 
 \subsection{Project Scope and Objectives}
 The initial scope of the project, as outlined in the overview, will be to create a simple Optical Character Recognition (OCR) system using a neural network and employ supervised learning techniques to test and train our model. Our main objectives for the project include:
@@ -216,7 +215,7 @@ Contingency plans to reduce risk involve creating and utilizing many different
 neural network performance metrics, like hamming distances and F1 scores, the ensure
 the accuracy of our model and the soundness of our training process. If we encounter
 issues implementing the supervised learning process, we can try different objective
-functions and performance metric that are easier to evaluate and control -- allowing
+functions and performance metrics that are easier to evaluate and control -- allowing
 for some degree of freedom in implementation and the development of contingencies
 as required.
 \begin{enumerate}[1.]
@@ -252,7 +251,7 @@ as required.
 
 \begin{figure}[H]
   \includegraphics[width=15cm, height=10cm]{images/Colin's Gantt Chart.png}
-  \caption*{Gantt Chart of Main Tasks for the Project}
+  \caption*{Gantt Chart: main tasks of Project Timeline with expected start and completion dates }
 \end{figure}
 
 \subsection{Resource Table}
