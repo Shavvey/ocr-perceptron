@@ -144,12 +144,12 @@ The initial scope of the project, as outlined in the overview, will be to create
   \endfoot
   \endlastfoot
 
-  Project scope may increase due to feature additions & \textbf{BU} & Possible & 2 & 
+  Project scope may increase due to feature additions & \textbf{PS} & Possible & 2 & 
   \small \textbf{Management} - Define strict requirements at the beginning 
   and have periodic reviews to control feature creep.\\
   \hline
 
-  Model may not generalize well to unseen characters & \textbf{CU} & Likely & 3 & 
+  Model may not generalize well to unseen characters & \textbf{PR} & Likely & 3 & 
   \small \textbf{Management} - Incorporate diverse training data, 
   test edge cases, and implement validation methods.
 
@@ -165,14 +165,9 @@ The initial scope of the project, as outlined in the overview, will be to create
   \small \textbf{Mitigation} - Introduce unit tests for individual components of neural network.\\
   \hline
 
-  Neural network may be too computationally expensive to run efficiently & \textbf{PS} & Likely & 2 & 
-  \small \textbf{Mitigation} - Optimize the network design to reduce complexity using different algorithms.\\
-  \hline
-
   Some group members are inexperienced with neural networks & \textbf{ST} & Likely & 3 & 
-  \small \textbf{Mitigation} - Hold meetings to review neural network knowledge and carefully plan the learning strategy, including which technologies to involve.\\
+  \small \textbf{Management} - Hold meetings to review neural network knowledge and carefully plan the learning strategy, including which technologies to involve.\\
   \hline
-
   Technology stack may not support required performance & \textbf{TE} & Possible & 3 & 
   \small \textbf{Monitoring} - Evaluate and select technologies that are proven for neural network applications.\\
   \hline
@@ -180,7 +175,7 @@ The initial scope of the project, as outlined in the overview, will be to create
 
 \subsection{Discussion of Risks to Be Managed}
 The risk to be managed for this project will primarily involve managing the technical complexity,
-and dealing with public-facing risks like product size or customer relations. The risks for 
+rather than dealing with public-facing risks like product size or customer relations. The risks for 
 this project require mitigation, management, and monitoring
  measures that attempt to alleviate primarily technical or staff risks. For example,
 one mitigation effort requires unit testing to help ensure the behavior of each component
@@ -188,6 +183,8 @@ of the neural network is functioning as expected.
 \pagebreak
 \subsection{Risk Mitigation, Monitoring, and Management Plan}
 \subsubsection{Risk Mitigation}
+Mitigation efforts focus on reducing technology risks. A few mitigation efforts
+involved in the project are discussed in greater detail here.
 \begin{enumerate}[1.]
   \item \textbf{No Robust Testing Method to Evaluate the Whole Neural Network - Process Risk:}
 
@@ -202,20 +199,11 @@ of the neural network is functioning as expected.
   Writing unit tests should also help, since they help the writer understand
   how each component is supposed to function
 
-  \item \textbf{Team Members Use a Variety Different Hardware and Software 
-  - Development Environment Risk:}
-  
- If different hardware and software environments poses a risk, we can use a virtual machine
- to create a single development environment.
- 
 \end{enumerate}
 \subsubsection{Risk Monitoring}
 Risk monitoring involves gauging understanding of each component of the project, ensure
 that each part is properly understood and that tests are written properly to ensure each component
 is working as intended and understood by members of the project.
-\begin{enumerate}[1.]
-  \item  
-\end{enumerate}
 
 \subsubsection{Risk Management (Contingency Plans)}
 Contingency plans to reduce risk involve creating and utilizing many different
@@ -225,6 +213,14 @@ issues implementing the supervised learning process, we can try different object
 functions and performance metric that are easier to evaluate and control -- allowing
 for some degree of freedom in implementation and the development of contingencies
 as required.
+\begin{enumerate}[1.]
+  \item \textbf{Model may not generalize well to unseen characters - Process Risk:}
+  
+  The performance and effectiveness of a neural network hinges on the quality and quantity of a dataset. 
+  In order to improve results, we should constantly be evaluating our dataset and implemented steps for processing
+  that data.
+\end{enumerate}
+
 \section{Schedule}
 
 \subsection{Task List}
@@ -247,9 +243,12 @@ as required.
 \end{enumerate}
 
 \subsection{Timeline Chart}
+
 \begin{figure}[H]
   \includegraphics[width=15cm, height=10cm]{images/Colin's Gantt Chart.png}
+  \caption*{Gantt Chart of Main Tasks for the Project}
 \end{figure}
+
 \subsection{Resource Table}
 \begin{longtable}{|P{0.20\linewidth}|P{0.10\linewidth}|P{0.2\linewidth}|P{0.5cm}|}
   \caption{Resource Table} \\
@@ -315,6 +314,7 @@ as required.
   Final Report & Group & Latex & None \\
   \hline
 \end{longtable}
+\pagebreak
 \section{Project Resources}
 
 \subsection{People}
