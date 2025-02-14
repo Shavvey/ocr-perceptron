@@ -22,6 +22,7 @@
 \usepackage{varwidth}
 \usepackage{multirow}
 \usepackage{booktabs}
+\usepackage{fancyhdr}
 \usepackage[svgnames,table]{xcolor}
 \usepackage[tableposition=above]{caption}
 \usepackage{pifont}
@@ -29,7 +30,11 @@
 \newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
 % Styling
 \titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
-
+\addtolength{\topmargin}{-2.5pt}
+\fancyhead{}
+\pagestyle{fancy}
+\fancyhead[L]{CSE/IT 326 - Software Engineering}
+\fancyhead[R]{2/13/25}
 \hfuzz=0.64pt % Allow hbox to overflow slightly
 
 \begin{document}
@@ -40,7 +45,7 @@
     
     \begin{center}
         {\Huge \bfseries CSE 326: Software Engineering}\\[1.5cm]
-        {\Large \bfseries Final Project Proposal}\\[2cm]
+        {\Large \bfseries Final Project Proposal \& Plan}\\[2cm]
         
         \textbf{Authors:} \\[0.5cm]
         Cole Johnson - \textit{cole.johnson@student.nmt.edu}\\
@@ -137,37 +142,40 @@ The initial scope of the project, as outlined in the overview, will be to create
   \multicolumn{5}{|c|}{\textit{Continued on the next page}} \\ 
   \hline
   \endfoot
-  \hline
   \endlastfoot
 
   Project scope may increase due to feature additions & \textbf{BU} & Possible & 2 & 
-  \small \textbf{Mitigation} - Define strict requirements at the beginning and have periodic reviews to control feature creep.\\
+  \small \textbf{Management} - Define strict requirements at the beginning 
+  and have periodic reviews to control feature creep.\\
   \hline
 
   Model may not generalize well to unseen characters & \textbf{CU} & Likely & 3 & 
-  \small \textbf{Management} - Incorporate diverse training data, test edge cases, and implement validation methods.\\
+  \small \textbf{Management} - Incorporate diverse training data, 
+  test edge cases, and implement validation methods.
+
+  \textbf{Monitoring} - use performance metrics to validate training data\\
   \hline
 
-  Members on the project use a variety of different hardware and software, complicating the development process  & \textbf{DE} & Very Likely & 1 &  
-  \small \textbf{Mitigation} - Use a virtual machine to help simplify the process of developing the software and make diagnosing issues easier by sticking to one platform.\\
+  Members use a variety of software and hardware for development  & \textbf{DE} & Very Likely & 1 &  
+  \small \textbf{Mitigation} - Use a virtual machine to help simplify the process of 
+  developing the software and make diagnosing issues easier by sticking to one platform.\\
   \hline
 
   No robust method for testing whether our model works & \textbf{PR} & Very Likely & 2 & 
-  \small \textbf{Mitigation} - Introduce unit tests to test the functioning of individual components of the neural network to avoid errors made earlier in the development process.\\
+  \small \textbf{Mitigation} - Introduce unit tests for individual components of neural network.\\
   \hline
 
   Neural network may be too computationally expensive to run efficiently & \textbf{PS} & Likely & 2 & 
   \small \textbf{Mitigation} - Optimize the network design to reduce complexity using different algorithms.\\
   \hline
 
-  Most members on the project do not have a lot of experience with NNs & \textbf{ST} & Likely & 3 & 
+  Some group members are inexperienced with neural networks & \textbf{ST} & Likely & 3 & 
   \small \textbf{Mitigation} - Hold meetings to review neural network knowledge and carefully plan the learning strategy, including which technologies to involve.\\
   \hline
 
   Technology stack may not support required performance & \textbf{TE} & Possible & 3 & 
-  \small \textbf{Monitoring} - Evaluate and select technologies that are proven for neural network applications, conduct early performance tests to not be stuck later.\\
+  \small \textbf{Monitoring} - Evaluate and select technologies that are proven for neural network applications.\\
   \hline
-
 \end{longtable}
 
 \subsection{Discussion of Risks to Be Managed}
@@ -205,6 +213,9 @@ of the neural network is functioning as expected.
 Risk monitoring involves gauging understanding of each component of the project, ensure
 that each part is properly understood and that tests are written properly to ensure each component
 is working as intended and understood by members of the project.
+\begin{enumerate}[1.]
+  \item  
+\end{enumerate}
 
 \subsubsection{Risk Management (Contingency Plans)}
 Contingency plans to reduce risk involve creating and utilizing many different
@@ -251,7 +262,16 @@ as required.
   \hline
   \endfirsthead
   \hline
-
+  \multicolumn{4}{|c|}{\textit{Continued from previous page}} \\ 
+  \hline
+  \textbf{Task} & \textbf{People} & \textbf{Hardware and Software} & \textbf{Special}\\ 
+  \hline
+  \endhead
+  \hline
+  \multicolumn{4}{|c|}{\textit{Continued on the next page}} \\ 
+  \hline
+  \endfoot
+  \endlastfoot
 
   Term Proposal & Group & Latex and Excel & None\\
   \hline
@@ -322,20 +342,18 @@ special considerations.
 \subsection{Tasks Completed by Group Members}
 
 \textbf{Cole:}
-
 Drafted section 1 and section 2 of the proposal, and wrote some entires of the risk table.
 Organized meetings and maintained a git repository for work on the final project. 
 Brainstormed ideas and organized a task list along with all the other members
 of the project.
 
 \textbf{Colin:} 
-
 Created task list, Gantt Chart, and Resource table. 
-Transferred all of the information from the rough draft of our task list, which included tasks, dates, and people who are working on the tasks, into the project proposal. 
+Transferred all of the information from the rough draft of our task list, which included tasks, 
+dates, and people who are working on the tasks, into the project proposal. 
 Completed all of section 3 except for the Hardware and Software section of the resource table.
 
 \textbf{John:} 
-
 Assisted in overall document formatting, 
 including extended tables, alphabetical organization, 
 and the risk table. Reviewed and improved grammar 
@@ -344,10 +362,8 @@ enhance workflow, streamline ideas and scope, and suggested process management
 strategies and software for project completion.
 
 \textbf{Lauren:} 
-
 Created the Jira project for tracking issues and overall development 
 process using an Agile workflow as well as configuring the project to prepare for 
 the start of the development process. Added information for the Project requirements 
 section and aided in some of the planning of needed tasks during team meetings.
-
 \end{document}
