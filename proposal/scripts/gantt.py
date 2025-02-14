@@ -24,22 +24,76 @@ class AssignedTo(Enum):
 TASKS = pd.DataFrame(
     [
         dict(
-            Task="UML Use-Case and Class Diagram",
-            Start="2025-2-12",
-            Finish="2025-2-19",
-            Assigned=AssignedTo.Group,
+            Task="Draft use-case and class diagrams",
+            Start="2025-2-13",
+            Finish="2025-2-23",
+            Assigned="Group",
         ),
         dict(
-            Task="Create basic components of NN",
-            Start="2025-2-19",
-            Finish="2025-2-28",
-            Assigned=AssignedTo.Cole,
+            Task="Make NN components from class diagram",
+            Start="2025-2-23",
+            Finish="2025-3-5",
+            Assigned="Cole"
         ),
         dict(
-            Task="Set up virtual machine environment for testing",
-            Start="2025-2-17",
-            Finish="2025-2-27",
-            Assigned=AssignedTo.John,
+            Task="Set up virtual machine environment",
+            Start="2025-2-13",
+            Finish="2025-2-20",
+            Assigned="John"
+        ),
+        dict(
+            Task="Make GUI framework",
+            Start="2025-2-13",
+            Finish="2025-3-10",
+            Assigned="Lauren"
+        ),
+        dict(
+            Task="Make helper library for image processing",
+            Start="2025-2-13",
+            Finish="2025-3-10",
+            Assigned="Group",
+        ),
+        dict(
+            Task="Collect OCR database",
+            Start="2025-2-13",
+            Finish="2025-2-23",
+            Assigned="John, Colin",
+        ),
+        dict(
+            Task="Develop performance metrics to train NNs",
+            Start="2025-3-3",
+            Finish="2025-3-18",
+            Assigned="Cole, John",
+        ),
+        dict(
+            Task="Develop performance metrics to train NNs",
+            Start="2025-3-5",
+            Finish="2025-4-10",
+            Assigned="Cole, John",
+        ),
+        dict(
+            Task="Implement supervised learner",
+            Start="2025-3-3",
+            Finish="2025-3-18",
+            Assigned="Group",
+        ),
+        dict(
+            Task="Make GUI for Drawing Characters",
+            Start="2025-3-10",
+            Finish="2025-4-21",
+            Assigned="Lauren"
+        ),
+        dict(
+            Task="Make GUI for Viewing NNs",
+            Start="2025-3-10",
+            Finish="2025-4-21",
+            Assigned="Lauren, Cole"
+        ),
+        dict(
+            Task="Make web-based version of system",
+            Start="2025-4-21",
+            Finish="2025-4-28",
+            Assigned="John"
         ),
     ]
 )

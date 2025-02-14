@@ -22,6 +22,7 @@
 \usepackage{varwidth}
 \usepackage{multirow}
 \usepackage{booktabs}
+\usepackage{fancyhdr}
 \usepackage[svgnames,table]{xcolor}
 \usepackage[tableposition=above]{caption}
 \usepackage{pifont}
@@ -29,7 +30,13 @@
 \newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
 % Styling
 \titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
-
+\sloppy
+\addtolength{\topmargin}{-2.5pt}
+\setlength{\headheight}{15pt}
+\fancyhead{}
+\pagestyle{fancy}
+\fancyhead[L]{CSE/IT 326 - Software Engineering}
+\fancyhead[R]{2/13/25}
 \hfuzz=0.64pt % Allow hbox to overflow slightly
 
 \begin{document}
@@ -40,7 +47,7 @@
     
     \begin{center}
         {\Huge \bfseries CSE 326: Software Engineering}\\[1.5cm]
-        {\Large \bfseries Final Project Proposal}\\[2cm]
+        {\Large \bfseries Final Project Proposal \& Plan}\\[2cm]
         
         \textbf{Authors:} \\[0.5cm]
         Cole Johnson - \textit{cole.johnson@student.nmt.edu}\\
@@ -61,7 +68,6 @@
     \smallskip
     \hrule
 \end{titlepage}
-
 {\tableofcontents} 
 \pagebreak
 \section{Introduction}
@@ -80,6 +86,11 @@ using one such supervised learning technique.
 In the process of developing the neural network, 
 we'll develop a host of tools to test and 
 view the networks created and some performance metrics to gauge effectiveness.
+
+There are a few motivations for the project. First, the development of this tool
+can help people learn more about neural networks and how they work using our graphical user interface. 
+Second, OCR has a range applications -- such as written text to digital transcription --
+that could be adapted from the code base we aim to create.
 
 \subsection{Project Scope and Objectives}
 The initial scope of the project, as outlined in the overview, will be to create a simple Optical Character Recognition (OCR) system using a neural network and employ supervised learning techniques to test and train our model. Our main objectives for the project include:
@@ -137,48 +148,48 @@ The initial scope of the project, as outlined in the overview, will be to create
   \multicolumn{5}{|c|}{\textit{Continued on the next page}} \\ 
   \hline
   \endfoot
-  \hline
   \endlastfoot
 
-  Project scope may increase due to feature additions & \textbf{BU} & Possible & 2 & 
-  \small \textbf{Mitigation} - Define strict requirements at the beginning and have periodic reviews to control feature creep.\\
+  Project scope may increase due to feature additions & \textbf{PS} & Possible & 2 & 
+  \small \textbf{Management} - Define strict requirements at the beginning 
+  and have periodic reviews to control feature creep.\\
   \hline
 
-  Model may not generalize well to unseen characters & \textbf{CU} & Likely & 3 & 
-  \small \textbf{Mitigation} - Incorporate diverse training data, test edge cases, and implement validation methods.\\
+  Model may not generalize well to unseen characters & \textbf{PR} & Likely & 3 & 
+  \small \textbf{Management} - Incorporate diverse training data, 
+  test edge cases, and implement validation methods.
+
+  \textbf{Monitoring} - use performance metrics to validate training data\\
   \hline
 
-  Members on the project use a variety of different hardware and software, complicating the development process  & \textbf{DE} & Very Likely & 1 &  
-  \small \textbf{Mitigation} - Use a virtual machine to help simplify the process of developing the software and make diagnosing issues easier by sticking to one platform.\\
+  Members use a variety of software and hardware for development  & \textbf{DE} & Very Likely & 1 &  
+  \small \textbf{Mitigation} - Use a virtual machine to help simplify the process of 
+  developing the software and make diagnosing issues easier by sticking to one platform.\\
   \hline
 
   No robust method for testing whether our model works & \textbf{PR} & Very Likely & 2 & 
-  \small \textbf{Mitigation} - Introduce unit tests to test the functioning of individual components of the neural network to avoid errors made earlier in the development process.\\
+  \small \textbf{Mitigation} - Introduce unit tests for individual components of neural network.\\
   \hline
 
-  Neural network may be too computationally expensive to run efficiently & \textbf{PS} & Likely & 2 & 
-  \small \textbf{Mitigation} - Optimize the network design to reduce complexity using different algorithms.\\
+  Some group members are inexperienced with neural networks & \textbf{ST} & Likely & 3 & 
+  \small \textbf{Management} - Hold meetings to review neural network knowledge and carefully plan the learning strategy, including which technologies to involve.\\
   \hline
-
-  Most members on the project do not have a lot of experience with NNs & \textbf{ST} & Likely & 3 & 
-  \small \textbf{Mitigation} - Hold meetings to review neural network knowledge and carefully plan the learning strategy, including which technologies to involve.\\
-  \hline
-
   Technology stack may not support required performance & \textbf{TE} & Possible & 3 & 
-  \small \textbf{Mitigation} - Evaluate and select technologies that are proven for neural network applications, conduct early performance tests to not be stuck later.\\
+  \small \textbf{Monitoring} - Evaluate and select technologies that are proven for neural network applications.\\
   \hline
-
 \end{longtable}
 
 \subsection{Discussion of Risks to Be Managed}
 The risk to be managed for this project will primarily involve managing the technical complexity,
-and dealing with public-facing risks like product size or customer relations. The risks for 
-this project require mitigation measures that attempt to alleviate technical risks. For example,
+rather than dealing with public-facing risks like product size or customer relations. The risks for 
+this project require mitigation, management, and monitoring
+ measures that attempt to alleviate primarily technical or staff risks. For example,
 one mitigation effort requires unit testing to help ensure the behavior of each component
 of the neural network is functioning as expected.
-\pagebreak
 \subsection{Risk Mitigation, Monitoring, and Management Plan}
 \subsubsection{Risk Mitigation}
+Mitigation efforts focus on reducing technology risks. A few mitigation efforts
+involved in the project are discussed in greater detail here.
 \begin{enumerate}[1.]
   \item \textbf{No Robust Testing Method to Evaluate the Whole Neural Network - Process Risk:}
 
@@ -193,12 +204,6 @@ of the neural network is functioning as expected.
   Writing unit tests should also help, since they help the writer understand
   how each component is supposed to function
 
-  \item \textbf{Team Members Use a Variety Different Hardware and Software 
-  - Development Environment Risk:}
-  
- If different hardware and software environments poses a risk, we can use a virtual machine
- to create a single development environment.
- 
 \end{enumerate}
 \subsubsection{Risk Monitoring}
 Risk monitoring involves gauging understanding of each component of the project, ensure
@@ -209,7 +214,18 @@ is working as intended and understood by members of the project.
 Contingency plans to reduce risk involve creating and utilizing many different
 neural network performance metrics, like hamming distances and F1 scores, the ensure
 the accuracy of our model and the soundness of our training process. If we encounter
-issues implementing the supervised learning process, we can try other techniques instead.
+issues implementing the supervised learning process, we can try different objective
+functions and performance metrics that are easier to evaluate and control -- allowing
+for some degree of freedom in implementation and the development of contingencies
+as required.
+\begin{enumerate}[1.]
+  \item \textbf{Model may not generalize well to unseen characters - Process Risk:}
+  
+  The performance and effectiveness of a neural network hinges on the quality and quantity of a dataset. 
+  In order to improve results, we should constantly be evaluating our dataset and implemented steps for processing
+  that data.
+\end{enumerate}
+
 \section{Schedule}
 
 \subsection{Task List}
@@ -217,17 +233,27 @@ issues implementing the supervised learning process, we can try other techniques
     \item Term Proposal
     \item Create UML Use Case/Class Diagrams
     \item Set up VM Environment
+    \item Collect OCR Dataset
     \item Create Basic NN Components
     \item Interim Report
+    \item Create Windowing Framework
+    \item Develop Performance Metrics to Train NNs
+    \item Draft Supervised Learning Technique (CNN)
+    \item Draft GUI for Drawing Characters
+    \item Make GUI for Viewing NNs
+    \item Make Web-Based Version of the System
     \item Project Presentation 1
     \item Project Presentation 2
     \item Final Report
 \end{enumerate}
+
 \subsection{Timeline Chart}
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=\linewidth]{Gantt Chart.png} 
-% \end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=15cm, height=10cm]{images/Colin's Gantt Chart.png}
+  \caption*{Gantt Chart: main tasks of Project Timeline with expected start and completion dates }
+\end{figure}
+
 \subsection{Resource Table}
 \begin{longtable}{|P{0.20\linewidth}|P{0.10\linewidth}|P{0.2\linewidth}|P{0.5cm}|}
   \caption{Resource Table} \\
@@ -240,29 +266,58 @@ issues implementing the supervised learning process, we can try other techniques
   \hline
   \endfirsthead
   \hline
-
+  \multicolumn{4}{|c|}{\textit{Continued from previous page}} \\ 
+  \hline
+  \textbf{Task} & \textbf{People} & \textbf{Hardware and Software} & \textbf{Special}\\ 
+  \hline
+  \endhead
+  \hline
+  \multicolumn{4}{|c|}{\textit{Continued on the next page}} \\ 
+  \hline
+  \endfoot
+  \endlastfoot
 
   Term Proposal & Group & Latex and Excel & None\\
   \hline
 
-  Create UML Use Case/Class Diagrams & Group & (Change later) & None\\
+  Create UML Use Case/Class Diagrams & Group & \textit{Dia} and \textit{draw.io} & None\\
   \hline
 
-  Set Up VM Environment  & John Runyon & (Change later) & None\\
+  Set Up VM Environment  & John Runyon & Computer and VM & None\\
   \hline
 
-  Create Basic NN Components & Cole Johnson & (Change Later) & None \\
+  Collect OCR Dataset & Colin and John & Computer and VM & None\\
   \hline
 
-  Interim Report & Group & Latex & None \\
+  Create Basic NN Components & Cole Johnson & \textit{openJDK22} and \textit{Java Language} & None \\
   \hline
 
-  Project Presentation & Group & (Change later) & None \\
+  Interim Report & Group & \textit{LaTex} & None \\
+  \hline
+
+  Create Windowing Framework & Lauren & \textit{openJDK22} and \textit{Java Language} & None\\
+  \hline
+
+  Develop Performance Metrics to Train NNs & Cole and John & \textit{openJDK22} and \textit{Java Language} & None\\
+  \hline
+
+  Draft Supervised Learning Technique (CNN) & Group & Computer and VM & None\\
+  \hline
+
+  Draft GUI for Drawing Characters & Lauren & \textit{openJDK22} and \textit{Java Language}  & None\\
+  \hline
+
+  Make GUI for Viewing NNs & Cole and Lauren & \textit{openJDK22} and \textit{Java Language}  & None\\
+  \hline
+
+  Make Web-Based Version of the System & John & \textit{nginx}, \textit{JSweet}, and \textit{React} & None\\
+  \hline
+
+  Project Presentation & Group & \textit{Google Slides} and \textit{LaTex} & None \\
   \hline
 
   Final Report & Group & Latex & None \\
   \hline
-
 \end{longtable}
 \section{Project Resources}
 
@@ -278,12 +333,41 @@ We plan to create our project using Java, version 22.
 To help automate our build and deployment processes, we are using Gradle. 
 In order to facilitate version control, we use GitHub with Jira to keep track of our 
 development process and task management. Each team member uses different 
-code editors, depending on their preferences.
+code editors, depending on their preferences. We will be using primarily Latex to
+write our reports and keep track of documentation.
 
 \subsection{Special Resources}
 The only possible special resource we may need for the project is a Virtual Machine 
-to manage the running and building of the final project, since it will be hosted online.
+to manage the development environment. Later, we will use
+special software to try and port our java application to web, which may need
+special considerations.
+\section{Appendices}  
 
-\section{Appendices}
+\subsection{Tasks Completed by Group Members}
 
+\textbf{Cole:}
+Drafted section 1 and section 2 of the proposal, and wrote some entires of the risk table.
+Organized meetings and maintained a git repository for work on the final project. 
+Brainstormed ideas and organized a task list along with all the other members
+of the project.
+
+\textbf{Colin:} 
+Created task list, Gantt Chart, and Resource table. 
+Transferred all of the information from the rough draft of our task list, which included tasks, 
+dates, and people who are working on the tasks, into the project proposal. 
+Completed all of section 3 except for the Hardware and Software section of the resource table.
+
+\textbf{John:} 
+Assisted in overall document formatting, 
+including extended tables, alphabetical organization, 
+and the risk table. Reviewed and improved grammar 
+throughout the document. Contributed to meeting planning and organization to 
+enhance workflow, streamline ideas and scope, and suggested process management 
+strategies and software for project completion.
+
+\textbf{Lauren:} 
+Created the Jira project for tracking issues and overall development 
+process using an Agile workflow as well as configuring the project to prepare for 
+the start of the development process. Added information for the Project requirements 
+section and aided in some of the planning of needed tasks during team meetings.
 \end{document}
