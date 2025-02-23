@@ -74,6 +74,8 @@ ocr-perceptron/bin
 .gradle
 # dont check build dir into VCS
 ocr-perceptron/build
+# don't check dataset into VCS -- it is very large
+ocr-perceptron/src/main/resources/*.csv
 
 #MICROSOFT EXCEL TEMPORARY FILEs
 ~$*.xlsx
