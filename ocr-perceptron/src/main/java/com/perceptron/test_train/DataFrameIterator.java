@@ -1,11 +1,10 @@
 package com.perceptron.test_train;
 
 import java.io.*;
-import java.sql.Array;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
-import java.util.function.Consumer;
+
 
 public class DataFrameIterator implements Iterator<DataFrame> {
     // constructed regex to parse all the csv content
@@ -13,7 +12,7 @@ public class DataFrameIterator implements Iterator<DataFrame> {
     // buffered reader that will parse each csv line
     private final BufferedReader reader;
     // create a cursor over the csv, should be null at first
-    private DataFrame cursor = null;
+    private DataFrame cursor;
 
     // construct data frame iterator from a buffered reader
     DataFrameIterator(File file) {
@@ -23,8 +22,7 @@ public class DataFrameIterator implements Iterator<DataFrame> {
             throw new RuntimeException(e);
         }
         try {
-            String l = reader.readLine();
-            System.out.println(l);
+            reader.readLine();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,34 +39,21 @@ public class DataFrameIterator implements Iterator<DataFrame> {
             // NOTE: maybe run logger here
             throw new RuntimeException(e);
         }
-        // if line gets nothing, cursor will also be nothing
-        if (line == null) {
-            cursor = null;
-        } else {
-            System.out.println(line);
-            // else to try parse the line we get back (use csv parser to collect into data frame)
-            String[] tokens = line.split(CSV_REGEX);
-            int i = 0;
-            String label = null;
-            int[][] data = new int[DataFrame.FRAME_LENGTH][DataFrame.FRAME_LENGTH];
-            for (String token : tokens) {
-                if (i == 0) {
-                    label = token;
-                    i++;
-                }else {
-                    for (int dy = 0; dy < DataFrame.FRAME_LENGTH; dy++) {
-                        for (int dx = 0; dx < DataFrame.FRAME_LENGTH; dx++) {
-                            data[dx][dy] = Integer.parseInt(token);
-                        }
-                    }
-                }
-
+        // else to try parse the line we get back (use csv parser to collect into data frame)
+        ArrayList<String> tokens = new ArrayList<>(Arrays.asList(line.split(CSV_REGEX)));
+        String label = tokens.removeFirst();
+        System.out.println("Label: " + label);
+        DataFrame frame = new DataFrame();
+        frame.setLabel(label);
+        for (int dy = 0; dy < DataFrame.FRAME_LENGTH; dy++) {
+            for (int dx = 0; dx < DataFrame.FRAME_LENGTH; dx++) {
+                String token = tokens.removeFirst();
+                int val = Integer.parseInt(token);
+                frame.setValue(dy, dx, val);
             }
-            // if label can't be decoded correctly, something is very wrong
-            if (label == null) throw new RuntimeException("[ERROR]: Parse error, cannot read label!");
-            // construct dataframe from collected data and label, store to current cursor position
-            cursor = new DataFrame(label, data);
         }
+        // construct dataframe from collected data and label, store to current cursor position
+        cursor = frame;
     }
 
 
@@ -82,11 +67,6 @@ public class DataFrameIterator implements Iterator<DataFrame> {
         DataFrame frame = cursor;
         advance();
         return frame;
-    }
-
-    @Override
-    public void remove() {
-        Iterator.super.remove();
     }
 
 }

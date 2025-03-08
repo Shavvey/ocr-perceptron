@@ -7,8 +7,13 @@ import java.util.Iterator;
 
 public class Main {
   public static void main(String[] args) {
-      for (Iterator<DataFrame> it = ResourceManager.getTestData(); it.hasNext(); ) {
-          DataFrame d = it.next();
+      Iterator<DataFrame> it = ResourceManager.getTrainingData();
+      for(int i = 0; i < 1; i++) {
+          if(it.hasNext()) {
+              DataFrame d = it.next();
+              d.display();
+          }
+
       }
   }
 }
