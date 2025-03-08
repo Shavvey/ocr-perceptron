@@ -1,6 +1,8 @@
 package com.perceptron.test_train;
 
 import java.io.File;
+import java.util.Iterator;
+
 // singleton class representing all test and train data frames needed
 public final class ResourceManager {
 
@@ -11,11 +13,11 @@ public final class ResourceManager {
     private static final File trainFile = new File(TRAIN_FILE_PATH);
 
     // returns back the iterator for training data frames
-    public static DataFrameIterator getTrainingData() {
+    public static Iterator<DataFrame> getTrainingData() {
         return new DataFrameIterator(trainFile);
     }
     // returns back the iterator for test data frames
-    public static DataFrameIterator getTestData() {
+    public static Iterator<DataFrame> getTestData() {
         return new DataFrameIterator(testFile);
     }
 }

@@ -2,15 +2,13 @@ package com.perceptron.main;
 
 import com.perceptron.test_train.DataFrame;
 import com.perceptron.test_train.ResourceManager;
-import com.sun.security.jgss.GSSUtil;
+
+import java.util.Iterator;
 
 public class Main {
   public static void main(String[] args) {
-    boolean b = ResourceManager.getTestData().hasNext();
-    if(b) {
-      System.out.println("Data");
-    } else {
-      System.out.println("No");
-    }
+      for (Iterator<DataFrame> it = ResourceManager.getTestData(); it.hasNext(); ) {
+          DataFrame d = it.next();
+      }
   }
 }
