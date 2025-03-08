@@ -2,9 +2,9 @@ package com.perceptron.test_train;
 
 public class DataFrame {
    final static int FRAME_LENGTH = 28;
-   private final short[][] data; // 2D array of values the dataset will provide
+   private final int[][] data; // 2D array of values the dataset will provide
    private final String label; // a labeled classification of that dataset (should be some number 0-9)
-   DataFrame(String label, short[][] data) {
+   DataFrame(String label, int[][] data) {
       this.label = label;
       this.data = data;
    }
@@ -31,9 +31,10 @@ public class DataFrame {
 
    }
 
-   public short[][] getData() {
+   public int[][] getData() {
       return data;
    }
+
    public String getLabel() {
       return label;
    }
