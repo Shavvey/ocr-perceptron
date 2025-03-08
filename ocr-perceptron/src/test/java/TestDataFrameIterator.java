@@ -9,7 +9,7 @@ public class TestDataFrameIterator {
     @Test
     public void testIterator() {
         Iterator<DataFrame> it = ResourceManager.getTrainingData();
-        for(int i = 0; i < 1; i++) {
+        for(int i = 0; i < 20; i++) {
             if(it.hasNext()) {
                 DataFrame d = it.next();
                 d.display();

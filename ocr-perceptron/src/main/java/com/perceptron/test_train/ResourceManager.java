@@ -3,7 +3,12 @@ package com.perceptron.test_train;
 import java.io.File;
 import java.util.Iterator;
 
-// singleton class representing all test and train data frames needed
+/**
+ * Utility class to create manage test and train data,
+ * mainly provides other classes with a convenient iteration
+ * of DataFrames {@link DataFrame}
+ * @author: Cole Johnson
+ */
 public final class ResourceManager {
 
     private final static String TEST_FILE_PATH = "src/main/resources/mnist_test.csv";
@@ -12,11 +17,19 @@ public final class ResourceManager {
     private static final File testFile = new File(TEST_FILE_PATH);
     private static final File trainFile = new File(TRAIN_FILE_PATH);
 
-    // returns back the iterator for training data frames
+    /**
+     * Return a iterator of training data.
+     * @return Contains iterator that can be used to loop through
+     * all training data without storing it all at once
+     */
     public static Iterator<DataFrame> getTrainingData() {
         return new DataFrameIterator(trainFile);
     }
-    // returns back the iterator for test data frames
+    /**
+     * Return a iterator of test data.
+     * @return Contains iterator that can be used to loop through
+     * all testing data without storing it all at once
+     */
     public static Iterator<DataFrame> getTestData() {
         return new DataFrameIterator(testFile);
     }
