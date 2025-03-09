@@ -12,9 +12,10 @@ import java.util.Vector;
  * @version 1.0
  */
 public class NeuralNetwork {
-    private Layer inputLayer;
-    private Layer outputLayer;
-    private Vector<Layer> layers;
+    Layer inputLayer;
+    Layer outputLayer;
+    Vector<Layer> layers;
+    int numLayers;
 
     /**
      * Constructor to make a neural network, based on layer configuration.
@@ -24,7 +25,15 @@ public class NeuralNetwork {
     NeuralNetwork(Vector<Layer> config) {
         this.inputLayer = config.firstElement();
         this.outputLayer = config.lastElement();
-        this.layers = layers;
+        this.numLayers = config.size();
+        // determine layer length of next layer
+        // useful later during feedforward methods
+        for (int i = 0; i < numLayers - 1; i++) {
+            Layer current = config.get(i);
+            Layer next = config.get(i + 1);
+            current.nextLayerLength = next.neuronCount;
+
+        }
     }
 
     public void displayConfig() {

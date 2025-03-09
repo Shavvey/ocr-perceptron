@@ -8,10 +8,11 @@ import java.util.Vector;
  * @author: Cole Johnson
  */
 public class Layer {
-    private final int neuronCount;
-    private final ActivationFunction af;
-    private final LossFunction lf;
-    private final Vector<Neuron> neurons;
+    final int neuronCount;
+    int nextLayerLength = 0;
+    final ActivationFunction af;
+    final LossFunction lf;
+    final Vector<Neuron> neurons;
     Layer(int neuronCount, ActivationFunction af, LossFunction lf) {
         // init neural layer based on layer count, activation, and loss function
         this.neuronCount = neuronCount;
@@ -19,8 +20,26 @@ public class Layer {
         this.lf = lf;
         this.neurons = new Vector<>(neuronCount);
         for (int i = 0; i < neuronCount; i++) {
-            // TODO: init based on random bias, activation, and weights!
-            neurons.add(new Neuron(0,0));
+            neurons.add(new Neuron());
         }
+    }
+
+    /**
+     * Helper method to set activations of the neuron in its own layer
+     * @param a array of newly computed activations values
+     */
+    public void setActivations(int a[]) {
+        for (int i = 0; i < neuronCount; i++) {
+            neurons.get(i).activation = a[i];
+        }
+    }
+
+    /**
+     * Uses {@link ActivationFunction} and {@link Neuron} weights and
+     * this layers activations to determine what the activations
+     * for the next layer should be
+     * @return new activations given weights and activations of this layer
+     */
+    public double[] feedforward() {
     }
 }
