@@ -8,7 +8,7 @@ package com.perceptron.nn;
 public enum LossFunction {
     LOSS_LOG("LOSS_LOG"),
     MSE("MSE"),
-    MSA("MSA");
+    MAE("MSA");
     final private String name;
 
     /**
@@ -25,24 +25,59 @@ public enum LossFunction {
         return name;
     }
 
-    // TODO: IMPLEMENT eval function, these are just placeholder values
 
     /**
-     * Evaluation based on the implemented LossFunction.
-     * @param value value to be put into the LossFunction
-     * @return new value based on LossFunction implementation
+     * Evaluate loss under LossFunction
+     * @param p prediction values
+     * @param y ground truth values
+     * @return "Loss" at a given {@link Layer}
      */
-    public double eval(double value) {
+    public double eval(double[] p, double[] y) {
         switch (this) {
             case LOSS_LOG ->  {
-                return 0.2F;
+                double sum = 0;
+                double sample;
+
+                for(int i = 0; i < p.length; i++) {
+                    if(y[i] == 1) {
+                        sample = 1-Math.log10(p[i]);
+                    } else {
+                        sample = 1-Math.log10(1-p[i]);
+                    }
+                    sum += sample;
+                }
+
+                sum /= y.length;
+                sum = 1-sum;
+
+                return sum;
             }
-            case MSA ->  {
-                return 0.1F;
+            case MAE ->  {
+                double sum = 0;
+                double sample;
+
+                for(int i = 0; i < p.length; i++) {
+                    sample = y[i] - p[i];
+                    sum += sample;
+                }
+
+                sum /= y.length;
+                return sum;
             }
 
             case MSE -> {
-                return 0.3F;
+                double sum = 0;
+                double sample;
+
+                for(int i = 0; i < p.length; i++) {
+                    sample = y[i] - p[i];
+                    sample = Math.pow(sample, 2);
+                    sum += sample;
+                }
+
+                sum /= y.length;
+                sum /= 2;
+                return sum;
             }
             default -> {
                 System.out.println("[WARNING]: Unimplemented eval!");

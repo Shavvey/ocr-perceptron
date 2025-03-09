@@ -29,6 +29,8 @@ public class NeuralNetwork {
     }
 
     public void displayConfig() {
+        for (Layer l : layers) {
 
+        }
     }
 }

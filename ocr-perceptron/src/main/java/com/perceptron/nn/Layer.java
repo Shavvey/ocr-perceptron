@@ -16,6 +16,14 @@ public class Layer {
     // loss function
     final LossFunction lf;
     final Vector<Neuron> neurons;
+
+    /**
+     * Main constructor for Layer class
+     * @param count count of neurons in <em>this</em> layer
+     * @param nextCount count of neuron in <em>next</em> layer
+     * @param af ActivationFunction used to determine the activity of next neural layer
+     * @param lf LossFunction used to describe the performance/loss of neural layer
+     */
     Layer(int count, int nextCount, ActivationFunction af, LossFunction lf) {
         // init neural layer based on layer count, activation, and loss function
         this.neuronCount = count;
@@ -34,12 +42,16 @@ public class Layer {
      * Helper method to set activations of the neuron in its own layer
      * @param a array of newly computed activations values
      */
-    public void setActivations(int a[]) {
+    public void setActivations(double[] a) {
         for (int i = 0; i < neuronCount; i++) {
             neurons.get(i).activation = a[i];
         }
     }
 
+    /**
+     * create 2D matrix of all the weights on this layer
+     * @return weights of layer inside a 2D array
+     */
     public double[][] getWeights() {
         double[][] weights = new double[neuronCount][nextNeuronCount];
         for (int j = 0; j < neuronCount; j++) {
@@ -63,10 +75,39 @@ public class Layer {
             for (int i = 0; i < nextNeuronCount; i++) {
                 Neuron n = this.neurons.get(j);
                 double weight = n.weights[i];
-                a += this.af.eval((n.activation * weight) + n.bias);
+                // weighted sum of activations with weights plus a plus
+                // activation function will squish resulting sum to (-1,1)
+                a = (n.activation * weight) + n.bias;
             }
-            activations[j] = a;
+            activations[j] = af.eval(a);
         }
         return activations;
+    }
+
+    public void display() {
+        System.out.println("Neuron Count: " + neuronCount);
+        System.out.println("Next Layer Neuron Count: " + nextNeuronCount);
+        System.out.println("Activation Function: " + af.toString());
+        System.out.println("Loss Function: " + lf.toString());
+    }
+
+    public Vector<Neuron> getNeurons() {
+        return neurons;
+    }
+
+    public LossFunction getLf() {
+        return lf;
+    }
+
+    public ActivationFunction getAf() {
+        return af;
+    }
+
+    public int getNextNeuronCount() {
+        return nextNeuronCount;
+    }
+
+    public int getNeuronCount() {
+        return neuronCount;
     }
 }
