@@ -26,14 +26,6 @@ public class NeuralNetwork {
         this.inputLayer = config.firstElement();
         this.outputLayer = config.lastElement();
         this.numLayers = config.size();
-        // determine layer length of next layer
-        // useful later during feedforward methods
-        for (int i = 0; i < numLayers - 1; i++) {
-            Layer current = config.get(i);
-            Layer next = config.get(i + 1);
-            current.nextLayerLength = next.neuronCount;
-
-        }
     }
 
     public void displayConfig() {

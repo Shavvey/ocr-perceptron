@@ -20,29 +20,19 @@ public class Neuron {
     double bias;
 
     /**
-     * Constructor for each Neuron
-     * @param activation represents the "brightness" of neuron when it reacts to input/stimuli
-     * @param bias add bias to the activation of the neuron
-     */
-    Neuron(double activation,  double bias) {
-        this.activation = activation;
-        this.bias = bias;
-    }
-
-    /**
      * Constructor that just initializes activation and bias to zero
      * (Weights must be dealt with later
      */
-    Neuron() {
+    Neuron(int weightCount) {
         this.activation = 0;
         this.bias = 0;
+        weights = new double[weightCount];
     }
 
-    void randomizeWeights(int nextLayerCount) {
-        weights = new double[nextLayerCount];
-        for (int i = 0; i < nextLayerCount; i++) {
+    void randomizeWeights() {
+        for (int i = 0; i < weights.length; i++) {
+            // random value between -1 and 1
             weights[i] = Stats.randDouble(Neuron.MIN_WEIGHT_VAL, Neuron.MAX_WEIGHT_VAL);
-
         }
     }
 

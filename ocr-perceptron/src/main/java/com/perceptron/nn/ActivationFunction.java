@@ -7,6 +7,10 @@ public enum ActivationFunction {
   final private String name;
   ActivationFunction(String name) { this.name = name; }
 
+  String getName() {
+    return this.name;
+  }
+
   double eval(double val) {
     switch (this) {
       case IDENTITY -> {

@@ -9,18 +9,24 @@ import java.util.Vector;
  */
 public class Layer {
     final int neuronCount;
-    int nextLayerLength = 0;
+    // next layer's neuron count (useful to have this up front)
+    int nextNeuronCount;
+    // activation function
     final ActivationFunction af;
+    // loss function
     final LossFunction lf;
     final Vector<Neuron> neurons;
-    Layer(int neuronCount, ActivationFunction af, LossFunction lf) {
+    Layer(int count, int nextCount, ActivationFunction af, LossFunction lf) {
         // init neural layer based on layer count, activation, and loss function
-        this.neuronCount = neuronCount;
+        this.neuronCount = count;
         this.af = af;
         this.lf = lf;
+        this.nextNeuronCount = nextCount;
         this.neurons = new Vector<>(neuronCount);
         for (int i = 0; i < neuronCount; i++) {
-            neurons.add(new Neuron());
+            Neuron n = new Neuron(nextNeuronCount);
+            n.randomizeWeights();
+            neurons.add(n);
         }
     }
 
@@ -34,6 +40,16 @@ public class Layer {
         }
     }
 
+    public double[][] getWeights() {
+        double[][] weights = new double[neuronCount][nextNeuronCount];
+        for (int j = 0; j < neuronCount; j++) {
+            for (int i = 0; i < nextNeuronCount; i++) {
+                weights[j][i] = this.neurons.get(j).weights[i];
+            }
+        }
+        return weights;
+    }
+
     /**
      * Uses {@link ActivationFunction} and {@link Neuron} weights and
      * this layers activations to determine what the activations
@@ -41,5 +57,16 @@ public class Layer {
      * @return new activations given weights and activations of this layer
      */
     public double[] feedforward() {
+        double[] activations = new double[nextNeuronCount];
+        for (int j = 0; j < neuronCount; j++) {
+            double a = 0.00F; // compute weighted sum
+            for (int i = 0; i < nextNeuronCount; i++) {
+                Neuron n = this.neurons.get(j);
+                double weight = n.weights[i];
+                a += this.af.eval((n.activation * weight) + n.bias);
+            }
+            activations[j] = a;
+        }
+        return activations;
     }
 }
