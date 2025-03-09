@@ -6,9 +6,16 @@ package com.perceptron.test_train;
  */
 public class DataFrame {
    final static int FRAME_LENGTH = 28;
+   final static int MAX_BRIGHTNESS = 1 << 8;
    private int[][] data; // 2D array of values the dataset will provide
    private String label; // a labeled classification of that dataset (should be some number 0-9)
 
+
+   /**
+    * DataFrame constructor that passes args for each field in the class.
+    * @param label label of the frame, should some character that the values represent
+    * @param data teh actual 2D array of data that shows each drawn character
+    */
    DataFrame(String label, int[][] data) {
       this.label = label;
       this.data = data;
@@ -95,6 +102,20 @@ public class DataFrame {
     */
    public void setValue(int x, int y, int value) {
       data[x][y] = value;
+   }
+
+   /**
+    * Convert DataFrame values to greyscale (using double precision)
+    * @return get greyscale values as an array of 2D values
+    */
+   public double[][] grayscale() {
+      double[][] greyscale_data = new double[DataFrame.FRAME_LENGTH][DataFrame.FRAME_LENGTH];
+      for (int dy = 0; dy < FRAME_LENGTH; dy++) {
+         for (int dx = 0; dx < FRAME_LENGTH; dx++) {
+            greyscale_data[dy][dx] = this.data[dy][dy]/MAX_BRIGHTNESS;
+         }
+      }
+      return greyscale_data;
    }
 
 }

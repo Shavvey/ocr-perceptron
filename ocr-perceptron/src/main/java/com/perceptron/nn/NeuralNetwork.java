@@ -2,10 +2,11 @@ package com.perceptron.nn;
 
 import java.util.Vector;
 
-/** Neural network class is an abstraction over into separate smaller class
+/**
+ * Neural network class is an abstraction of separate smaller class
  * <ol>
- *     <li> Neuron: an simplified neuron with an activation value, weight, etc. </li>
- *     <li> Layer: a collection of neurons equipped with a activation and loss function for training </li>
+ *     <li> {@link Neuron}: an simplified neuron with an activation value, weight, etc. </li>
+ *     <li> {@link Layer}: a collection of neurons equipped with a activation and loss function for training </li>
  * </ol>
  * @author Cole Johnson
  * @version 1.0
@@ -13,15 +14,17 @@ import java.util.Vector;
 public class NeuralNetwork {
     private Layer inputLayer;
     private Layer outputLayer;
-    private Vector<Layer> hiddenLayers;
-    // neural network should take a vector of configured layers
-    // we need to enforce two conditions:
-    // first layer must be an input layer
-    // last layer must be an output layer
+    private Vector<Layer> layers;
+
+    /**
+     * Constructor to make a neural network, based on layer configuration.
+     * @param config includes how each {@link Layer} should be
+     * configured inside the network
+     */
     NeuralNetwork(Vector<Layer> config) {
-        this.inputLayer = config.removeFirst();
-        this.outputLayer = config.removeLast();
-        this.hiddenLayers = config; // add the rest of the hidden layers
+        this.inputLayer = config.firstElement();
+        this.outputLayer = config.lastElement();
+        this.layers = layers;
     }
 
     public void displayConfig() {

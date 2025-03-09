@@ -71,7 +71,7 @@ public class DataFrameIterator implements Iterator<DataFrame> {
 
     /**
      * Checks whether data has been exhausted
-     * @return boolean value to determine if no more frame exist
+     * @return boolean value to determine if no more frames exist
      */
     @Override
     public boolean hasNext() {

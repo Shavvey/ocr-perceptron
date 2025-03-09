@@ -6,7 +6,7 @@ import java.util.Iterator;
 /**
  * Utility class to create manage test and train data,
  * mainly provides other classes with a convenient iteration
- * of DataFrames {@link DataFrame}
+ * of {@link DataFrame}
  * @author: Cole Johnson
  */
 public final class ResourceManager {
