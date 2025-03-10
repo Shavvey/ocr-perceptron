@@ -2,75 +2,57 @@ package com.perceptron.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
- 
-public class BlankArea extends JPanel implements MouseListener {
+import java.awt.event.MouseAdapter;
+
+public class BlankArea extends JPanel{
     /**
      * Create BlankArea that keeps track of mouse movement and actions
      */
 
-    Dimension maxSize = new Dimension(300, 300);
-    JTextArea textArea;
-    static final String NEWLINE = System.getProperty("line.separator");
+    private int squareX;
+    private int squareY;
  
     // Constructor for building the area. Passes color for background
     public BlankArea(Color color) {
-        super(new GridLayout(0,1));
-        JComponent blankArea = new JLabel();
-        add(blankArea);
-
-        textArea = new JTextArea();
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setVerticalScrollBarPolicy(
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(200, 75));
-        add(scrollPane);
-         
-        //Register for mouse events on blankArea
-        blankArea.addMouseListener(this);
-        blankArea.setBorder(BorderFactory.createDashedBorder(Color.BLACK, 10, 10, 3, true));
+        setBorder(BorderFactory.createDashedBorder(Color.BLACK, 10, 10, 3, true));
         setBackground(color);
-        addMouseListener(this);
-    }
- 
-    public void setSize(int width, int height) {
-        maxSize = new Dimension(width,height);
-    }
- 
-    public Dimension getPreferredSize() {
-        return maxSize;
-    }
 
-    // Print user inputs from mouse events in the text area
-    void eventOutput(String eventDescription, MouseEvent e) {
-        textArea.append(eventDescription + " detected on "
-                + e.getComponent().getClass().getName()
-                + "." + NEWLINE);
-        textArea.setCaretPosition(textArea.getDocument().getLength());
+        // add mouse listeners to draw
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                moveSquare(e.getX(),e.getY());
+            }
+        });
+
+        addMouseMotionListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                moveSquare(e.getX(),e.getY());
+            }
+        });
     }
-     
-    public void mousePressed(MouseEvent e) {
-        eventOutput("Mouse pressed (# of clicks: "
-                + e.getClickCount() + ")", e);
+    
+    private void moveSquare(int x, int y) {
+        // do not redraw an area that is already drawn
+        if ((squareX!=x) || (squareY!=y)) {
+            squareX=x;
+            squareY=y;
+            repaint(squareX,squareY,5,5);
+        } 
     }
-     
-    public void mouseReleased(MouseEvent e) {
-        eventOutput("Mouse released (# of clicks: "
-                + e.getClickCount() + ")", e);
+ 
+    // preferred size of blank area
+    public Dimension getPreferredSize() {
+        return new Dimension(400,400);
     }
-     
-    public void mouseEntered(MouseEvent e) {
-        eventOutput("Mouse entered", e);
-    }
-     
-    public void mouseExited(MouseEvent e) {
-        eventOutput("Mouse exited", e);
-    }
-     
-    public void mouseClicked(MouseEvent e) {
-        eventOutput("Mouse clicked (# of clicks: "
-                + e.getClickCount() + ")", e);
+    
+    // add graphics where the user has their mouse
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);       
+
+        g.setColor(Color.BLACK);
+        g.fillRect(squareX,squareY,5,5);
+        // g.setColor(Color.BLACK);
+        g.drawRect(squareX,squareY,5,5);
     }
 }
