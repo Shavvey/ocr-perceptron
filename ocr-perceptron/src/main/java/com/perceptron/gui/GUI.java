@@ -33,8 +33,13 @@ public class GUI{
         // text.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // cancvas for user to draw in
+        JPanel area = new JPanel();
+        area.setBorder(BorderFactory.createDashedBorder(Color.BLACK, 10, 10, 3, true));
+        area.setBackground(background);
         BlankArea blankArea = new BlankArea(background);
-        blankArea.setMaximumSize(new Dimension(500,300));
+        area.setMaximumSize(new Dimension(420,420));
+
+        area.add(blankArea);
 
         // includes buttons
         JPanel footer = new JPanel();
@@ -49,7 +54,8 @@ public class GUI{
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Action to perform when the button is clicked
-                JOptionPane.showMessageDialog(pane, "Ready to submit!");
+                // JOptionPane.showMessageDialog(pane, "Ready to submit!");
+                blankArea.saveToImage();
             }
         });
 
@@ -64,9 +70,7 @@ public class GUI{
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Clears all drawings in the blankarea
-                blankArea.removeAll();
-                // refresh the panel.
-                blankArea.updateUI();
+                blankArea.clearDrawing();
             }
         });
 
@@ -79,7 +83,7 @@ public class GUI{
         // pane.add(text);
         pane.add(info);
         pane.add(Box.createRigidArea(new Dimension(0,25)));
-        pane.add(blankArea);
+        pane.add(area);
         pane.add(Box.createRigidArea(new Dimension(0,25)));
         pane.add(footer);
     }
@@ -106,7 +110,6 @@ public class GUI{
     }
  
     public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
