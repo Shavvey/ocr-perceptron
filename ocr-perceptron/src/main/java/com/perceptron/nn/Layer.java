@@ -16,6 +16,9 @@ public class Layer {
     // loss function
     final LossFunction lf;
     final Vector<Neuron> neurons;
+    // should be a doubly linked list
+    public Layer nextLayer;
+    public Layer prevLayer;
 
     /**
      * Main constructor for Layer class
@@ -69,6 +72,7 @@ public class Layer {
      * @return new activations given weights and activations of this layer
      */
     public double[] feedforward() {
+        // calculate new layer of activations, for the next layer of neurons
         double[] activations = new double[nextNeuronCount];
         for (int j = 0; j < neuronCount; j++) {
             double a = 0.00F; // compute weighted sum
@@ -84,6 +88,9 @@ public class Layer {
         return activations;
     }
 
+    /**
+     * Helper method to show how the Layer is configured
+     */
     public void display() {
         System.out.println("Neuron Count: " + neuronCount);
         System.out.println("Next Layer Neuron Count: " + nextNeuronCount);
@@ -91,23 +98,11 @@ public class Layer {
         System.out.println("Loss Function: " + lf.toString());
     }
 
+    /**
+     * Getter for the collection of neurons under the layer
+     * @return a vector that contains all layer neurons
+     */
     public Vector<Neuron> getNeurons() {
         return neurons;
-    }
-
-    public LossFunction getLf() {
-        return lf;
-    }
-
-    public ActivationFunction getAf() {
-        return af;
-    }
-
-    public int getNextNeuronCount() {
-        return nextNeuronCount;
-    }
-
-    public int getNeuronCount() {
-        return neuronCount;
     }
 }

@@ -6,9 +6,9 @@ package com.perceptron.nn;
  * @author: Cole Johnson
  */
 public enum LossFunction {
-    LOSS_LOG("LOSS_LOG"),
-    MSE("MSE"),
-    MAE("MSA");
+    LOSS_LOG("LOSS_LOG"), // log loss error
+    MSE("MSE"), // mean square error
+    MAE("MAE"); // mean absolute error
     final private String name;
 
     /**

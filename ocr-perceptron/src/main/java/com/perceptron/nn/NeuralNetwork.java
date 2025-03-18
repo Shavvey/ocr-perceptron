@@ -14,7 +14,6 @@ import java.util.Vector;
 public class NeuralNetwork {
     Layer inputLayer;
     Layer outputLayer;
-    Vector<Layer> layers;
     int numLayers;
 
     /**
@@ -26,11 +25,18 @@ public class NeuralNetwork {
         this.inputLayer = config.firstElement();
         this.outputLayer = config.lastElement();
         this.numLayers = config.size();
-    }
-
-    public void displayConfig() {
-        for (Layer l : layers) {
+        Layer prev = null;
+        for (int i = 0; i < numLayers - 2; i++) {
+            Layer current = config.get(i);
+            Layer next = config.get(i+1);
+            // assign references to make a doubly linked list
+            current.prevLayer = prev;
+            current.nextLayer = next;
+            next.prevLayer = current;
+            // store new prev
+            prev = current;
 
         }
     }
+
 }

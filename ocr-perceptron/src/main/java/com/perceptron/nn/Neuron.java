@@ -18,6 +18,8 @@ public class Neuron {
     // collection of connected weight to the next layer
     double[] weights;
     double bias;
+    double deltaSum;
+    double delta;
 
     /**
      * Constructor that just initializes activation and bias to zero
@@ -27,6 +29,8 @@ public class Neuron {
         this.activation = 0;
         this.bias = 0;
         weights = new double[weightCount];
+        this.delta = 0.00F;
+        this.deltaSum = 0.00F;
     }
 
     void randomizeWeights() {

@@ -13,7 +13,7 @@ public class GUI{
      */
 
     // adds components to main panel of Frame
-    public static void addComponents(Container pane){
+    public static void addComponents(Container pane) {
         // colors used throughout
         Color primary_color = new Color(135, 167, 222);
         Color background = new Color(255, 232, 184);
@@ -59,7 +59,7 @@ public class GUI{
             }
         });
 
-        // erase prvious drawings in the panel
+        // erase previous drawings in the panel
         JButton clear = new JButton("Clear");
         clear.setBackground(Color.red);
         clear.setMinimumSize(new Dimension(100,50));
