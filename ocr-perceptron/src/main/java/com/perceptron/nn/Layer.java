@@ -65,23 +65,35 @@ public class Layer {
      * @return weights of layer inside a 2D array
      */
     public double[][] getWeights() {
-        double[][] weights = new double[neuronCount][this.getNeuronCount()];
+        double[][] w = new double[this.getNextNeuronCount()][neuronCount];
         // TODO: make a more efficient array copy (will speed up other functions!)
-        for (int j = 0; j < neuronCount; j++) {
-            if (next.neuronCount >= 0)
-                System.arraycopy(this.neurons.get(j).weights, 0, weights[j], 0, next.neuronCount);
+        for (int j = 0; j < this.getNextNeuronCount(); j++) {
+            for (int i = 0; i < this.neuronCount; i++) {
+                w[j][i] = neurons.get(i).weights[j];
+            }
         }
-        return weights;
+        return w;
+    }
+
+    /**
+     * Return biases of entire Layer
+     * @return array of biases gathered from current Layer of neurons
+     */
+    public double[] getBias() {
+        double[] b = new double[neuronCount];
+        for (int i = 0; i < neuronCount; i++) {
+            b[i] = neurons.get(i).bias;
+        }
+        return b;
     }
 
     /**
      * Set the bias for the entire Layer of neurons.
      * @param b bias for current Layer
      */
-    public void setBias(double b) {
-        for (int i = 0; i < neuronCount; i++) {
-            // set new bias value
-            neurons.get(i).bias = b;
+    public void setBias(double[] b) {
+        for (int i = 0; i < b.length ; i++) {
+            neurons.get(i).bias = b[i];
         }
     }
 
@@ -91,21 +103,20 @@ public class Layer {
      * for the next layer should be
      */
     public void feedforward() {
+        // get all weights of the layer
+        double[][] w = this.getWeights();
+        // get all activations of layer
+        double[] a = this.getActivations();
+        // get all biases of *next* layer
+        double[] b = this.next.getBias();
         // calculate new layer of activations, for the next layer of neurons
-        double[] activations = new double[next.neuronCount];
-        for (int j = 0; j < next.neuronCount; j++) {
-            double a = 0.00F; // store weighted sum we will calculate
+        for (int j = 0; j < this.getNextNeuronCount(); j++) {
+            double sum = 0; // add bias from next layer
             for (int i = 0; i < neuronCount; i++) {
-                // get neuron in layer
-                Neuron n = this.neurons.get(i);
-                // get weights associated with neuron
-                double weight = n.weights[j];
-                // weighted sum of activations with weights plus a plus
-                // activation function will squish resulting sum to (-1,1)
-                a += (n.activation * weight) + n.bias;
+                // calculate weighted sum of activations and weights of current Layer
+                sum += w[j][i] * a[i];
             }
-            // update next-layer neuron based on weighted sum evaluated to ActivationFunction
-            next.neurons.get(j).activation = af.eval(a);
+            next.neurons.get(j).activation = next.af.eval(sum + b[j]);
         }
     }
 
@@ -182,6 +193,10 @@ public class Layer {
         System.out.println(this.activationsToString());
     }
 
+    /**
+     * Getter to return all the activations of the neurons in this Layer
+     * @return array of activations in current Layer
+     */
     public double[] getActivations() {
         double[] a = new double[neuronCount];
         for (int i = 0; i < neuronCount; i++) {

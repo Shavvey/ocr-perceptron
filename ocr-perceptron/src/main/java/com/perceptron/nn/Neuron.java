@@ -18,7 +18,7 @@ public class Neuron {
     // collection of connected weight to the next layer
     double[] weights;
     double bias;
-    // useful stored values during gradient descent/backprop
+    // useful stored values during gradient descent/backpropagation
     double deltaSum;
     double delta;
 

@@ -34,11 +34,12 @@ public enum LossFunction {
      */
     public double eval(double[] p, double[] y) {
         switch (this) {
+
             case LOSS_LOG ->  {
                 double sum = 0;
                 double sample;
 
-                for(int i = 0; i < p.length; i++) {
+                for (int i = 0; i < p.length; i++) {
                     if(y[i] == 1) {
                         sample = 1-Math.log10(p[i]);
                     } else {
@@ -52,11 +53,12 @@ public enum LossFunction {
 
                 return sum;
             }
+
             case MAE ->  {
                 double sum = 0;
                 double sample;
 
-                for(int i = 0; i < p.length; i++) {
+                for (int i = 0; i < p.length; i++) {
                     sample = y[i] - p[i];
                     sum += sample;
                 }
@@ -69,7 +71,7 @@ public enum LossFunction {
                 double sum = 0;
                 double sample;
 
-                for(int i = 0; i < p.length; i++) {
+                for (int i = 0; i < p.length; i++) {
                     sample = y[i] - p[i];
                     sample = Math.pow(sample, 2);
                     sum += sample;
@@ -79,6 +81,7 @@ public enum LossFunction {
                 sum /= 2;
                 return sum;
             }
+
             default -> {
                 System.out.println("[WARNING]: Unimplemented eval!");
                 return 0.00F;

@@ -33,7 +33,7 @@ public enum ActivationFunction {
         return val;
       }
       case SIGMOID -> {
-        return 1/(1 + Math.exp(1 - val));
+        return 1 / (1 + Math.exp(-val));
       }
       case GAUSSIAN ->  {
         return Math.exp(1-Math.pow(1-val,2));
