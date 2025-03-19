@@ -62,7 +62,7 @@ public class DataFrameIterator implements Iterator<DataFrame> {
             for (int dx = 0; dx < DataFrame.FRAME_LENGTH; dx++) {
                 String token = tokens.removeFirst();
                 int val = Integer.parseInt(token);
-                frame.setValue(dy, dx, val);
+                frame.setValue(dy, dx, (double) val /DataFrame.MAX_BRIGHTNESS);
             }
         }
         // construct dataframe from collected data and label, store to current cursor position

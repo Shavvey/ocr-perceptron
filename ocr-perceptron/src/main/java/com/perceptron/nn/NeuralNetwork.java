@@ -21,7 +21,7 @@ public class NeuralNetwork {
      * @param config includes how each {@link Layer} should be
      * configured inside the network
      */
-    NeuralNetwork(Vector<Layer> config) {
+    public NeuralNetwork(Vector<Layer> config) {
         this.inputLayer = config.firstElement();
         this.outputLayer = config.lastElement();
         this.numLayers = config.size();
@@ -30,8 +30,32 @@ public class NeuralNetwork {
     /**
      * Display out the config of the neural network (delegated to the Layer Level)
      */
-    void display() {
-
+    public void display() {
+        Layer l = inputLayer;
+        // print first input layer
+        l.display();
+        while (l.next != null) {
+            // print all other layers in linked list
+            // delegate to Layer via it's implemented display
+            l.display();
+            l = l.next;
+        }
     }
+
+    /**
+     * propagates initial activations of input {@link Layer} to next layers
+     * based on weights, bias, and ActivationFunction {@link ActivationFunction}
+     * until we reach the output layer.
+     */
+    public void feedforward() {
+        Layer l = inputLayer;
+        // first feedforward input
+        l.feedforward();
+        while (l.next != null) {
+            // delegate task to layer level
+
+        }
+    }
+
 
 }

@@ -66,23 +66,24 @@ public class Layer {
      * Uses {@link ActivationFunction} and {@link Neuron} weights and
      * this layers activations to determine what the activations
      * for the next layer should be
-     * @return new activations given weights and activations of this layer
      */
-    public double[] feedforward() {
+    public void feedforward() {
         // calculate new layer of activations, for the next layer of neurons
         double[] activations = new double[next.neuronCount];
-        for (int j = 0; j < neuronCount; j++) {
-            double a = 0.00F; // compute weighted sum
-            for (int i = 0; i < next.neuronCount; i++) {
-                Neuron n = this.neurons.get(j);
-                double weight = n.weights[i];
+        for (int j = 0; j < next.neuronCount; j++) {
+            double a = 0.00F; // store weighted sum we will calculate
+            for (int i = 0; i < neuronCount; i++) {
+                // get neuron in layer
+                Neuron n = this.neurons.get(i);
+                // get weights associated with neuron
+                double weight = n.weights[j];
                 // weighted sum of activations with weights plus a plus
                 // activation function will squish resulting sum to (-1,1)
-                a = (n.activation * weight) + n.bias;
+                a += (n.activation * weight) + n.bias;
             }
-            activations[j] = af.eval(a);
+            // update next-layer neuron based on weighted sum evaluated to ActivationFunction
+            next.neurons.get(j).activation = af.eval(a);
         }
-        return activations;
     }
 
     /**
