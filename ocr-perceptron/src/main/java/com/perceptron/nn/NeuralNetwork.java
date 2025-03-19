@@ -25,18 +25,13 @@ public class NeuralNetwork {
         this.inputLayer = config.firstElement();
         this.outputLayer = config.lastElement();
         this.numLayers = config.size();
-        Layer prev = null;
-        for (int i = 0; i < numLayers - 2; i++) {
-            Layer current = config.get(i);
-            Layer next = config.get(i+1);
-            // assign references to make a doubly linked list
-            current.prevLayer = prev;
-            current.nextLayer = next;
-            next.prevLayer = current;
-            // store new prev
-            prev = current;
+    }
 
-        }
+    /**
+     * Display out the config of the neural network (delegated to the Layer Level)
+     */
+    void display() {
+
     }
 
 }

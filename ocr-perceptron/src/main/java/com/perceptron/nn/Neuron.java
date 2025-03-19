@@ -18,6 +18,7 @@ public class Neuron {
     // collection of connected weight to the next layer
     double[] weights;
     double bias;
+    // useful stored values during gradient descent/backprop
     double deltaSum;
     double delta;
 
@@ -33,9 +34,13 @@ public class Neuron {
         this.deltaSum = 0.00F;
     }
 
+    /**
+     * constructs a set of random weights for a Neuron
+     */
     void randomizeWeights() {
         for (int i = 0; i < weights.length; i++) {
             // random value between -1 and 1
+            // NOTE: if we init random weights it should at least have a mean centered at zero!
             weights[i] = Stats.randDouble(Neuron.MIN_WEIGHT_VAL, Neuron.MAX_WEIGHT_VAL);
         }
     }
