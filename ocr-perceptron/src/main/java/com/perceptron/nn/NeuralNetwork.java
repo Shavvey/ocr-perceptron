@@ -12,8 +12,8 @@ import java.util.Vector;
  * @version 1.0
  */
 public class NeuralNetwork {
-    Layer inputLayer;
-    Layer outputLayer;
+    public Layer inputLayer;
+    public Layer outputLayer;
     int numLayers;
 
     /**
@@ -32,9 +32,7 @@ public class NeuralNetwork {
      */
     public void display() {
         Layer l = inputLayer;
-        // print first input layer
-        l.display();
-        while (l.next != null) {
+        while (l != null) {
             // print all other layers in linked list
             // delegate to Layer via it's implemented display
             l.display();
@@ -49,10 +47,13 @@ public class NeuralNetwork {
      */
     public void feedforward() {
         Layer l = inputLayer;
-        // first feedforward input
-        l.feedforward();
+        // loop until we reach output layer
+        // (output has no connected neurons, so doesn't need to feedforward)
         while (l.next != null) {
             // delegate task to layer level
+            l.feedforward();
+            // goto next layer
+            l = l.next;
 
         }
     }

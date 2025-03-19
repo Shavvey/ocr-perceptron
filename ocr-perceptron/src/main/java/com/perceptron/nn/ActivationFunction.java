@@ -17,7 +17,7 @@ public enum ActivationFunction {
    * Getter for name
    * @return name of ActivationFunction
    */
-  String getName() {
+  public String getName() {
     return this.name;
   }
 
@@ -27,7 +27,7 @@ public enum ActivationFunction {
    * @param val old-value
    * @return new value under Activation Function
    */
-  double eval(double val) {
+  public double eval(double val) {
     switch (this) {
       case IDENTITY -> {
         return val;

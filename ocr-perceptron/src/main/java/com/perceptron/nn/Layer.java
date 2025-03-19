@@ -49,17 +49,40 @@ public class Layer {
     }
 
     /**
+     * Set weights for each neuron in the Layer
+     * @param w weight matrix to set Neurons
+     */
+    public void setWeights(double[][] w) {
+        for (int i = 0; i < neuronCount; i++) {
+            Neuron n = neurons.get(i);
+            if (next.neuronCount >= 0)
+                System.arraycopy(w[i], 0, n.weights, 0, next.neuronCount);
+        }
+    }
+
+    /**
      * create 2D matrix of all the weights on this layer
      * @return weights of layer inside a 2D array
      */
     public double[][] getWeights() {
         double[][] weights = new double[neuronCount][this.getNeuronCount()];
+        // TODO: make a more efficient array copy (will speed up other functions!)
         for (int j = 0; j < neuronCount; j++) {
-            for (int i = 0; i < next.neuronCount; i++) {
-                weights[j][i] = this.neurons.get(j).weights[i];
-            }
+            if (next.neuronCount >= 0)
+                System.arraycopy(this.neurons.get(j).weights, 0, weights[j], 0, next.neuronCount);
         }
         return weights;
+    }
+
+    /**
+     * Set the bias for the entire Layer of neurons.
+     * @param b bias for current Layer
+     */
+    public void setBias(double b) {
+        for (int i = 0; i < neuronCount; i++) {
+            // set new bias value
+            neurons.get(i).bias = b;
+        }
     }
 
     /**
@@ -91,7 +114,7 @@ public class Layer {
      */
     public void display() {
         System.out.println("Neuron Count: " + neuronCount);
-        System.out.println("Next Layer Neuron Count: " + next.neuronCount);
+        System.out.println("Next Layer Neuron Count: " + this.getNextNeuronCount());
         System.out.println("Activation Function: " + af.toString());
         System.out.println("Loss Function: " + lf.toString());
     }
@@ -106,7 +129,7 @@ public class Layer {
 
     /**
      * Getter for Layer-level LossFunction {@link LossFunction}
-     * @return
+     * @return implemented LossFunction for this Layer
      */
     public LossFunction getLf() {
         return lf;
@@ -114,7 +137,7 @@ public class Layer {
 
     /**
      * Getter for Layer-level ActivationFunction {@link ActivationFunction}
-     * @return
+     * @return implemented ActivationFunction for this Layer
      */
     public ActivationFunction getAf() {
         return af;
@@ -129,7 +152,41 @@ public class Layer {
         return (next == null) ? 0 : this.next.neuronCount;
     }
 
+    /**
+     * Getter for the number of neurons in Layer.
+     * @return count of Neurons in current Layer
+     */
     public int getNeuronCount() {
         return neuronCount;
+    }
+
+    /**
+     * Build out string of activation values via {@link StringBuilder}.
+     * @return string representation of Layer activations
+     */
+    private String activationsToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('{');
+        for (int i = 0; i < neuronCount; i++) {
+            double a = neurons.get(i).activation;
+            sb.append(a).append(" ");
+        }
+        sb.append('}');
+        return sb.toString();
+    }
+
+    /**
+     * Print out neural activations of Layer
+     */
+    public void displayActivations() {
+        System.out.println(this.activationsToString());
+    }
+
+    public double[] getActivations() {
+        double[] a = new double[neuronCount];
+        for (int i = 0; i < neuronCount; i++) {
+            a[i] = neurons.get(i).activation;
+        }
+        return a;
     }
 }

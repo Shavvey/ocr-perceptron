@@ -1,5 +1,6 @@
 package com.perceptron.test_train;
 
+
 /**
  * Class that encapsulates training and test data for the ocr-perceptron
  * @author Cole Johnson
@@ -107,6 +108,19 @@ public class DataFrame {
     */
    public void setValue(int x, int y, double value) {
       data[x][y] = value;
+   }
+
+   /**
+    * decode label into an output value our NN needs to learn from
+    * (very useful during backpropagation,
+    * evaluated by LossFunction {@link com.perceptron.nn.LossFunction})
+    * @return truth values
+    */
+   public double[] getTrueValues() {
+      double[] d = new double[] {1,0,0,0,0,0,0,0,0,0};
+      int val = Integer.parseInt(label);
+      d[val] = 1;
+      return d;
    }
 
 }

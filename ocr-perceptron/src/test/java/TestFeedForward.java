@@ -9,13 +9,25 @@ import java.util.Vector;
 public class TestFeedForward {
     @Test
     public void testFeedForward() {
-        Layer output = new Layer(10,null, ActivationFunction.SIGMOID, LossFunction.MSE);
-        Layer input = new Layer(10, output, ActivationFunction.SIGMOID, LossFunction.MAE);
+        Layer output = new Layer(2,null, ActivationFunction.SIGMOID, LossFunction.MSE);
+        Layer input = new Layer(3, output, ActivationFunction.SIGMOID, LossFunction.MAE);
+        input.setActivations(new double[]{1, 1, 1});
+        input.setWeights(new double[][]{ {1, 1}, {1, 1}, {1, 1} });
+        input.setBias(1);
         Vector<Layer> l = new Vector<>();
         l.add(input);
         l.add(output);
         NeuralNetwork n = new NeuralNetwork(l);
         // add some predictable weights so we can test feed forward, then use an assert to check
+        n.feedforward();
+        // print out activations
+        n.outputLayer.displayActivations();
+        double[] a = n.outputLayer.getActivations();
+        ActivationFunction af = ActivationFunction.SIGMOID;
+        for (double v : a) {
+            assert (v == af.eval(6));
+        }
+
 
     }
 }

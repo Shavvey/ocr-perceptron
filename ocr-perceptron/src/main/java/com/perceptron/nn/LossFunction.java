@@ -29,7 +29,7 @@ public enum LossFunction {
     /**
      * Evaluate loss under LossFunction
      * @param p prediction values
-     * @param y ground truth values
+     * @param y ground "truth" values (comes from DataFrame label)
      * @return "Loss" at a given {@link Layer}
      */
     public double eval(double[] p, double[] y) {
