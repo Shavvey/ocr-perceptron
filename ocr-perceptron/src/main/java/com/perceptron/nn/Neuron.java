@@ -1,6 +1,11 @@
 package com.perceptron.nn;
 
+import com.perceptron.test_train.DataFrame;
+import com.perceptron.test_train.ResourceManager;
 import com.perceptron.util.Stats;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 /**
@@ -18,9 +23,6 @@ public class Neuron {
     // collection of connected weight to the next layer
     double[] weights;
     double bias;
-    // useful stored values during gradient descent/backpropagation
-    double deltaSum;
-    double delta;
 
     /**
      * Constructor that just initializes activation and bias to zero
@@ -32,8 +34,6 @@ public class Neuron {
         // init bias to zero
         this.bias = 0;
         weights = new double[weightCount];
-        this.delta = 0.00F;
-        this.deltaSum = 0.00F;
     }
 
     /**

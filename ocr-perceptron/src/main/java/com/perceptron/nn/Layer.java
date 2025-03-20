@@ -1,4 +1,5 @@
 package com.perceptron.nn;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -15,9 +16,10 @@ public class Layer {
     final ActivationFunction af;
     // loss function
     final LossFunction lf;
-    final Vector<Neuron> neurons;
+    final ArrayList<Neuron> neurons;
     // should be a linked list
     final Layer next;
+    double[] deltaSum;
 
     /**
      * Main constructor for Layer class
@@ -32,12 +34,13 @@ public class Layer {
         this.af = af;
         this.lf = lf;
         this.next = next;
-        this.neurons = new Vector<>(this.getNextNeuronCount());
+        this.neurons = new ArrayList<>(neuronCount);
         for (int i = 0; i < neuronCount; i++) {
-            Neuron n = new Neuron(this.getNextNeuronCount());
+            Neuron n =  new Neuron(this.getNextNeuronCount());
             n.randomizeWeights();
             neurons.add(n);
         }
+
     }
 
     /**
@@ -115,6 +118,7 @@ public class Layer {
         }
     }
 
+
     /**
      * Uses {@link ActivationFunction} and {@link Neuron} weights and
      * this layers activations to determine what the activations
@@ -153,7 +157,7 @@ public class Layer {
      * Getter for the collection of neurons under the layer
      * @return a vector that contains all layer neurons
      */
-    public Vector<Neuron> getNeurons() {
+    public ArrayList<Neuron> getNeurons() {
         return neurons;
     }
 
@@ -222,5 +226,16 @@ public class Layer {
             a[i] = neurons.get(i).activation;
         }
         return a;
+    }
+
+
+    /**
+     * compute delta-step during backpropagation
+     * @param pa previous activations recorded
+     * @return delta that we must accumulate during stochastic gradient descent
+     */
+    public double[] feedback(double[] pa) {
+        double[] delta = new double[neuronCount];
+        return delta;
     }
 }

@@ -4,22 +4,25 @@ import com.perceptron.nn.LossFunction;
 import com.perceptron.nn.NeuralNetwork;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 public class TestFeedForward {
     @Test
     public void testFeedForward() {
-        Layer output = new Layer(2,null, ActivationFunction.SIGMOID, LossFunction.MSE);
+        Layer output = new Layer(2, null, ActivationFunction.SIGMOID, LossFunction.MSE);
         Layer input = new Layer(3, output, ActivationFunction.SIGMOID, LossFunction.MSE);
+        // configure input activations for test
         input.setActivations(new double[]{1, 1, 1});
+        // configure input weights for test
         input.setWeights(new double[][]{ {2, 2}, {1, 1}, {1, 1} });
+        // print them out to make sure
         input.displayWeights();
+        // set new bias on next Layer--the output layer in this case
         output.setBias(new double[]{0,1});
-        Vector<Layer> l = new Vector<>();
-        l.add(input);
-        l.add(output);
-        NeuralNetwork n = new NeuralNetwork(l);
-        // add some predictable weights so we can test feed forward, then use an assert to check
+        // save config into neural network
+        NeuralNetwork n = new NeuralNetwork(new ArrayList<>(Arrays.asList(input, output)));
         n.feedforward();
         // print out activations
         n.outputLayer.displayActivations();

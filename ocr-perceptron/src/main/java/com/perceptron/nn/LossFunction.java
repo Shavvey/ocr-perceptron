@@ -82,9 +82,8 @@ public enum LossFunction {
                 return sum;
             }
 
-            default -> {
+            default ->
                 throw new RuntimeException("[WARNING]: Unimplemented eval!");
-            }
         }
     }
 }

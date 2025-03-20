@@ -17,7 +17,7 @@ public class DataFrame {
     * @param label label of the frame, should some character that the values represent
     * @param data teh actual 2D array of data that shows each drawn character
     */
-   DataFrame(String label, double[][] data) {
+   public DataFrame(String label, double[][] data) {
       this.label = label;
       this.data = data;
    }
@@ -26,7 +26,7 @@ public class DataFrame {
     * Constructor no arg constructor for `DataFrame` class.
     * Just initializes the data array and the label, and leaves them empty.
     */
-   DataFrame() {
+   public DataFrame() {
       this.label = "";
       this.data = new double[FRAME_LENGTH][FRAME_LENGTH];
    }
