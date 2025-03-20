@@ -1,6 +1,8 @@
 package com.perceptron.test_train;
 
 
+import java.util.Arrays;
+
 /**
  * Class that encapsulates training and test data for the ocr-perceptron
  * @author Cole Johnson
@@ -117,10 +119,20 @@ public class DataFrame {
     * @return truth values
     */
    public double[] getTrueValues() {
-      double[] d = new double[] {1,0,0,0,0,0,0,0,0,0};
+      double[] d = new double[] {0,0,0,0,0,0,0,0,0,0};
       int val = Integer.parseInt(label);
       d[val] = 1;
       return d;
    }
+
+   /**
+    * Row-wise flatten of the original 2D array into a 1D array.
+    * @return flatten version of original 2D array of values inside DataFrame
+    */
+   public double[] flatten() {
+      return Arrays.stream(data).flatMapToDouble(Arrays::stream).toArray();
+   }
+
+
 
 }

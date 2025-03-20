@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Vector;
 
 public class TestFeedForward {
     @Test
@@ -22,7 +21,7 @@ public class TestFeedForward {
         // set new bias on next Layer--the output layer in this case
         output.setBias(new double[]{0,1});
         // save config into neural network
-        NeuralNetwork n = new NeuralNetwork(new ArrayList<>(Arrays.asList(input, output)));
+        NeuralNetwork n = new NeuralNetwork(input, output);
         n.feedforward();
         // print out activations
         n.outputLayer.displayActivations();

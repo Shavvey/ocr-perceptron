@@ -1,6 +1,5 @@
 package com.perceptron.nn;
 import java.util.ArrayList;
-import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -37,10 +36,9 @@ public class Layer {
         this.neurons = new ArrayList<>(neuronCount);
         for (int i = 0; i < neuronCount; i++) {
             Neuron n =  new Neuron(this.getNextNeuronCount());
-            n.randomizeWeights();
+            n.randomizeWeights(neuronCount);
             neurons.add(n);
         }
-
     }
 
     /**
@@ -155,7 +153,7 @@ public class Layer {
 
     /**
      * Getter for the collection of neurons under the layer
-     * @return a vector that contains all layer neurons
+     * @return an ArrayList that contains all layer neurons
      */
     public ArrayList<Neuron> getNeurons() {
         return neurons;

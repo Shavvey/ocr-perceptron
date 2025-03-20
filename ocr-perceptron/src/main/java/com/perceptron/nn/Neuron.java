@@ -1,11 +1,7 @@
 package com.perceptron.nn;
 
-import com.perceptron.test_train.DataFrame;
-import com.perceptron.test_train.ResourceManager;
 import com.perceptron.util.Stats;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 
 
 /**
@@ -39,11 +35,11 @@ public class Neuron {
     /**
      * constructs a set of random weights for a Neuron
      */
-    void randomizeWeights() {
+    void randomizeWeights(int neuronCount) {
         for (int i = 0; i < weights.length; i++) {
             // random value between -1 and 1
             // NOTE: if we init random weights it should at least have a mean centered at zero!
-            weights[i] = Stats.randDouble(Neuron.MIN_WEIGHT_VAL, Neuron.MAX_WEIGHT_VAL);
+            weights[i] = Stats.randDouble(Neuron.MIN_WEIGHT_VAL, Neuron.MAX_WEIGHT_VAL) / neuronCount;
         }
     }
 
