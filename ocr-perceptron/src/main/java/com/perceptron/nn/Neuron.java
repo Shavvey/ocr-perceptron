@@ -27,7 +27,9 @@ public class Neuron {
      * (Weights must be dealt with later
      */
     Neuron(int weightCount) {
+        // init activation to zero
         this.activation = 0;
+        // init bias to zero
         this.bias = 0;
         weights = new double[weightCount];
         this.delta = 0.00F;

@@ -83,8 +83,7 @@ public enum LossFunction {
             }
 
             default -> {
-                System.out.println("[WARNING]: Unimplemented eval!");
-                return 0.00F;
+                throw new RuntimeException("[WARNING]: Unimplemented eval!");
             }
         }
     }

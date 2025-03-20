@@ -9,8 +9,14 @@ package com.perceptron.nn;
 public enum ActivationFunction {
   SIGMOID("SIGMOID"),
   IDENTITY("IDENTITY"),
-  GAUSSIAN("GAUSSIAN");
+  GAUSSIAN("GAUSSIAN"),
+  RELU("ReLU");
   final private String name;
+
+  /**
+   * constructs each ActivationFunction
+   * @param name name of ActivationFunction implemented
+   */
   ActivationFunction(String name) { this.name = name; }
 
   /**
@@ -29,19 +35,55 @@ public enum ActivationFunction {
    */
   public double eval(double val) {
     switch (this) {
+
+      // probably won't use this one
       case IDENTITY -> {
         return val;
       }
+
       case SIGMOID -> {
         return 1 / (1 + Math.exp(-val));
       }
+
       case GAUSSIAN ->  {
-        return Math.exp(1-Math.pow(1-val,2));
+        return Math.exp(Math.pow(-val,2));
       }
-      default -> {
-        System.err.println("[ERROR]: Unimplemented");
-        return 0.0F;
+
+      case RELU -> {
+        return (val > 0) ? val : 0;
       }
+
+      default ->
+        throw new RuntimeException("[ERROR]: Unimplemented ActivationFunction");
+    }
+  }
+
+  /**
+   * Evaluates the derivative o the ActivationFunction.
+   * @param val number evaluated under derivative of ActivationFunction
+   * @return eval under derivative of ActivationFunction
+   */
+  public double derivativeEval(double val) {
+    switch(this) {
+
+        case SIGMOID -> {
+          // clever derivative of sigmoid
+          return eval(val)*(1 - eval(val));
+        }
+
+        case IDENTITY -> {
+          return 1;
+        }
+
+        case GAUSSIAN -> {
+          return (-2 * val)*Math.exp(Math.pow(-val, 2));
+        }
+
+        case RELU -> {
+          return (val > 0) ? 1 : 0;
+        }
+
+        default -> throw new RuntimeException("[ERROR]: Unimplemented ActivationFunction");
     }
   }
 }

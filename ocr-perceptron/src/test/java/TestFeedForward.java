@@ -10,10 +10,11 @@ public class TestFeedForward {
     @Test
     public void testFeedForward() {
         Layer output = new Layer(2,null, ActivationFunction.SIGMOID, LossFunction.MSE);
-        Layer input = new Layer(3, output, ActivationFunction.SIGMOID, LossFunction.MAE);
+        Layer input = new Layer(3, output, ActivationFunction.SIGMOID, LossFunction.MSE);
         input.setActivations(new double[]{1, 1, 1});
-        input.setWeights(new double[][]{ {1, 1}, {1, 1}, {1, 1} });
-        output.setBias(new double[]{1,1});
+        input.setWeights(new double[][]{ {2, 2}, {1, 1}, {1, 1} });
+        input.displayWeights();
+        output.setBias(new double[]{0,1});
         Vector<Layer> l = new Vector<>();
         l.add(input);
         l.add(output);
@@ -24,10 +25,7 @@ public class TestFeedForward {
         n.outputLayer.displayActivations();
         double[] a = n.outputLayer.getActivations();
         ActivationFunction af = input.getAf();
-        for (double v : a) {
-            assert (v == af.eval(4));
-        }
-
-
+        assert (a[0] == af.eval(4));
+        assert (a[1] == af.eval(5));
     }
 }

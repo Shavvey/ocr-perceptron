@@ -1,5 +1,7 @@
 package com.perceptron.nn;
 import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Layers class is the work-horse of the whole neural network. It will encapsulate
@@ -67,12 +69,28 @@ public class Layer {
     public double[][] getWeights() {
         double[][] w = new double[this.getNextNeuronCount()][neuronCount];
         // TODO: make a more efficient array copy (will speed up other functions!)
+        // an more efficient implementation would be a mem copy and transpose!
         for (int j = 0; j < this.getNextNeuronCount(); j++) {
             for (int i = 0; i < this.neuronCount; i++) {
                 w[j][i] = neurons.get(i).weights[j];
             }
         }
         return w;
+    }
+
+    /**
+     * Quickly display what the weights matrix looks like, for testing purposes
+     */
+    public void displayWeights() {
+        double[][] w = this.getWeights();
+        StringBuilder sb = new StringBuilder();
+        for (double[] doubles : w) {
+            String s = IntStream.range(0, w[0].length)
+                    .mapToObj( i -> doubles[i] + " ")
+                    .collect(Collectors.joining("", "{ ", "}"));
+            sb.append(s).append('\n');
+        }
+        System.out.println(sb);
     }
 
     /**
@@ -111,11 +129,12 @@ public class Layer {
         double[] b = this.next.getBias();
         // calculate new layer of activations, for the next layer of neurons
         for (int j = 0; j < this.getNextNeuronCount(); j++) {
-            double sum = 0; // add bias from next layer
+            double sum = 0;
             for (int i = 0; i < neuronCount; i++) {
                 // calculate weighted sum of activations and weights of current Layer
                 sum += w[j][i] * a[i];
             }
+            // eval weighted sum under next Layer ActivationFunction
             next.neurons.get(j).activation = next.af.eval(sum + b[j]);
         }
     }
