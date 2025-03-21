@@ -1,6 +1,8 @@
 package com.perceptron.test_train;
 
 
+import com.perceptron.nn.CostFunction;
+
 import java.util.Arrays;
 
 /**
@@ -115,7 +117,7 @@ public class DataFrame {
    /**
     * decode label into an output value our NN needs to learn from
     * (very useful during backpropagation,
-    * evaluated by LossFunction {@link com.perceptron.nn.LossFunction})
+    * evaluated by LossFunction {@link CostFunction})
     * @return truth values
     */
    public double[] getTrueValues() {

@@ -5,17 +5,16 @@ package com.perceptron.nn;
  * Different functions cans be used for different layouts of neural networks.
  * @author: Cole Johnson
  */
-public enum LossFunction {
-    LOSS_LOG("LOSS_LOG"), // log loss error
-    MSE("MSE"), // mean square error
-    MAE("MAE"); // mean absolute error
+public enum CostFunction {
+    MSE("MSE"); //
+    // mean square error
     final private String name;
 
     /**
      * Constructor for each LossFunction implemented
      * @param name name of the LossFunction
      */
-    LossFunction(String name) { this.name = name; }
+    CostFunction(String name) { this.name = name; }
 
     /**
      * Return back name of LossFunction used.
@@ -35,38 +34,6 @@ public enum LossFunction {
     public double eval(double[] p, double[] y) {
         switch (this) {
 
-            case LOSS_LOG ->  {
-                double sum = 0;
-                double sample;
-
-                for (int i = 0; i < p.length; i++) {
-                    if(y[i] == 1) {
-                        sample = 1-Math.log10(p[i]);
-                    } else {
-                        sample = 1-Math.log10(1-p[i]);
-                    }
-                    sum += sample;
-                }
-
-                sum /= y.length;
-                sum = 1-sum;
-
-                return sum;
-            }
-
-            case MAE ->  {
-                double sum = 0;
-                double sample;
-
-                for (int i = 0; i < p.length; i++) {
-                    sample = y[i] - p[i];
-                    sum += sample;
-                }
-
-                sum /= y.length;
-                return sum;
-            }
-
             case MSE -> {
                 double sum = 0;
                 double sample;
@@ -76,9 +43,8 @@ public enum LossFunction {
                     sample = Math.pow(sample, 2);
                     sum += sample;
                 }
-
-                sum /= y.length;
-                sum /= 2;
+                
+                sum /= 2 * y.length;
                 return sum;
             }
 

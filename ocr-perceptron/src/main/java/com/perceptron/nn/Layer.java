@@ -14,10 +14,10 @@ public class Layer {
     // activation function
     final ActivationFunction af;
     // loss function
-    final LossFunction lf;
     final ArrayList<Neuron> neurons;
     // should be a linked list
     final Layer next;
+    // accrued 'delta'--basically changes we would like to make to the network
     double[] deltaSum;
 
     /**
@@ -25,13 +25,11 @@ public class Layer {
      * @param count count of neurons in <em>this</em> layer
      * @param next reference to <em>next</em> layer
      * @param af ActivationFunction used to determine the activity of next neural layer
-     * @param lf LossFunction used to describe the performance/loss of neural layer
      */
-    public Layer(int count, Layer next, ActivationFunction af, LossFunction lf) {
+    public Layer(int count, Layer next, ActivationFunction af) {
         // init neural layer based on layer count, activation, and loss function
         this.neuronCount = count;
         this.af = af;
-        this.lf = lf;
         this.next = next;
         this.neurons = new ArrayList<>(neuronCount);
         for (int i = 0; i < neuronCount; i++) {
@@ -131,13 +129,13 @@ public class Layer {
         double[] b = this.next.getBias();
         // calculate new layer of activations, for the next layer of neurons
         for (int j = 0; j < this.getNextNeuronCount(); j++) {
-            double sum = 0;
+            double sum = b[j]; // init sum by bias
             for (int i = 0; i < neuronCount; i++) {
                 // calculate weighted sum of activations and weights of current Layer
                 sum += w[j][i] * a[i];
             }
             // eval weighted sum under next Layer ActivationFunction
-            next.neurons.get(j).activation = next.af.eval(sum + b[j]);
+            next.neurons.get(j).activation = next.af.eval(sum);
         }
     }
 
@@ -148,7 +146,6 @@ public class Layer {
         System.out.println("Neuron Count: " + neuronCount);
         System.out.println("Next Layer Neuron Count: " + this.getNextNeuronCount());
         System.out.println("Activation Function: " + af.toString());
-        System.out.println("Loss Function: " + lf.toString());
     }
 
     /**
@@ -159,13 +156,6 @@ public class Layer {
         return neurons;
     }
 
-    /**
-     * Getter for Layer-level LossFunction {@link LossFunction}
-     * @return implemented LossFunction for this Layer
-     */
-    public LossFunction getLf() {
-        return lf;
-    }
 
     /**
      * Getter for Layer-level ActivationFunction {@link ActivationFunction}
@@ -233,7 +223,28 @@ public class Layer {
      * @return delta that we must accumulate during stochastic gradient descent
      */
     public double[] feedback(double[] pa) {
+        if (this.isOutput()) {
+
+        }
+        // compute delta for that we will accrue
         double[] delta = new double[neuronCount];
         return delta;
+
+    }
+
+    /**
+     * Check if current Layer is output (needed when computing the loss)
+     * @return boolean value representing whether Layer is output or not
+     */
+    public boolean isOutput() {
+        return next == null;
+    }
+
+    /**
+     * During training, we accrue deltas that represent changes to the network we would like to make.
+     * @return an array of delta, one for each neuron inside the Layer
+     */
+    public double[] getDelta()  {
+        return new double[]{0};
     }
 }

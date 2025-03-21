@@ -19,6 +19,8 @@ public class Neuron {
     // collection of connected weight to the next layer
     double[] weights;
     double bias;
+    double delta;
+    double deltaSum;
 
     /**
      * Constructor that just initializes activation and bias to zero
