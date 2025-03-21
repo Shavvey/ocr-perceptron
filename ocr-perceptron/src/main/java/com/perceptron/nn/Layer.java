@@ -1,5 +1,8 @@
 package com.perceptron.nn;
+import com.perceptron.util.Transpose;
+
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,6 +20,8 @@ public class Layer {
     final ArrayList<Neuron> neurons;
     // should be a linked list
     final Layer next;
+    // weighted sum of previous activations stored
+    double[] z;
     // accrued 'delta'--basically changes we would like to make to the network
     double[] deltaSum;
 
@@ -78,6 +83,14 @@ public class Layer {
     }
 
     /**
+     * Create new 2D array that represents the transpose of the weights
+     * @return new transposed weight matrix
+     */
+    public double[][] getTransposedWeight() {
+        return Transpose.t(this.getWeights());
+    }
+
+    /**
      * Quickly display what the weights matrix looks like, for testing purposes
      */
     public void displayWeights() {
@@ -121,19 +134,24 @@ public class Layer {
      * for the next layer should be
      */
     public void feedforward() {
+        final int nextNeuronCount = this.getNextNeuronCount();
         // get all weights of the layer
         double[][] w = this.getWeights();
         // get all activations of layer
         double[] a = this.getActivations();
         // get all biases of *next* layer
         double[] b = this.next.getBias();
+        // store weighted sum
+        double[] z = new double[nextNeuronCount];
         // calculate new layer of activations, for the next layer of neurons
-        for (int j = 0; j < this.getNextNeuronCount(); j++) {
+        for (int j = 0; j < nextNeuronCount; j++) {
             double sum = b[j]; // init sum by bias
             for (int i = 0; i < neuronCount; i++) {
                 // calculate weighted sum of activations and weights of current Layer
                 sum += w[j][i] * a[i];
             }
+            // store weighted sum (useful for backpropagation later)
+            z[j] = sum;
             // eval weighted sum under next Layer ActivationFunction
             next.neurons.get(j).activation = next.af.eval(sum);
         }
@@ -219,16 +237,21 @@ public class Layer {
 
     /**
      * compute delta-step during backpropagation
-     * @param pa previous activations recorded
+     * @param prev_deltas values obtained from
      * @return delta that we must accumulate during stochastic gradient descent
      */
-    public double[] feedback(double[] pa) {
+    public double[] getDelta(double[] prev_deltas) {
+        double[] a = this.getActivations();
+        double[] deltas = new double[neuronCount];
         if (this.isOutput()) {
-
+            for (int i = 0; i < prev_deltas.length; i++) {
+               deltas[i] = (a[i] - prev_deltas[i]) * this.af.derivativeEval(z[i]);
+            }
+        } else {
+            // very similar to feedforward
+            //for (int i = 0; i < )
         }
-        // compute delta for that we will accrue
-        double[] delta = new double[neuronCount];
-        return delta;
+        return deltas;
 
     }
 

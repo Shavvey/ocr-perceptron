@@ -41,7 +41,7 @@ public class Neuron {
         for (int i = 0; i < weights.length; i++) {
             // random value between -1 and 1
             // NOTE: if we init random weights it should at least have a mean centered at zero!
-            weights[i] = Stats.randDouble(Neuron.MIN_WEIGHT_VAL, Neuron.MAX_WEIGHT_VAL) / neuronCount;
+            weights[i] = Stats.randDouble(Neuron.MIN_WEIGHT_VAL, Neuron.MAX_WEIGHT_VAL);
         }
     }
 

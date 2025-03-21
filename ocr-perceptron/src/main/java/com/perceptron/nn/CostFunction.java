@@ -6,8 +6,10 @@ package com.perceptron.nn;
  * @author: Cole Johnson
  */
 public enum CostFunction {
-    MSE("MSE"); //
-    // mean square error
+    // mean-square error
+    MSE("MSE"),
+    // mean absolute error
+    MAE("MAE");
     final private String name;
 
     /**
@@ -31,7 +33,7 @@ public enum CostFunction {
      * @param y ground "truth" values (comes from DataFrame label)
      * @return "Loss" at a given {@link Layer}
      */
-    public double eval(double[] p, double[] y) {
+    public double cost(double[] p, double[] y) {
         switch (this) {
 
             case MSE -> {
@@ -43,8 +45,21 @@ public enum CostFunction {
                     sample = Math.pow(sample, 2);
                     sum += sample;
                 }
-                
+
                 sum /= 2 * y.length;
+                return sum;
+            }
+
+            case MAE ->  {
+                double sum = 0;
+                double sample;
+
+                for (int i = 0; i < p.length; i++) {
+                    sample = y[i] - p[i];
+                    sum += sample;
+                }
+
+                sum /= y.length;
                 return sum;
             }
 

@@ -76,14 +76,14 @@ public class NeuralNetwork {
     }
 
     /**
-     * Each taken during training
+     * Workhorse of training algorithm, compute cost, and feedback accrued 'delta'
      * @param df DataFrame we train on
      */
-    public void networkTrainStep(DataFrame df) {
+    public void feedback(DataFrame df) {
         // make prediction based on current configuration of nn
         double[] p = prediction(df);
-        // find errors using backpropagation/feedback
-
+        // compute cost
+        double cost = cf.cost(p, df.getTrueValues());
 
     }
 

@@ -19,9 +19,8 @@ public class TestCostFunction {
         NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, output);
         double[] ground_truth = df.getTrueValues();
         double[] prediction = nn.prediction(df);
-        double loss = nn.cf.eval(prediction, ground_truth);
+        double cost = nn.cf.cost(prediction, ground_truth);
         System.out.println(Arrays.toString(prediction));
-        System.out.println(loss);
-
+        System.out.println(cost);
     }
 }
