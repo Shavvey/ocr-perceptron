@@ -2,7 +2,6 @@ package com.perceptron.nn;
 import com.perceptron.util.Transpose;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -20,10 +19,11 @@ public class Layer {
     final ArrayList<Neuron> neurons;
     // should be a linked list
     final Layer next;
+    Layer prev;
     // weighted sum of previous activations stored
     double[] z;
     // accrued 'delta'--basically changes we would like to make to the network
-    double[] deltaSum;
+    double[][] deltaSum;
 
     /**
      * Main constructor for Layer class
@@ -86,7 +86,7 @@ public class Layer {
      * Create new 2D array that represents the transpose of the weights
      * @return new transposed weight matrix
      */
-    public double[][] getTransposedWeight() {
+    public double[][] getTransposedWeights() {
         return Transpose.t(this.getWeights());
     }
 
@@ -155,6 +155,8 @@ public class Layer {
             // eval weighted sum under next Layer ActivationFunction
             next.neurons.get(j).activation = next.af.eval(sum);
         }
+        // store the new weighted sums (we'll use these during backpropagation)
+        this.z = z;
     }
 
     /**
@@ -244,12 +246,18 @@ public class Layer {
         double[] a = this.getActivations();
         double[] deltas = new double[neuronCount];
         if (this.isOutput()) {
+            // NOTE: previous deltas here are really just the expected values here in the output Layer
             for (int i = 0; i < prev_deltas.length; i++) {
                deltas[i] = (a[i] - prev_deltas[i]) * this.af.derivativeEval(z[i]);
             }
         } else {
             // very similar to feedforward
-            //for (int i = 0; i < )
+            double[][] wt = this.getTransposedWeights();
+            for (int i = 0; i < wt.length; i++) {
+                for (int j = 0; j < wt[0].length; j++) {
+
+                }
+            }
         }
         return deltas;
 

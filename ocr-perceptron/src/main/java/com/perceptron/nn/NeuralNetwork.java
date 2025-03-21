@@ -34,6 +34,9 @@ public class NeuralNetwork {
         this.inputLayer = this.layers.getFirst();
         this.outputLayer = this.layers.getLast();
         this.cf = cf;
+        // make it so we can access references to previous Layers
+        // TODO: maybe refactor this, I wouldn't call this good
+        makePrevConn();
     }
 
     /**
@@ -84,7 +87,22 @@ public class NeuralNetwork {
         double[] p = prediction(df);
         // compute cost
         double cost = cf.cost(p, df.getTrueValues());
+        // first create deltas for output, then use backpropagation to feedback deltas
+        int outputLength = outputLayer.neuronCount;
+        double[] deltas = new double[outputLength];
 
+
+
+    }
+
+    /**
+     * Connect each Layer to their previous Layer
+     */
+    public void makePrevConn() {
+        for (int i = numLayers - 1; i < 0; --i) {
+            Layer current = layers.get(i);
+            current.prev = layers.get(i-1);
+        }
     }
 
 
