@@ -85,12 +85,22 @@ public class NeuralNetwork {
     public void feedback(DataFrame df) {
         // make prediction based on current configuration of nn
         double[] p = prediction(df);
+        //truth values (what are activations should be given the DataFrame)
+        double[] t = df.getTrueValues();
         // compute cost
         double cost = cf.cost(p, df.getTrueValues());
         // first create deltas for output, then use backpropagation to feedback deltas
         int outputLength = outputLayer.neuronCount;
         double[] deltas = new double[outputLength];
-
+        // compute first set of deltas
+        for (int i = 0; i < outputLength; i++) {
+            deltas[i] = (p[i]  - t[i])*outputLayer.af.derivativeEval(outputLayer.z[i]);
+        }
+        // backpropagation of result through the hidden layers of network
+        for (int i = numLayers - 1; i < 0; --i) {
+            Layer hidden = layers.get(i);
+            hidden.getDelta();
+        }
 
 
     }
@@ -104,6 +114,7 @@ public class NeuralNetwork {
             current.prev = layers.get(i-1);
         }
     }
+
 
 
 }

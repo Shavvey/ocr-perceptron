@@ -23,7 +23,7 @@ public class Layer {
     // weighted sum of previous activations stored
     double[] z;
     // accrued 'delta'--basically changes we would like to make to the network
-    double[][] deltaSum;
+    double[] deltaSum;
 
     /**
      * Main constructor for Layer class
@@ -37,6 +37,7 @@ public class Layer {
         this.af = af;
         this.next = next;
         this.neurons = new ArrayList<>(neuronCount);
+        // add each individual neuron inside the layer
         for (int i = 0; i < neuronCount; i++) {
             Neuron n =  new Neuron(this.getNextNeuronCount());
             n.randomizeWeights(neuronCount);
@@ -238,25 +239,21 @@ public class Layer {
 
 
     /**
-     * compute delta-step during backpropagation
+     * compute delta-step during backpropagation, called for each <em>hidden</em> Layer
      * @param prev_deltas values obtained from
      * @return delta that we must accumulate during stochastic gradient descent
      */
     public double[] getDelta(double[] prev_deltas) {
         double[] a = this.getActivations();
         double[] deltas = new double[neuronCount];
-        if (this.isOutput()) {
-            // NOTE: previous deltas here are really just the expected values here in the output Layer
-            for (int i = 0; i < prev_deltas.length; i++) {
-               deltas[i] = (a[i] - prev_deltas[i]) * this.af.derivativeEval(z[i]);
-            }
-        } else {
-            // very similar to feedforward
-            double[][] wt = this.getTransposedWeights();
-            for (int i = 0; i < wt.length; i++) {
-                for (int j = 0; j < wt[0].length; j++) {
+        // very similar to feedforward
+        double[][] wt = this.getTransposedWeights();
+        for (int j = 0; j < wt.length; j++) {
+            // init new delta
+            deltas[j] = 0;
+            for (int i = 0; i < wt[0].length; i++) {
+                // compute weighted sum
 
-                }
             }
         }
         return deltas;
