@@ -4,6 +4,7 @@ import com.perceptron.test_train.DataFrame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 
 /**
@@ -47,8 +48,12 @@ public class NeuralNetwork {
 
     }
 
+    /**
+     * Make full connections using previous and next layer pointers
+     */
     public void connect() {
         for (int i = 0; i < numLayers - 1; i++) {
+            // lazy approach we get the layer if it exists to provides use with null if not
             Layer current = layers.get(i);
             Layer next = layers.get(i + 1);
             // make outgoing connections for *current* layer
@@ -129,7 +134,27 @@ public class NeuralNetwork {
      * @param df DataFrame we train on
      */
     public void feedback(DataFrame df) {
+        // make prediction
+        double[] p = prediction(df);
+        // get 'true'/expected values
+        double[] t = df.getTrueValues();
+        // first compute deltas for the output layer (kinda like a 'base' case)
+        int idx = 0;
+        for (Neuron n : outputLayer.neurons) {
+            n.delta = (p[idx] - t[idx]) * n.af.derivativeEval(n.z);
+            idx++;
+        }
 
+        Iterator<Layer> rev = layers.reversed().iterator();
+        // skip output layer (just calculated that in the first step)
+        rev.next();
+        // iterate backwards over layers using reversed iterator (calc deltas in neurons at Layer level)
+        // NOTE: this involves of a lot delegating the problem into smaller sub-problems
+        while(rev.hasNext()) {
+            Layer l = rev.next();
+            l.display();
+            l.feedback();
+        }
     }
 
 

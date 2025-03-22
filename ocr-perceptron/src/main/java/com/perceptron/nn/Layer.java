@@ -226,4 +226,8 @@ public class Layer {
         return a;
     }
 
+    public void feedback() {
+
+    }
+
 }

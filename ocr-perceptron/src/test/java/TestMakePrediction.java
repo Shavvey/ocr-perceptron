@@ -27,8 +27,9 @@ public class TestMakePrediction {
         double[] p = nn.prediction(df);
         System.out.println("==PREDICTION==");
         System.out.println(Arrays.toString(p));
-
-
+        System.out.println("==COST==");
+        double cost = nn.cf.cost(p, df.getTrueValues());
+        System.out.println(cost);
 
     }
 }
