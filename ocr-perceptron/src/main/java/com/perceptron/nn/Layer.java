@@ -1,7 +1,6 @@
 package com.perceptron.nn;
 import com.perceptron.util.Stats;
 import com.perceptron.util.Transpose;
-import com.sun.security.jgss.GSSUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;

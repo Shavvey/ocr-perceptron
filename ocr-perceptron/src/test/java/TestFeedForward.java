@@ -15,6 +15,7 @@ public class TestFeedForward {
         i.setActivations(new double[]{1, 1, 1});
         System.out.println("==ACTIVATIONS==");
         // see if the activations are here
+        o.displayActivations();
         i.displayActivations();
         // now set the weights
         i.setWeights(new double[][]{{2, 2}, {1,1}, {1,1}});
@@ -23,15 +24,16 @@ public class TestFeedForward {
         i.displayWeights();
         i.displayTransposeWeights();
         System.out.println("==BIAS==");
-        o.setBias(new double[]{1,1});
+        o.setBias(new double[]{1,0});
         o.displayBias();
+        // test feedforward
         nn.feedforward();
         System.out.println("==NEW ACTIVATIONS==");
         double[] a = output.getActivations();
         output.displayActivations();
         ActivationFunction af = output.getAf();
-        assert(a[0] == af.eval(3));
-        assert(a[1] == af.eval(3));
+        assert(a[0] == af.eval(5));
+        assert(a[1] == af.eval(4));
 
     }
 }

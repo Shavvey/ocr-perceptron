@@ -77,12 +77,11 @@ public class Neuron {
         for (Connection incoming : in) {
             double activation = incoming.input.activation;
             double weight = incoming.weight;
-            System.out.println("Input activation: " + activation);
-            System.out.println("Weight: " + weight);
+            System.out.println("Input neuron activations: " + incoming.input.activation);
+            System.out.println("Output neuron activations: " + incoming.output.activation);
             sum += activation*weight;
         }
         this.z = sum;
-        System.out.println(sum);
         this.activation = af.eval(sum);
     }
 

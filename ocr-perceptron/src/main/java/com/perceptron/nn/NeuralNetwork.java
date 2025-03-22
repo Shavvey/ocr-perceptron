@@ -93,9 +93,9 @@ public class NeuralNetwork {
      * until we reach the output layer.
      */
     public void feedforward() {
-        for (Layer l : layers) {
+        for (int i = 1; i < numLayers; i++) {
+            Layer l = layers.get(i);
             l.feedforward();
-
         }
     }
 
