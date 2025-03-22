@@ -1,7 +1,9 @@
 package com.perceptron.nn;
+import com.perceptron.util.Stats;
 import com.perceptron.util.Transpose;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,33 +19,57 @@ public class Layer {
     final ActivationFunction af;
     // loss function
     final ArrayList<Neuron> neurons;
-    // should be a linked list
-    final Layer next;
-    Layer prev;
-    // weighted sum of previous activations stored
-    double[] z;
-    // accrued 'delta'--basically changes we would like to make to the network
-    double[] deltaSum;
 
     /**
      * Main constructor for Layer class
      * @param count count of neurons in <em>this</em> layer
-     * @param next reference to <em>next</em> layer
      * @param af ActivationFunction used to determine the activity of next neural layer
      */
-    public Layer(int count, Layer next, ActivationFunction af) {
+    public Layer(int count, ActivationFunction af) {
         // init neural layer based on layer count, activation, and loss function
         this.neuronCount = count;
         this.af = af;
-        this.next = next;
         this.neurons = new ArrayList<>(neuronCount);
         // add each individual neuron inside the layer
+
+    }
+
+    /**
+     * Helper method to make each {@link Neuron} in the Layer
+     * @param previousCount neuron count of <em>previous</em> Layer
+     * @param nextCount neuron count of <em>next</em> Layer
+     */
+    public void makeNeurons(int previousCount, int nextCount) {
         for (int i = 0; i < neuronCount; i++) {
-            Neuron n =  new Neuron(this.getNextNeuronCount());
-            n.randomizeWeights(neuronCount);
+            Neuron n  = new Neuron(previousCount, nextCount);
             neurons.add(n);
         }
     }
+
+    /**
+     * Make outgoing connections on this layer and
+     * then form the corresponding incoming connections
+     * on next layer
+     * @param next next Layer inside neural network
+     */
+    public void connect(Layer next) {
+        for (Neuron n : neurons) {
+            for (Neuron nn : next.neurons) {
+                // obtain some random weight
+                double weight = Stats.randDouble(0, 1);
+                // init *outgoing* for the neurons on *this* layer
+                Connection outgoing = new Connection(n,nn, weight);
+                // add outgoing neural connection
+                n.out.add(outgoing);
+                // init *incoming* connections for
+                Connection incoming = new Connection(nn, n, weight);
+                // add to incoming connections
+                nn.in.add(incoming);
+            }
+        }
+
+    }
+
 
     /**
      * Helper method to set activations of the neuron in its own layer
@@ -55,15 +81,16 @@ public class Layer {
         }
     }
 
+
     /**
      * Set weights for each neuron in the Layer
      * @param w weight matrix to set Neurons
      */
     public void setWeights(double[][] w) {
-        for (int i = 0; i < neuronCount; i++) {
-            Neuron n = neurons.get(i);
-            if (next.neuronCount >= 0)
-                System.arraycopy(w[i], 0, n.weights, 0, next.neuronCount);
+        for (int i = 0; i < w.length; i++) {
+            for (int j = 0; j < w[0].length; j++) {
+                neurons.get(i).out.get(j).weight = w[i][j];
+            }
         }
     }
 
@@ -72,15 +99,20 @@ public class Layer {
      * @return weights of layer inside a 2D array
      */
     public double[][] getWeights() {
-        double[][] w = new double[this.getNextNeuronCount()][neuronCount];
-        // TODO: make a more efficient array copy (will speed up other functions!)
-        // an more efficient implementation would be a mem copy and transpose!
-        for (int j = 0; j < this.getNextNeuronCount(); j++) {
-            for (int i = 0; i < this.neuronCount; i++) {
-                w[j][i] = neurons.get(i).weights[j];
+        int conCount = neurons.getFirst().out.size();
+        double[][] w = new double[neuronCount][conCount];
+        for (int j = 0; j < neuronCount; j++) {
+            for (int i = 0; i < conCount; i++) {
+                // just use an array copy dummy
+                w[j][i] = neurons.get(j).out.get(i).weight;
             }
         }
         return w;
+    }
+
+    public void displayWeights() {
+        double[][] w = this.getWeights();
+        System.out.println(Arrays.toString(w));
     }
 
     /**
@@ -91,20 +123,6 @@ public class Layer {
         return Transpose.t(this.getWeights());
     }
 
-    /**
-     * Quickly display what the weights matrix looks like, for testing purposes
-     */
-    public void displayWeights() {
-        double[][] w = this.getWeights();
-        StringBuilder sb = new StringBuilder();
-        for (double[] doubles : w) {
-            String s = IntStream.range(0, w[0].length)
-                    .mapToObj( i -> doubles[i] + " ")
-                    .collect(Collectors.joining("", "{ ", "}"));
-            sb.append(s).append('\n');
-        }
-        System.out.println(sb);
-    }
 
     /**
      * Return biases of entire Layer
@@ -135,29 +153,7 @@ public class Layer {
      * for the next layer should be
      */
     public void feedforward() {
-        final int nextNeuronCount = this.getNextNeuronCount();
-        // get all weights of the layer
-        double[][] w = this.getWeights();
-        // get all activations of layer
-        double[] a = this.getActivations();
-        // get all biases of *next* layer
-        double[] b = this.next.getBias();
-        // store weighted sum
-        double[] z = new double[nextNeuronCount];
-        // calculate new layer of activations, for the next layer of neurons
-        for (int j = 0; j < nextNeuronCount; j++) {
-            double sum = b[j]; // init sum by bias
-            for (int i = 0; i < neuronCount; i++) {
-                // calculate weighted sum of activations and weights of current Layer
-                sum += w[j][i] * a[i];
-            }
-            // store weighted sum (useful for backpropagation later)
-            z[j] = sum;
-            // eval weighted sum under next Layer ActivationFunction
-            next.neurons.get(j).activation = next.af.eval(sum);
-        }
-        // store the new weighted sums (we'll use these during backpropagation)
-        this.z = z;
+
     }
 
     /**
@@ -165,7 +161,6 @@ public class Layer {
      */
     public void display() {
         System.out.println("Neuron Count: " + neuronCount);
-        System.out.println("Next Layer Neuron Count: " + this.getNextNeuronCount());
         System.out.println("Activation Function: " + af.toString());
     }
 
@@ -186,22 +181,6 @@ public class Layer {
         return af;
     }
 
-    /**
-     * Getter to return next Layer's neuron count
-     * @return The number of Neurons in the next layer
-     * (returns zero, if the next Layer is not defined).
-     */
-    public int getNextNeuronCount() {
-        return (next == null) ? 0 : this.next.neuronCount;
-    }
-
-    /**
-     * Getter for the number of neurons in Layer.
-     * @return count of Neurons in current Layer
-     */
-    public int getNeuronCount() {
-        return neuronCount;
-    }
 
     /**
      * Build out string of activation values via {@link StringBuilder}.
@@ -237,42 +216,4 @@ public class Layer {
         return a;
     }
 
-
-    /**
-     * compute delta-step during backpropagation, called for each <em>hidden</em> Layer
-     * @param prev_deltas values obtained from
-     * @return delta that we must accumulate during stochastic gradient descent
-     */
-    public double[] getDelta(double[] prev_deltas) {
-        double[] a = this.getActivations();
-        double[] deltas = new double[neuronCount];
-        // very similar to feedforward
-        double[][] wt = this.getTransposedWeights();
-        for (int j = 0; j < wt.length; j++) {
-            // init new delta
-            deltas[j] = 0;
-            for (int i = 0; i < wt[0].length; i++) {
-                // compute weighted sum
-
-            }
-        }
-        return deltas;
-
-    }
-
-    /**
-     * Check if current Layer is output (needed when computing the loss)
-     * @return boolean value representing whether Layer is output or not
-     */
-    public boolean isOutput() {
-        return next == null;
-    }
-
-    /**
-     * During training, we accrue deltas that represent changes to the network we would like to make.
-     * @return an array of delta, one for each neuron inside the Layer
-     */
-    public double[] getDelta()  {
-        return new double[]{0};
-    }
 }

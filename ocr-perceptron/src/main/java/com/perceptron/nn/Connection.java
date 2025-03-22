@@ -3,8 +3,8 @@ package com.perceptron.nn;
 class Connection {
     Neuron in;
     Neuron out;
-    double weight=0;
-    double deltaSum=0;
+    double weight = 0;
+    double deltaSum = 0;
     Connection(Neuron in, Neuron out, double weight){
         this.in = in;
         this.out=out;

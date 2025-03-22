@@ -1,7 +1,7 @@
 package com.perceptron.nn;
 
-import com.perceptron.util.Stats;
 
+import java.util.ArrayList;
 
 
 /**
@@ -16,45 +16,30 @@ public class Neuron {
     private static final double MIN_WEIGHT_VAL = -1F;
     // 'brightness' of the activated neuron, based on `ActivationFunction`
     double activation;
+    // weighted sum
+    double z;
     // collection of connected weight to the next layer
-    double[] weights;
+    final ArrayList<Connection> in;
+    final ArrayList<Connection> out;
     double bias;
-    double[] deltaSum;
+    double deltaSum;
+    double delta;
 
     /**
-     * Constructor that just initializes activation and bias to zero
-     * (Weights must be dealt with later
+     * Create a new Neuron
+     * @param prevCount previous Layer neuron count
+     * @param nextCount next Layer neuron count
      */
-    Neuron(int weightCount) {
+    Neuron(int prevCount,  int nextCount) {
         // init activation to zero
         this.activation = 0;
         // init bias to zero
         this.bias = 0;
-        weights = new double[weightCount];
-        // init deltas (changes accrued during backpropagation)
-        deltaSum = new double[weightCount];
+        in = new ArrayList<>(prevCount);
+        out = new ArrayList<>(nextCount);
     }
 
-    /**
-     * constructs a set of random weights for a Neuron
-     */
-    void randomizeWeights(int neuronCount) {
-        for (int i = 0; i < weights.length; i++) {
-            // random value between -1 and 1
-            // NOTE: if we init random weights it should at least have a mean centered at zero!
-            weights[i] = Stats.randDouble(0, 1);
-        }
-    }
 
-    /**
-     * Helper function to calc deltas
-     * @param deltas deltas accrued from previous Layer
-     */
-    public void addDelta(double[] deltas) {
-        for (int i = 0; i < deltaSum.length; i++) {
-            deltaSum[i] += deltas[i];
-        }
-    }
 
     /**
      * Getter for activation value
@@ -62,6 +47,19 @@ public class Neuron {
      */
     public double getValue() {
         return activation;
+    }
+
+    /**
+     * Return all outgoing connections of Neuron
+     * @return array of weights to each outgoing neuron
+     */
+    public double[] getWeights() {
+        final int numConn = out.size(); // find number of outgoing connections
+        double[] w = new double[numConn];
+        for (int i = 0; i < numConn; i++) {
+            w[i] = this.out.get(i).weight;
+        }
+        return w;
     }
 
 

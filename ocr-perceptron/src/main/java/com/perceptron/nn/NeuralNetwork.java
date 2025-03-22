@@ -4,6 +4,7 @@ import com.perceptron.test_train.DataFrame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 
 /**
@@ -31,13 +32,35 @@ public class NeuralNetwork {
     public NeuralNetwork(CostFunction cf, Layer... layers) {
         this.layers = new ArrayList<>(Arrays.asList(layers));
         this.numLayers = this.layers.size();
+        // it's useful to hold references of input and output layers
         this.inputLayer = this.layers.getFirst();
         this.outputLayer = this.layers.getLast();
         this.cf = cf;
-        // make it so we can access references to previous Layers
-        // TODO: maybe refactor this, I wouldn't call this good
-        makePrevConn();
+        // connect each layer to each other
+        for (int i = 0; i < numLayers; i++) {
+            Layer l = getLayer(i);
+            int prevCount = this.getLayerCount(i - 1);
+            int nextCount = this.getLayerCount(i + 1);
+            // instantiate all the neurons needed for each layer
+            // each outgoing and incoming connections for each neuron
+            l.makeNeurons(prevCount, nextCount);
+        }
+        // make create fully connected layers
+        this.connect();
+
     }
+
+    public void connect() {
+        for (int i = 0; i < numLayers - 1; i++) {
+            Layer current = layers.get(i);
+            Layer next = layers.get(i + 1);
+            // make outgoing connections for *current* layer
+            // and then make connections
+            current.connect(next);
+        }
+    }
+
+
 
     /**
      * Display out the config of the neural network (delegated to the Layer Level)
@@ -46,6 +69,24 @@ public class NeuralNetwork {
         for (Layer l : layers) {
             // delegate task to Layers
             l.display();
+        }
+    }
+
+    public Layer getLayer(int index) {
+        if(index < 0 || index > numLayers - 1) {
+            return null;
+        } else {
+            return this.layers.get(index);
+        }
+    }
+
+    public int getLayerCount(int index) {
+        Layer l = this.getLayer(index);
+        if (l == null) {
+            // if layer is undefined, return zero
+            return 0;
+        } else {
+            return l.neuronCount;
         }
     }
 
@@ -83,37 +124,9 @@ public class NeuralNetwork {
      * @param df DataFrame we train on
      */
     public void feedback(DataFrame df) {
-        // make prediction based on current configuration of nn
-        double[] p = prediction(df);
-        //truth values (what are activations should be given the DataFrame)
-        double[] t = df.getTrueValues();
-        // compute cost
-        double cost = cf.cost(p, df.getTrueValues());
-        // first create deltas for output, then use backpropagation to feedback deltas
-        int outputLength = outputLayer.neuronCount;
-        double[] deltas = new double[outputLength];
-        // compute first set of deltas
-        for (int i = 0; i < outputLength; i++) {
-            deltas[i] = (p[i]  - t[i])*outputLayer.af.derivativeEval(outputLayer.z[i]);
-        }
-        // backpropagation of result through the hidden layers of network
-        for (int i = numLayers - 1; i < 0; --i) {
-            Layer hidden = layers.get(i);
-            hidden.getDelta();
-        }
-
 
     }
 
-    /**
-     * Connect each Layer to their previous Layer
-     */
-    public void makePrevConn() {
-        for (int i = numLayers - 1; i < 0; --i) {
-            Layer current = layers.get(i);
-            current.prev = layers.get(i-1);
-        }
-    }
 
 
 
