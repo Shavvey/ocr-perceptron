@@ -56,7 +56,7 @@ public class Layer {
         for (Neuron n : neurons) {
             for (Neuron nn : next.neurons) {
                 // obtain some random weight
-                double weight = Stats.randDouble(0, 1);
+                double weight = Stats.randDouble(Stats.MIN_WEIGHT_VAL, Stats.MAX_WEIGHT_VAL);
                 // init *outgoing* for the neurons on *this* layer
                 Connection conn = new Connection(n,nn, weight);
                 // add outgoing neural connection

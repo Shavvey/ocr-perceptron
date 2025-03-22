@@ -11,9 +11,6 @@ import java.util.ArrayList;
  * @author: Cole Johnson
  */
 public class Neuron {
-    // max and min weights any neuron can hold
-    private static final double MAX_WEIGHT_VAL = 1F;
-    private static final double MIN_WEIGHT_VAL = -1F;
     // 'brightness' of the activated neuron, based on `ActivationFunction`
     double activation;
     // weighted sum
@@ -77,8 +74,6 @@ public class Neuron {
         for (Connection incoming : in) {
             double activation = incoming.input.activation;
             double weight = incoming.weight;
-            System.out.println("Input neuron activations: " + incoming.input.activation);
-            System.out.println("Output neuron activations: " + incoming.output.activation);
             sum += activation*weight;
         }
         this.z = sum;

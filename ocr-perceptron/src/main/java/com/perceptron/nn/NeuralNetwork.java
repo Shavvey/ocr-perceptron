@@ -69,6 +69,11 @@ public class NeuralNetwork {
         }
     }
 
+    /**
+     * Returns back a layer in neural network
+     * @param index index of Layer {@link Layer}
+     * @return if index is valid, next back that Layer, otherwise return null
+     */
     public Layer getLayer(int index) {
         if(index < 0 || index > numLayers - 1) {
             return null;
@@ -77,6 +82,12 @@ public class NeuralNetwork {
         }
     }
 
+    /**
+     * Return number of neurons in given Layer {@link Layer}.
+     * If the Layer is undefined, return zero.
+     * @param index index of Layer inside neural network
+     * @return the  number of neurons inside the Layer
+     */
     public int getLayerCount(int index) {
         Layer l = this.getLayer(index);
         if (l == null) {
