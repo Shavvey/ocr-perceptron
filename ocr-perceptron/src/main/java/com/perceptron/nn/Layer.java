@@ -1,11 +1,11 @@
 package com.perceptron.nn;
 import com.perceptron.util.Stats;
 import com.perceptron.util.Transpose;
+import com.sun.security.jgss.GSSUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 /**
  * Layers class is the work-horse of the whole neural network. It will encapsulate
@@ -41,7 +41,8 @@ public class Layer {
      */
     public void makeNeurons(int previousCount, int nextCount) {
         for (int i = 0; i < neuronCount; i++) {
-            Neuron n  = new Neuron(previousCount, nextCount);
+            // pass previous layer count, next layer count, and local activation function
+            Neuron n  = new Neuron(previousCount, nextCount, af);
             neurons.add(n);
         }
     }
@@ -58,13 +59,11 @@ public class Layer {
                 // obtain some random weight
                 double weight = Stats.randDouble(0, 1);
                 // init *outgoing* for the neurons on *this* layer
-                Connection outgoing = new Connection(n,nn, weight);
+                Connection conn = new Connection(n,nn, weight);
                 // add outgoing neural connection
-                n.out.add(outgoing);
+                n.out.add(conn);
                 // init *incoming* connections for
-                Connection incoming = new Connection(nn, n, weight);
-                // add to incoming connections
-                nn.in.add(incoming);
+                nn.in.add(conn);
             }
         }
 
@@ -77,7 +76,8 @@ public class Layer {
      */
     public void setActivations(double[] a) {
         for (int i = 0; i < neuronCount; i++) {
-            neurons.get(i).activation = a[i];
+           Neuron n = neurons.get(i);
+           n.setActivation(a[i]);
         }
     }
 
@@ -89,7 +89,8 @@ public class Layer {
     public void setWeights(double[][] w) {
         for (int i = 0; i < w.length; i++) {
             for (int j = 0; j < w[0].length; j++) {
-                neurons.get(i).out.get(j).weight = w[i][j];
+                Neuron n = neurons.get(i);
+                n.out.get(j).weight = w[i][j];
             }
         }
     }
@@ -104,15 +105,31 @@ public class Layer {
         for (int j = 0; j < neuronCount; j++) {
             for (int i = 0; i < conCount; i++) {
                 // just use an array copy dummy
-                w[j][i] = neurons.get(j).out.get(i).weight;
+                Neuron n = neurons.get(j);
+                w[j][i] = n.out.get(i).weight;
             }
         }
         return w;
     }
 
+    /**
+     * display the weights of the current Layer
+     */
     public void displayWeights() {
         double[][] w = this.getWeights();
-        System.out.println(Arrays.toString(w));
+        for (double[] weights : w) {
+            System.out.println(Arrays.toString(weights));
+        }
+    }
+
+    /**
+     * display the weights of the current Layer
+     */
+    public void displayTransposeWeights() {
+        double[][] w = this.getTransposedWeights();
+        for (double[] weights : w) {
+            System.out.println(Arrays.toString(weights));
+        }
     }
 
     /**
@@ -137,6 +154,13 @@ public class Layer {
     }
 
     /**
+     * Helper method to return bias array
+     */
+    public void displayBias() {
+        System.out.println(Arrays.toString(this.getBias()));
+    }
+
+    /**
      * Set the bias for the entire Layer of neurons.
      * @param b bias for current Layer
      */
@@ -153,7 +177,9 @@ public class Layer {
      * for the next layer should be
      */
     public void feedforward() {
-
+        for (Neuron n : neurons) {
+            n.feedforward();
+        }
     }
 
     /**
@@ -183,25 +209,10 @@ public class Layer {
 
 
     /**
-     * Build out string of activation values via {@link StringBuilder}.
-     * @return string representation of Layer activations
-     */
-    private String activationsToString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('{');
-        for (int i = 0; i < neuronCount; i++) {
-            double a = neurons.get(i).activation;
-            sb.append(a).append(" ");
-        }
-        sb.append('}');
-        return sb.toString();
-    }
-
-    /**
      * Print out neural activations of Layer
      */
     public void displayActivations() {
-        System.out.println(this.activationsToString());
+        System.out.println(Arrays.toString(this.getActivations()));
     }
 
     /**

@@ -4,7 +4,6 @@ import com.perceptron.test_train.DataFrame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 
 /**
@@ -21,8 +20,6 @@ public class NeuralNetwork {
     public Layer outputLayer;
     public int numLayers;
     public final ArrayList<Layer> layers;
-    public final double LEARNING_RATE = 0.1;
-    public final int EPOCHS = 1100;
     public final CostFunction cf;
 
     /**
@@ -96,11 +93,8 @@ public class NeuralNetwork {
      * until we reach the output layer.
      */
     public void feedforward() {
-        // NOTE: we ignore the last layer in list because it
-        // is the output layer and has no next layer to pass new activations to
-        for (int i = 0; i < numLayers - 1; i++) {
-            Layer current = layers.get(i);
-            current.feedforward();
+        for (Layer l : layers) {
+            l.feedforward();
 
         }
     }

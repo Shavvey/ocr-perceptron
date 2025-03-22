@@ -22,6 +22,8 @@ public class Neuron {
     final ArrayList<Connection> in;
     final ArrayList<Connection> out;
     double bias;
+    // activation function needed for backpropagation and feedforward
+    final ActivationFunction af;
     double deltaSum;
     double delta;
 
@@ -30,13 +32,14 @@ public class Neuron {
      * @param prevCount previous Layer neuron count
      * @param nextCount next Layer neuron count
      */
-    Neuron(int prevCount,  int nextCount) {
+    Neuron(int prevCount,  int nextCount, ActivationFunction af) {
         // init activation to zero
         this.activation = 0;
         // init bias to zero
         this.bias = 0;
         in = new ArrayList<>(prevCount);
         out = new ArrayList<>(nextCount);
+        this.af = af;
     }
 
 
@@ -45,8 +48,12 @@ public class Neuron {
      * Getter for activation value
      * @return the current activation value for Neuron
      */
-    public double getValue() {
+    public double getActivation() {
         return activation;
+    }
+
+    public void setActivation(double a) {
+        this.activation = a;
     }
 
     /**
@@ -60,6 +67,23 @@ public class Neuron {
             w[i] = this.out.get(i).weight;
         }
         return w;
+    }
+
+    /**
+     * every Neuron iterates through all incoming
+     */
+    public void feedforward() {
+        double sum = bias;
+        for (Connection incoming : in) {
+            double activation = incoming.input.activation;
+            double weight = incoming.weight;
+            System.out.println("Input activation: " + activation);
+            System.out.println("Weight: " + weight);
+            sum += activation*weight;
+        }
+        this.z = sum;
+        System.out.println(sum);
+        this.activation = af.eval(sum);
     }
 
 

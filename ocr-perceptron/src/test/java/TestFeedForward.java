@@ -11,9 +11,27 @@ public class TestFeedForward {
         Layer input = new Layer(3, ActivationFunction.SIGMOID);
         NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, output);
         Layer i = nn.inputLayer;
-        i.setActivations(new double[]{1,1,1});
+        Layer o = nn.outputLayer;
+        i.setActivations(new double[]{1, 1, 1});
+        System.out.println("==ACTIVATIONS==");
         // see if the activations are here
         i.displayActivations();
         // now set the weights
+        i.setWeights(new double[][]{{2, 2}, {1,1}, {1,1}});
+        // print them
+        System.out.println("==WEIGHTS==");
+        i.displayWeights();
+        i.displayTransposeWeights();
+        System.out.println("==BIAS==");
+        o.setBias(new double[]{1,1});
+        o.displayBias();
+        nn.feedforward();
+        System.out.println("==NEW ACTIVATIONS==");
+        double[] a = output.getActivations();
+        output.displayActivations();
+        ActivationFunction af = output.getAf();
+        assert(a[0] == af.eval(3));
+        assert(a[1] == af.eval(3));
+
     }
 }
