@@ -2,6 +2,7 @@ package com.perceptron.nn;
 import com.perceptron.util.Stats;
 import com.perceptron.util.Transpose;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,7 +13,7 @@ import java.util.Arrays;
  * the Neural Network.
  * @author: Cole Johnson
  */
-public class Layer {
+public class Layer implements Serializable {
     final int neuronCount;
     // activation function
     final ActivationFunction af;

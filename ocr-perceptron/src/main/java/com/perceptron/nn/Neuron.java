@@ -1,6 +1,7 @@
 package com.perceptron.nn;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  * and operation: weights, activation, and bias
  * @author: Cole Johnson
  */
-public class Neuron {
+public class Neuron implements Serializable {
     // 'brightness' of the activated neuron, based on `ActivationFunction`
     double activation;
     // weighted sum

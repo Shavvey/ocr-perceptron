@@ -2,6 +2,7 @@ package com.perceptron.nn;
 
 import com.perceptron.test_train.DataFrame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -16,7 +17,7 @@ import java.util.Iterator;
  * @author Cole Johnson
  * @version 1.0
  */
-public class NeuralNetwork {
+public class NeuralNetwork implements Serializable {
     public Layer inputLayer;
     public Layer outputLayer;
     public int numLayers;
@@ -76,7 +77,7 @@ public class NeuralNetwork {
 
     /**
      * Returns back a layer in neural network
-     * @param index index of Layer {@link Layer}
+     * @param index index of {@link Layer}
      * @return if index is valid, next back that Layer, otherwise return null
      */
     public Layer getLayer(int index) {
@@ -88,7 +89,7 @@ public class NeuralNetwork {
     }
 
     /**
-     * Return number of neurons in given Layer {@link Layer}.
+     * Return number of neurons in given {@link Layer}.
      * If the Layer is undefined, return zero.
      * @param index index of Layer inside neural network
      * @return the  number of neurons inside the Layer
@@ -105,7 +106,7 @@ public class NeuralNetwork {
 
     /**
      * propagates initial activations of input {@link Layer} to next layers
-     * based on weights, bias, and ActivationFunction {@link ActivationFunction}
+     * based on weights, bias, and {@link ActivationFunction}
      * until we reach the output layer.
      */
     public void feedforward() {

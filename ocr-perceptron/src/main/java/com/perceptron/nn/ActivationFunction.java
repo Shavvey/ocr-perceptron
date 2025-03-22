@@ -1,12 +1,14 @@
 package com.perceptron.nn;
 
+import java.io.Serializable;
+
 /**
  * ActivationFunction is useful at the layer level to calculate
  * the activations of next layer. The function employed "squishes"
  * the real number line to values at [-1,1].
  * @author: Cole Johnson
  */
-public enum ActivationFunction {
+public enum ActivationFunction implements Serializable {
   SIGMOID("SIGMOID"),
   IDENTITY("IDENTITY"),
   GAUSSIAN("GAUSSIAN"),

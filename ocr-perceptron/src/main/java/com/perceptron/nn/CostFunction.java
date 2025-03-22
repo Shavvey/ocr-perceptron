@@ -1,11 +1,13 @@
 package com.perceptron.nn;
 
+import java.io.Serializable;
+
 /**
  * Function used to describe information loss on the layer/neural level.
  * Different functions cans be used for different layouts of neural networks.
  * @author: Cole Johnson
  */
-public enum CostFunction {
+public enum CostFunction implements Serializable {
     // mean-square error
     MSE("MSE"),
     // mean absolute error
