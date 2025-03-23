@@ -24,6 +24,7 @@ public class Neuron implements Serializable {
     final ActivationFunction af;
     double deltaSum;
     double delta;
+    int deltaStep;
 
     /**
      * Create a new Neuron
@@ -68,7 +69,9 @@ public class Neuron implements Serializable {
     }
 
     /**
-     * every Neuron iterates through all incoming
+     * Every Neuron iterates through all incoming weights
+     * and activation to obtain weighted sum 'z' then
+     * we use the non-linear af to obtain activations.
      */
     public void feedforward() {
         double sum = bias;
@@ -81,6 +84,67 @@ public class Neuron implements Serializable {
         this.activation = af.eval(sum);
     }
 
+    /**
+     * feedback at neuron level
+     */
+    public void feedback() {
+        double sum = 0;
+        double dZ = af.derivativeEval(z);
+        for (Connection outgoing  : out) {
+            sum += (outgoing.output.getDelta() * outgoing.weight);
+        }
+        this.delta = sum * dZ;
+        // add formed deltas to our incoming weights
+        for (Connection incoming : in) {
+            // accrue deltas for *incoming weights*
+            incoming.addDelta(this.delta);
+        }
+        // sum
+        deltaSum += delta;
+        deltaStep++;
 
+    }
 
+    /**
+     * Adjust weights and biases after accruing deltas in feedback step
+     * @param learning_rate user set value, determines how aggressive
+     * the adjustment of weights and biases is
+     */
+    public void learn(double learning_rate) {
+        this.bias -= learning_rate * deltaSum;
+        // reset accrued deltas
+        deltaSum = 0;
+        delta = 0;
+        deltaStep = 0;
+
+    }
+
+    /**
+     * Helper function that is used to set the delta
+     * @return delta value of neuron
+     */
+    public double getDelta() {
+        return delta;
+    }
+
+    /**
+     * Helper function to check if Neuron is a part of input layer.
+     * Works by examining if we have any incoming connections (which
+     * an output layer will not have).
+     * @return boolean value representing if neuron is in input layer.
+     */
+    public boolean isInput() {
+        return in.isEmpty();
+    }
+
+    /**
+     * Helper function to check if Neuron is a part of output layer.
+     * Works by examining if we have any outgoing connections (which
+     * an output layer will not have).
+     * @return boolean value representing if neuron is in output layer.
+     */
+    public boolean isOutput() {
+        return out.isEmpty();
+    }
+    
 }

@@ -132,33 +132,39 @@ public class NeuralNetwork implements Serializable {
 
     /**
      * Workhorse of training algorithm, compute cost, and feedback accrued 'delta'
-     * @param df DataFrame we train on
+     * @param t 'truth'/expected values
+     * @param p prediction made of neural network
      */
-    public void feedback(DataFrame df) {
-        // make prediction
-        double[] p = prediction(df);
-        // get 'true'/expected values
-        double[] t = df.getTrueValues();
-        // first compute deltas for the output layer (kinda like a 'base' case)
-        int idx = 0;
-        for (Neuron n : outputLayer.neurons) {
-            n.delta = (p[idx] - t[idx]) * n.af.derivativeEval(n.z);
-            idx++;
+    public void feedback(double[] t, double[] p) {
+        // compute initial deltas at the output layer
+        this.outputLayer.setOutputDeltas(t, p);
+        // create reverse iterator to feedback to deltas to hidden layers
+        Iterator<Layer> il = layers.reversed().iterator();
+        il.next();
+        while (il.hasNext()) {
+            Layer l = il.next();
+            if(!l.isInput()) {
+                l.feedback();
+            }
         }
 
-        Iterator<Layer> rev = layers.reversed().iterator();
-        // skip output layer (just calculated that in the first step)
-        rev.next();
-        // iterate backwards over layers using reversed iterator (calc deltas in neurons at Layer level)
-        // NOTE: this involves of a lot delegating the problem into smaller sub-problems
-        while(rev.hasNext()) {
-            Layer l = rev.next();
-            l.display();
-            l.feedback();
-        }
     }
 
-
-
-
+    /**
+     * Adjust weights and biases after accruing deltas in feedback step
+     * @param learning_rate user set value, determines how aggressive
+     * the adjustment of weights and biases is
+     */
+    public void learn(double learning_rate) {
+        // create reverse iterator to feedback to deltas to hidden layers
+        Iterator<Layer> il = layers.reversed().iterator();
+        il.next();
+        while (il.hasNext()) {
+            Layer l = il.next();
+            if (!l.isInput()) {
+                // learn at layer level
+                l.learn(learning_rate);
+            }
+        }
+    }
 }

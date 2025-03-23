@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 public class TestBackpropagation {
     @Test
     public void testBackpropagation() {
-        // configure network to take dataframe
-        CostFunction cf = CostFunction.MSE;
         // input layer can hold input as activations
         Layer input = new Layer(28*28, ActivationFunction.SIGMOID);
         // new cool hidden layer
@@ -21,6 +19,8 @@ public class TestBackpropagation {
         NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, hidden, output);
         // instantiate resource manager to hand us a dataframes (wasteful, but hey it's just a test)
         DataFrame df = ResourceManager.getTrainingData().next();
-        nn.feedback(df);
+        double[] p = nn.prediction(df);
+        double[] t = df.getTrueValues();
+        nn.feedback(t, p);
     }
 }

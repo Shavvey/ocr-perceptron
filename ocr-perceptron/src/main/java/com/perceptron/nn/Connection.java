@@ -26,10 +26,10 @@ class Connection implements Serializable {
 
     /**
      * learn (adjust weights on connection) after each step
-     * @param step controlled by learning rate of network
+     * @param learning_rate controlled by learning rate of network
      */
-    void learn(double step){
-        this.weight -= step * this.deltaSum;
+    void learn(double learning_rate){
+        this.weight -= learning_rate * this.deltaSum;
         this.deltaSum = 0;
     }
 

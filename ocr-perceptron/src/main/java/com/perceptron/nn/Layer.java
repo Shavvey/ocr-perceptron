@@ -227,8 +227,64 @@ public class Layer implements Serializable {
         return a;
     }
 
+    /**
+     * Feedback function is delegated as series of sub-problems on the neural level
+     */
     public void feedback() {
+        for (Neuron n : neurons) {
+            // delegate task to individual neurons
+            n.feedback();
+        }
+    }
 
+    /**
+     * Helper function to check if Layer is an output layer.
+     * Works by examining if we have any outgoing connections (which
+     * an output layer will not have).
+     * @return boolean value representing if neuron is in output layer.
+     */
+    public boolean isInput() {
+        return neurons.getFirst().isInput();
+    }
+
+    /**
+     * Helper function to check if Layer is an input layer.
+     * Works by examining if we have any incoming connections (which
+     * an output layer will not have).
+     * @return boolean value representing if neuron is in output layer.
+     */
+    public boolean isOutput() {
+        return neurons.getFirst().isOutput();
+    }
+
+    /**
+     * Base case where we calculate deltas of output layer
+     * @param t 'truth'/expected values
+     * @param p prediction values of network
+     */
+    public void setOutputDeltas(double[] t, double[] p) {
+        // first compute deltas for the output layer (kinda like a 'base' case)
+        int idx = 0;
+        for (Neuron n : neurons) {
+            n.delta = (p[idx] - t[idx]) * n.af.derivativeEval(n.z);
+            idx++;
+            for (Connection incoming : n.in) {
+                incoming.addDelta(n.delta);
+            }
+            n.deltaSum += n.delta;
+            n.deltaStep++;
+        }
+    }
+
+    /**
+     * Adjust weights and biases after accruing deltas in feedback step
+     * @param learning_rate user set value, determines how aggressive
+     * the adjustment of weights and biases is
+     */
+    public void learn(double learning_rate) {
+        for (Neuron n : neurons) {
+            n.learn(learning_rate);
+        }
     }
 
 }
