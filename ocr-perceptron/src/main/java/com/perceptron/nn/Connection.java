@@ -3,7 +3,7 @@ package com.perceptron.nn;
 import java.io.Serializable;
 
 /**
- * models individual connections for each {@link Neuron}
+ * Models individual connections for each {@link Neuron}
  * @author Cole Johnson
  * @version 1.0
  */

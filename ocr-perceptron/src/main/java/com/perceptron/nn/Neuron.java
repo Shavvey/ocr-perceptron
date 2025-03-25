@@ -111,6 +111,8 @@ public class Neuron implements Serializable {
      * the adjustment of weights and biases is
      */
     public void learn(double learning_rate) {
+        // adjust the bias the of the neuron based on accrued deltas
+        // which were calculated during backpropagation
         this.bias -= learning_rate * deltaSum;
         // reset accrued deltas
         deltaSum = 0;
@@ -146,5 +148,6 @@ public class Neuron implements Serializable {
     public boolean isOutput() {
         return out.isEmpty();
     }
+
     
 }

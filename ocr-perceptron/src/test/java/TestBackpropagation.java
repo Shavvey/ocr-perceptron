@@ -22,5 +22,6 @@ public class TestBackpropagation {
         double[] p = nn.prediction(df);
         double[] t = df.getTrueValues();
         nn.feedback(t, p);
+        nn.learn(0.15);
     }
 }
