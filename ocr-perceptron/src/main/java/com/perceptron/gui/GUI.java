@@ -13,7 +13,8 @@ public class GUI{
      */
 
     // adds components to main panel of Frame
-    public static void addComponents(Container pane) {
+    public static void addComponents(JFrame frame){
+        Container pane = frame.getContentPane();
         // colors used throughout
         Color primary_color = new Color(135, 167, 222);
         Color background = new Color(255, 232, 184);
@@ -38,6 +39,7 @@ public class GUI{
         area.setBackground(background);
         BlankArea blankArea = new BlankArea(background);
         area.setMaximumSize(new Dimension(420,420));
+        // blankArea.setMaximumSize(new Dimension(500,300));
 
         area.add(blankArea);
 
@@ -59,7 +61,7 @@ public class GUI{
             }
         });
 
-        // erase previous drawings in the panel
+        // erase prvious drawings in the panel
         JButton clear = new JButton("Clear");
         clear.setBackground(Color.red);
         clear.setMinimumSize(new Dimension(100,50));
@@ -77,15 +79,56 @@ public class GUI{
         footer.add(clear);
         pane.add(Box.createRigidArea(new Dimension(10,0)));
         footer.add(submit);
+
+        JButton go_to_network = new JButton("View Neural Network");
+
+        JButton back_to_home = new JButton("Back to Drawing");
+
+        // this button will take you to the neural network visual
+        go_to_network.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pane.removeAll(); // reset screen
+                pane.add(header); // add heading
+                pane.add(new Network(500, 500, 10,10,10), BorderLayout.CENTER); // add visual
+                JPanel buttons = new JPanel();
+                buttons.add(back_to_home);
+                pane.add(buttons); // add the back button
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+
+        // button will take you back to the drawing interface
+        back_to_home.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pane.removeAll(); // reset frame
+
+                // add all original elements
+                pane.add(header);
+                pane.add(info);
+                pane.add(Box.createRigidArea(new Dimension(0,25)));
+                pane.add(area);
+                pane.add(Box.createRigidArea(new Dimension(0,25)));
+                pane.add(footer);
+                pane.add(Box.createRigidArea(new Dimension(0,25)));
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+
+
+        footer.add(go_to_network);
         
         // set up layout
         pane.add(header);
-        // pane.add(text);
         pane.add(info);
         pane.add(Box.createRigidArea(new Dimension(0,25)));
         pane.add(area);
         pane.add(Box.createRigidArea(new Dimension(0,25)));
         pane.add(footer);
+        pane.add(Box.createRigidArea(new Dimension(0,25)));
     }
 
     private static void createAndShowGUI() {
@@ -102,7 +145,7 @@ public class GUI{
         
         frame.setContentPane(newContentPane);
 
-        addComponents(frame.getContentPane());
+        addComponents(frame);
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setMinimumSize(new Dimension(500,500));

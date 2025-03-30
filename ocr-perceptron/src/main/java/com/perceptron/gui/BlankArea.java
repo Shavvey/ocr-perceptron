@@ -64,7 +64,7 @@ public class BlankArea extends JPanel{
     public void saveToImage() {
         // Write the image to a file
         try {
-            ImageIO.write(drawingImage, "PNG", new File("canvas.png"));
+            ImageIO.write(drawingImage, "PNG", new File("drawing.png"));
             System.out.println("Image saved successfully.");
         } catch (IOException e) {
             e.printStackTrace();
