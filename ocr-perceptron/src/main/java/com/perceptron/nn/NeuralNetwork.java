@@ -25,15 +25,22 @@ public class NeuralNetwork implements Serializable {
     public final CostFunction cf;
 
     /**
-     * Constructor to make a neural network, based on layer {@link Layer} configuration.
+     * Constructor to make a neural network, based on layer {@link Layer} configuration
+     * passed through the constructor, done in a sequential manner.
      * @param layers a list of Layers that dictate structure of neural network
+     * throws an {@link IllegalArgumentException} if the network is composed
+     * of less than two layers. Should be passed sequentially {input, hidden(s), output}
      */
     public NeuralNetwork(CostFunction cf, Layer... layers) {
         this.layers = new ArrayList<>(Arrays.asList(layers));
         this.numLayers = this.layers.size();
+        if (numLayers < 2) {
+            throw new IllegalArgumentException("[ERROR]: Need at least two layers!");
+        }
         // it's useful to hold references of input and output layers
-        this.inputLayer = this.layers.getFirst();
-        this.outputLayer = this.layers.getLast();
+        this.inputLayer = this.layers.getFirst(); // first element should be input
+        this.outputLayer = this.layers.getLast(); // last element should be output
+        // cost function that is minimized during training
         this.cf = cf;
         // connect each layer to each other
         for (int i = 0; i < numLayers; i++) {
@@ -53,6 +60,7 @@ public class NeuralNetwork implements Serializable {
      * Make full connections using previous and next layer pointers
      */
     public void connect() {
+        // loop through each layer
         for (int i = 0; i < numLayers - 1; i++) {
             // lazy approach we get the layer if it exists to provides use with null if not
             Layer current = layers.get(i);
@@ -169,10 +177,13 @@ public class NeuralNetwork implements Serializable {
     }
 
     /**
-     * 
-     * @param learning_rate
+     * Main method during training of the neural network
+     * @param learning_rate adjust how 'aggressively' we adjust the weights
+     * and biases inside the network.
      */
     public void train(double learning_rate) {
+        // apply backpropagation
 
     }
+
 }

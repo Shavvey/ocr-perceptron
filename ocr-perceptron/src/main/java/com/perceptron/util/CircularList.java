@@ -43,6 +43,7 @@ public class CircularList<T> {
      */
     public void put(int index, T element) {
         int idx = index % capacity;
-        list.add(idx, element);
+        list.set(idx, element);
     }
+
 }

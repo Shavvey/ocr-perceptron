@@ -17,7 +17,7 @@ public class TestBackpropagation {
         Layer output = new Layer(10, ActivationFunction.SIGMOID);
         // create new nn based on config
         NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, hidden, output);
-        // instantiate resource manager to hand us a dataframes (wasteful, but hey it's just a test)
+        // instantiate resource manager to hand us dataframes (wasteful, but hey it's just a test)
         DataFrame df = ResourceManager.getTrainingData().next();
         double[] p = nn.prediction(df);
         double[] t = df.getTrueValues();
