@@ -4,160 +4,124 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class GUI{
-    /**
-     * Create the GUI and show it.
-     * Includes BlankArea that tracks mouse movement and actions
-     * Has a header, clear button, and submit button
-     */
 
-    // adds components to main panel of Frame
-    public static void addComponents(JFrame frame){
-        Container pane = frame.getContentPane();
-        // colors used throughout
-        Color primary_color = new Color(135, 167, 222);
-        Color background = new Color(255, 232, 184);
+public class GUI extends JFrame {
 
-        JPanel header = new JPanel();
-        JLabel title = new JLabel("<html><h1>Optical Character Recognition</h1></html>");
+    private static class DrawPanel extends JPanel {
+        private static final int DF_DIMENSION = 28;
+        final private static float[][] grid = new float[DF_DIMENSION][DF_DIMENSION];
+        private static int panelWidth;
+        private static int panelHeight;
+        private static final Color GRID_COLOR = Color.GRAY;
+        private static final Color FILL_COLOR = Color.YELLOW;
 
-        header.setMaximumSize(new Dimension(10000, 100));
-
-        header.setBackground(primary_color);
-        header.add(title);
-
-        JPanel info = new JPanel();
-        JLabel text = new JLabel("<html><h3>Please draw a letter in the following box</h3></html>");
-        info.setMaximumSize(new Dimension(900, 75));
-        info.add(text);
-        // text.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // cancvas for user to draw in
-        JPanel area = new JPanel();
-        area.setBorder(BorderFactory.createDashedBorder(Color.BLACK, 10, 10, 3, true));
-        area.setBackground(background);
-        BlankArea blankArea = new BlankArea(background);
-        area.setMaximumSize(new Dimension(420,420));
-        // blankArea.setMaximumSize(new Dimension(500,300));
-
-        area.add(blankArea);
-
-        // includes buttons
-        JPanel footer = new JPanel();
-
-        JButton submit = new JButton("Submit");
-        submit.setBackground(Color.green);
-        submit.setMinimumSize(new Dimension(100,50));
-        submit.setFont(submit.getFont().deriveFont(14.0F));
-
-        // Add ActionListener to the button
-        submit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Action to perform when the button is clicked
-                // JOptionPane.showMessageDialog(pane, "Ready to submit!");
-                blankArea.saveToImage();
+        public DrawPanel(int width, int height) {
+            setBackground(Color.BLACK);
+            panelWidth = width;
+            panelHeight = height;
+            for (int j = 0; j < DF_DIMENSION; j++) {
+                for (int i = 0; i < DF_DIMENSION; i++) {
+                    // init grid to zero
+                    grid[j][i] = 0.00F;
+                }
             }
-        });
+            MouseAdapter mouseAdapter = new MouseAdapter() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    Point p = e.getPoint() ;
+                    Dimension cellDim = getCellSize();
+                    int cellX = p.x / cellDim.width;
+                    int cellY = p.y / cellDim.height;
+                    System.out.println("Cell x: " + cellX);
+                    System.out.println("Cell y: " + cellY);
+                    grid[cellY][cellX] = 1F;
+                    // NOTE: pretty lazy repaint here, we could optimize but probably won't
+                    repaint();
 
-        // erase prvious drawings in the panel
-        JButton clear = new JButton("Clear");
-        clear.setBackground(Color.red);
-        clear.setMinimumSize(new Dimension(100,50));
-        clear.setFont(submit.getFont().deriveFont(14.0F));
+                }
+            };
+            addMouseMotionListener(mouseAdapter);
+        }
 
-        // Add ActionListener to the button
-        clear.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Clears all drawings in the blankarea
-                blankArea.clearDrawing();
+        public Dimension getCellSize() {
+            int height = getHeight();
+            int width = getWidth();
+            return new Dimension(width / DF_DIMENSION,  height / DF_DIMENSION);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            // maybe refactor this out as a constant later
+            return new Dimension(panelWidth,panelHeight);
+        }
+
+        private boolean isFilled(int y, int x) {
+            return grid[y][x] != 0;
+        }
+
+        private void clear() {
+            for (int j = 0; j < DF_DIMENSION; j++) {
+                for (int i = 0; i < DF_DIMENSION; i++) {
+                    // init grid to zero
+                    grid[j][i] = 0.00F;
+                }
             }
-        });
+        }
 
-        footer.add(clear);
-        pane.add(Box.createRigidArea(new Dimension(10,0)));
-        footer.add(submit);
+        public void drawGrid(Graphics g) {
+            int cellWidth = panelWidth / DF_DIMENSION;
+            int cellHeight = panelHeight / DF_DIMENSION;
 
-        JButton go_to_network = new JButton("View Neural Network");
-
-        JButton back_to_home = new JButton("Back to Drawing");
-
-        // this button will take you to the neural network visual
-        go_to_network.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pane.removeAll(); // reset screen
-                pane.add(header); // add heading
-                pane.add(new Network(500, 500, 10,10,10), BorderLayout.CENTER); // add visual
-                JPanel buttons = new JPanel();
-                buttons.add(back_to_home);
-                pane.add(buttons); // add the back button
-                frame.revalidate();
-                frame.repaint();
+            for (int j = 0; j < DF_DIMENSION; j++) {
+                for (int i = 0; i < DF_DIMENSION; i++) {
+                    if (grid[j][i] == 0F) {
+                        g.setColor(GRID_COLOR);
+                        g.drawRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                    } else {
+                        g.setColor(FILL_COLOR);
+                        g.fillRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                    }
+                }
             }
-        });
+        }
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            // draw grid
+            drawGrid(g);
 
-        // button will take you back to the drawing interface
-        back_to_home.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pane.removeAll(); // reset frame
-
-                // add all original elements
-                pane.add(header);
-                pane.add(info);
-                pane.add(Box.createRigidArea(new Dimension(0,25)));
-                pane.add(area);
-                pane.add(Box.createRigidArea(new Dimension(0,25)));
-                pane.add(footer);
-                pane.add(Box.createRigidArea(new Dimension(0,25)));
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
-
-
-        footer.add(go_to_network);
-        
-        // set up layout
-        pane.add(header);
-        pane.add(info);
-        pane.add(Box.createRigidArea(new Dimension(0,25)));
-        pane.add(area);
-        pane.add(Box.createRigidArea(new Dimension(0,25)));
-        pane.add(footer);
-        pane.add(Box.createRigidArea(new Dimension(0,25)));
+        }
     }
 
-    private static void createAndShowGUI() {
-        //Create and set up the window.
-        JFrame frame = new JFrame("Optical Character Recognition");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JPanel newContentPane = new JPanel();
-        // SpringLayout layout = new SpringLayout();
-        BoxLayout layout = new BoxLayout(newContentPane, BoxLayout.Y_AXIS);
-        newContentPane.setLayout(layout);
-        newContentPane.setOpaque(true); //content panes must be opaque
-        newContentPane.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        frame.setContentPane(newContentPane);
-
-        addComponents(frame);
-
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setMinimumSize(new Dimension(500,500));
-        frame.setVisible(true);
+    public GUI() {
+        super("OCR-Perceptron");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // TODO: implement a resize way to resize window dynamically
+        setResizable(false);
+        DrawPanel drawPanel = new DrawPanel(700,700);
+        JButton classifyButton = new JButton("Classify");
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(e -> {
+            drawPanel.clear();
+            repaint();
+        });
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(classifyButton);
+        buttonPanel.add(clearButton);
+        add(drawPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.PAGE_END);
+        pack();
+        drawPanel.requestFocus();
     }
- 
+
     public static void main(String[] args) {
-        //creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGUI();
-            }
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new GUI();
+            frame.setVisible(true);
         });
+
     }
 }
