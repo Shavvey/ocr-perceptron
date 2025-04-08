@@ -24,6 +24,7 @@ public class NeuralNetwork implements Serializable {
     public int numLayers;
     public final ArrayList<Layer> layers;
     public final CostFunction cf;
+    public final ResourceManager rm = new ResourceManager();
 
     /**
      * Constructor to make a neural network, based on layer {@link Layer} configuration
@@ -172,15 +173,16 @@ public class NeuralNetwork implements Serializable {
     /**
      * Main method during training of the neural network
      * @param learning_rate adjust how 'aggressively' we adjust the weights
-     * @param epochs number of intervals per each batch
+     * @param epochs number of complete passes through the data
      * @param batchSize number of labeled images inside each batch
-     * and biases inside the network.
+     * and biases inside the network (useful hyper-parameter in gradient descent)
      */
     public void train(double learning_rate, int epochs, int batchSize) {
+
         // first, use the resource manager to start pulling data frame
-        Iterator<DataFrame> it = ResourceManager.getTrainingData();
+        Iterator<DataFrame> it = rm.getTrainingData();
         for (int  i = 0; i < epochs; i++) {
-            for (int j = 0; j < batchSize;j++ ) {
+            for (int j = 0; j < batchSize; j++ ) {
                 DataFrame df = it.next();
                 // make a prediction
                 this.getPredictionVector(df);
@@ -218,7 +220,8 @@ public class NeuralNetwork implements Serializable {
     public void test() {
         int misses = 0;
         int hits = 0;
-        Iterator<DataFrame> it = ResourceManager.getTestData();
+        Iterator<DataFrame> it = rm.getTestData();
+        // iterate through entire testing training set
         while (it.hasNext()) {
             DataFrame df = it.next();
             int prediction = makePrediction(df);

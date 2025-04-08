@@ -53,20 +53,24 @@ public class DataFrameIterator implements Iterator<DataFrame> {
             // NOTE: maybe run logger here
             throw new RuntimeException(e);
         }
-        // else to try parse the line we get back (use csv parser to collect into data frame)
-        ArrayList<String> tokens = new ArrayList<>(Arrays.asList(line.split(CSV_REGEX)));
-        String label = tokens.removeFirst();
-        DataFrame frame = new DataFrame();
-        frame.setLabel(label);
-        for (int dy = 0; dy < DataFrame.FRAME_LENGTH; dy++) {
-            for (int dx = 0; dx < DataFrame.FRAME_LENGTH; dx++) {
-                String token = tokens.removeFirst();
-                int val = Integer.parseInt(token);
-                frame.setValue(dy, dx, (double) val /DataFrame.MAX_BRIGHTNESS);
+        if (line != null) {
+            // else to try parse the line we get back (use csv parser to collect into data frame)
+            ArrayList<String> tokens = new ArrayList<>(Arrays.asList(line.split(CSV_REGEX)));
+            String label = tokens.removeFirst();
+            DataFrame frame = new DataFrame();
+            frame.setLabel(label);
+            for (int dy = 0; dy < DataFrame.FRAME_LENGTH; dy++) {
+                for (int dx = 0; dx < DataFrame.FRAME_LENGTH; dx++) {
+                    String token = tokens.removeFirst();
+                    int val = Integer.parseInt(token);
+                    frame.setValue(dy, dx, (double) val / DataFrame.MAX_BRIGHTNESS);
+                }
             }
+            // construct dataframe from collected data and label, store to current cursor position
+            cursor = frame;
+        } else {
+            cursor = null;
         }
-        // construct dataframe from collected data and label, store to current cursor position
-        cursor = frame;
     }
 
     /**

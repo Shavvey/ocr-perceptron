@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI{
+public class GUI {
     /**
      * Create the GUI and show it.
      * Includes BlankArea that tracks mouse movement and actions
@@ -13,7 +13,7 @@ public class GUI{
      */
 
     // adds components to main panel of Frame
-    public static void addComponents(JFrame frame){
+    public static void addComponents(JFrame frame) {
         Container pane = frame.getContentPane();
         // colors used throughout
         Color primary_color = new Color(135, 167, 222);

@@ -9,28 +9,57 @@ import java.util.Iterator;
  * of {@link DataFrame}
  * @author: Cole Johnson
  */
-public final class ResourceManager {
+public class ResourceManager {
 
     private final static String TEST_FILE_PATH = "src/main/resources/mnist_test.csv";
     private final static String TRAIN_FILE_PATH = "src/main/resources/mnist_train.csv";
     // test and train data, separated into train and test files
     private static final File testFile = new File(TEST_FILE_PATH);
     private static final File trainFile = new File(TRAIN_FILE_PATH);
+    // test and train data sizes
+    private static final int testSize = 10000;
+    private static final int trainSize = 60000;
+    // iterators stored inside resource manager
+    DataFrameIterator testIterator;
+    DataFrameIterator trainIterator;
+
+    public ResourceManager() {
+        // init iterators to begin reading dataframes
+        testIterator = new DataFrameIterator(testFile);
+        trainIterator = new DataFrameIterator(trainFile);
+    }
+
+    /**
+     * Reset the iterators back to the start of train and test dataset.
+     */
+    public void reset() {
+        testIterator = new DataFrameIterator(testFile);
+        trainIterator = new DataFrameIterator(trainFile);
+    }
 
     /**
      * Return a iterator of training data.
      * @return Contains iterator that can be used to loop through
      * all training data without storing it all at once
      */
-    public static Iterator<DataFrame> getTrainingData() {
-        return new DataFrameIterator(trainFile);
+    public Iterator<DataFrame> getTrainingData() {
+        return testIterator;
     }
     /**
      * Return a iterator of test data.
      * @return Contains iterator that can be used to loop through
      * all testing data without storing it all at once
      */
-    public static Iterator<DataFrame> getTestData() {
-        return new DataFrameIterator(testFile);
+    public Iterator<DataFrame> getTestData() {
+        return trainIterator;
+    }
+
+
+    public static int getTestSize() {
+        return testSize;
+    }
+
+    public static int getTrainSize() {
+        return trainSize;
     }
 }
