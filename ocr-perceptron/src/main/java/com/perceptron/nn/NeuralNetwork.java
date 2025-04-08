@@ -1,6 +1,7 @@
 package com.perceptron.nn;
 
 import com.perceptron.test_train.DataFrame;
+import com.perceptron.test_train.ResourceManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -146,14 +147,11 @@ public class NeuralNetwork implements Serializable {
     public void feedback(double[] t, double[] p) {
         // compute initial deltas at the output layer
         this.outputLayer.setOutputDeltas(t, p);
-        // create reverse iterator to feedback to deltas to hidden layers
-        Iterator<Layer> il = layers.reversed().iterator();
-        il.next();
-        while (il.hasNext()) {
-            Layer l = il.next();
-            if(!l.isInput()) {
-                l.feedback();
-            }
+        // iterate through all layers **except the input layer** to accrue our set of deltas
+        // during each feedback step
+        for (int i = numLayers - 2; i > 0; i--) {
+            Layer l = getLayer(i);
+            l.feedback();
         }
 
     }
@@ -164,15 +162,10 @@ public class NeuralNetwork implements Serializable {
      * the adjustment of weights and biases is
      */
     public void learn(double learning_rate) {
-        // create reverse iterator to feedback to deltas to hidden layers
-        Iterator<Layer> il = layers.reversed().iterator();
-        il.next();
-        while (il.hasNext()) {
-            Layer l = il.next();
-            if (!l.isInput()) {
-                // learn at layer level
-                l.learn(learning_rate);
-            }
+        // iterate through all layers **except the input layer**, adjust all
+        // the weights and biases on each neuron inside the layers
+        for (int i = 1; i < numLayers; i++) {
+            this.getLayer(i).learn(learning_rate);
         }
     }
 
@@ -182,7 +175,8 @@ public class NeuralNetwork implements Serializable {
      * and biases inside the network.
      */
     public void train(double learning_rate) {
-        // apply backpropagation
+        // first, use the resource manager to start pulling data frame
+        Iterator<DataFrame> it = ResourceManager.getTrainingData();
 
     }
 
