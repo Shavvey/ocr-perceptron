@@ -26,6 +26,13 @@ public class TestSerialization {
         System.out.println(Arrays.toString(p));
         // serialize nn, then make prediction again,
         // if serialization interface works it should be the same
-
+        nn.serialize("example-model");
+        NeuralNetwork nnClone = NeuralNetwork.deserialize("example-model");
+        double[] p2 = nnClone.prediction(df);
+        System.out.println(Arrays.toString(p2));
+        // assert that clone and original nn should make the same prediction
+        for (int i = 0; i < p.length; i++) {
+            assert(p[i] == p2[i]);
+        }
     }
 }

@@ -18,7 +18,7 @@ public class CircularList<T> {
      * Create new Circular List
      * @param capacity how many elements the list will contain
      */
-    CircularList(int capacity) {
+    public CircularList(int capacity) {
         if (capacity == 0) throw new IllegalArgumentException("[ERROR]: Cannot have zero capacity list!");
         list = new ArrayList<>(capacity);
         this.capacity = capacity;

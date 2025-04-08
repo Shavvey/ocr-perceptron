@@ -3,7 +3,7 @@ package com.perceptron.nn;
 import com.perceptron.test_train.DataFrame;
 import com.perceptron.test_train.ResourceManager;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -172,12 +172,59 @@ public class NeuralNetwork implements Serializable {
     /**
      * Main method during training of the neural network
      * @param learning_rate adjust how 'aggressively' we adjust the weights
+     * @param epochs number of intervals per each batch
+     * @param batchSize number of labeled images inside each batch
      * and biases inside the network.
      */
-    public void train(double learning_rate) {
+    public void train(double learning_rate, int epochs, int batchSize) {
         // first, use the resource manager to start pulling data frame
         Iterator<DataFrame> it = ResourceManager.getTrainingData();
+        for (int  i = 0; i < epochs; i++) {
+            for (int j = 0; j < batchSize;j++ ) {
+                DataFrame df = it.next();
+                // make a prediction
+                this.prediction(df);
+                // feedback values
+                this.feedback(df.getTrueValues(), df.flatten());
 
+            }
+            this.learn(learning_rate); // learn off of accrued deltas
+        }
+
+    }
+
+    public void serialize(String name) {
+        final String PATH = "src/main/resources/models/";
+        try {
+            FileOutputStream fileOutput = new FileOutputStream(PATH + name + ".ser");
+            ObjectOutputStream outStream = new ObjectOutputStream(fileOutput);
+            outStream.writeObject(this);
+            outStream.close();
+            fileOutput.close();
+        } catch (IOException e) {
+            System.err.println("[ERROR]: Could not serialize object!");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static NeuralNetwork deserialize(String name) {
+        final String PATH = "src/main/resources/models/";
+        NeuralNetwork nn = null;
+        try {
+            FileInputStream fileInput = new FileInputStream(PATH + name + ".ser");
+            ObjectInputStream input = new ObjectInputStream(fileInput);
+            nn = (NeuralNetwork) input.readObject();
+
+        } catch (IOException e) {
+            System.err.println("[ERROR]: Could not deserialize object!");
+            throw new RuntimeException(e);
+
+        } catch (ClassNotFoundException e) {
+            System.err.println("[ERROR]: Could not find object!");
+            throw new RuntimeException(e);
+        }
+
+        return nn;
     }
 
 }
