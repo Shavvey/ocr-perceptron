@@ -9,6 +9,8 @@ import com.perceptron.nn.Layer;
 import com.perceptron.nn.NeuralNetwork;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class GUI extends JFrame {
@@ -103,7 +105,7 @@ public class GUI extends JFrame {
         private static int panelWidth;
         private static int panelHeight;
         public static int radius = 20;
-        public static Graphics2D graphic;
+        // public static Graphics2D graphic;
         public int vertical_space = 30;
 
         public DrawNetwork(int width, int height){ // should pass NeuralNetwork n as an argument
@@ -111,8 +113,10 @@ public class GUI extends JFrame {
             setBackground(Color.WHITE);
             panelWidth = width;
             panelHeight = height;
+        }
 
-            int num_layers = 3; // to come from the Neural Network Object (for testing)
+        private void drawStuff(Graphics g){
+            int numLayers = 3; // to come from the Neural Network Object (for testing)
             // int num_layers = n.numLayers;
             int x = 20;
             int y = 20;
@@ -120,20 +124,20 @@ public class GUI extends JFrame {
             // ArrayList<Layer> layers = n.layers;
 
             // for loop iterates through Layer object for each Neuron and iterates through its weights
-            for(int i=0; i<num_layers; i++){
+            for(int i=0; i<numLayers; i++){
                 // Layer l = layers.get(i); // not sure if it should be input or output layer?
                 // ArrayList<Neuron> neurons = l.getNeurons();
                 // int num_neurons = neurons.size();
-                int num_neurons = 10; // for testing
+                int numNeurons = 10; // for testing
 
                 // iterate through each of the layers Neuron objects
-                for(int j=0; j<num_neurons; j++){
+                for(int j=0; j<numNeurons; j++){
                     // Neuron neuron = neurons.get(i);
-                    addNode(x, y, Color.RED);
+                    addNode(x, y, Color.RED, g);
 
                     // double[] weights = neuron.getWeights();
                     double[] weights = {1,1,1,1,1,1,1,1}; // for testing
-                    int to_y = 20;
+                    int toY = 20;
 
                     // iterates through the Neurons weights array
                     for(int w=0; w<weights.length; w++){
@@ -141,9 +145,9 @@ public class GUI extends JFrame {
                         if(weights[i]<0.5){
                             continue;
                         }
-                        int to_x = panelWidth/2;
-                        to_y += vertical_space;
-                        drawArrows(x, y, to_x, to_y);
+                        int toX = panelWidth/2;
+                        toY += vertical_space;
+                        drawArrows(x, y, toX, toY, g);
                     }
                     y += vertical_space;
                 }
@@ -154,16 +158,16 @@ public class GUI extends JFrame {
         }
 
         // adding neurons visual area
-        private void addNode(int x, int y, Color color) {
+        private void addNode(int x, int y, Color color, Graphics graphic) {
             graphic.setColor(color); // Set the drawing color
             graphic.fillOval(x, y, radius, radius); // Draw a circle at given coordinates
             repaint();
         }
 
-        private void drawArrows(int from_x, int from_y, int to_x, int to_y){
+        private void drawArrows(int fromX, int fromY, int toX, int toY, Graphics graphic){
             // g.setStroke(new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
             graphic.setColor(Color.BLACK);
-            graphic.drawLine(from_x+radius, from_y+radius, to_x, to_y);
+            graphic.drawLine(fromX+radius, fromY+radius, toX, toY);
         }
 
         @Override
@@ -175,6 +179,7 @@ public class GUI extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+            drawStuff(g);
         }
     }
 
