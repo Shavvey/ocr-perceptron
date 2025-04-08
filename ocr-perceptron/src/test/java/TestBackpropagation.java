@@ -19,7 +19,7 @@ public class TestBackpropagation {
         NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, hidden, output);
         // instantiate resource manager to hand us dataframes (wasteful, but hey it's just a test)
         DataFrame df = ResourceManager.getTrainingData().next();
-        double[] p = nn.prediction(df);
+        double[] p = nn.getPredictionVector(df);
         double[] t = df.getTrueValues();
         nn.feedback(t, p);
         nn.learn(0.15);

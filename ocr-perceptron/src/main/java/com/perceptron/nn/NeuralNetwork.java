@@ -130,7 +130,7 @@ public class NeuralNetwork implements Serializable {
      * @return forward-pass activations of output Layer {@link Layer} which
      * represents a prediction made with current config of neural network
      */
-    public double[] prediction(DataFrame df) {
+    public double[] getPredictionVector(DataFrame df) {
         // hold input inside input layers of neural network
         inputLayer.setActivations(df.flatten());
         // propagate activations forward through current configuration
@@ -183,7 +183,7 @@ public class NeuralNetwork implements Serializable {
             for (int j = 0; j < batchSize;j++ ) {
                 DataFrame df = it.next();
                 // make a prediction
-                this.prediction(df);
+                this.getPredictionVector(df);
                 // feedback values
                 this.feedback(df.getTrueValues(), df.flatten());
 
@@ -193,6 +193,51 @@ public class NeuralNetwork implements Serializable {
 
     }
 
+    /**
+     * Make prediction of a given {@link DataFrame}.
+     * @param df dataframe network predicts off of
+     * @return predicted label [0-9], picked based on highest activations
+     */
+    public int makePrediction(DataFrame df) {
+        int prediction = 0;
+        double max = -1000F;
+        double[] p = getPredictionVector(df);
+        for (int i = 0; i < p.length; i++) {
+            if (max < p[i]) {
+                max = p[i];
+                prediction = i;
+            }
+        }
+        return prediction;
+    }
+
+    /**
+     * Test the network using the {@link ResourceManager}'s training data.
+     * Prints out the number of correct and incorrect predictions.
+     */
+    public void test() {
+        int misses = 0;
+        int hits = 0;
+        Iterator<DataFrame> it = ResourceManager.getTestData();
+        while (it.hasNext()) {
+            DataFrame df = it.next();
+            int prediction = makePrediction(df);
+            int label = Integer.parseInt(df.getLabel());
+            if (prediction == label) {
+                hits++;
+            } else {
+                misses++;
+            }
+        }
+        System.out.println("Incorrect predictions:" + misses);
+        System.out.println("Correct predictions:" + hits);
+    }
+
+    /**
+     * Serializes model to a .ser file
+     * @param name name of the new saved model
+     * throws an {@link IOException} if the model given can't be  serialized.
+     */
     public void serialize(String name) {
         final String PATH = "src/main/resources/models/";
         try {
@@ -207,6 +252,12 @@ public class NeuralNetwork implements Serializable {
         }
     }
 
+    /**
+     * Deserializes model from a .ser file
+     * throws an {@link IOException} if file doesn't exist or can't be deserialized.
+     * @param name name of the saved model inside `src/main/resources/models/`
+     * @return the new deserialized {@link NeuralNetwork}
+     */
     public static NeuralNetwork deserialize(String name) {
         final String PATH = "src/main/resources/models/";
         NeuralNetwork nn = null;

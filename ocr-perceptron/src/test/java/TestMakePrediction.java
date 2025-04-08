@@ -24,7 +24,7 @@ public class TestMakePrediction {
         // instantiate resource manager to hand us a dataframes (wasteful, but hey it's just a test)
         DataFrame df = ResourceManager.getTrainingData().next();
         // now make very wrong prediction based on initial nn config
-        double[] p = nn.prediction(df);
+        double[] p = nn.getPredictionVector(df);
         System.out.println("==PREDICTION==");
         System.out.println(Arrays.toString(p));
         System.out.println("==COST==");
