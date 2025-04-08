@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 application {
-    mainClass.set("com.perceptron.main.Main")
+    mainClass.set("com.perceptron.gui.GUI")
 }
 
 group = 'org.example'
