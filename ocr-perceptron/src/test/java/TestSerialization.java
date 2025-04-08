@@ -26,6 +26,5 @@ public class TestSerialization {
         System.out.println(Arrays.toString(p));
         // serialize nn, then make prediction again,
         // if serialization interface works it should be the same
-
     }
 }

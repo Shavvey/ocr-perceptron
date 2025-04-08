@@ -2,8 +2,6 @@ package com.perceptron.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import com.perceptron.nn.Neuron;
@@ -40,8 +38,8 @@ public class GUI extends JFrame {
                     Dimension cellDim = getCellSize();
                     int cellX = p.x / cellDim.width;
                     int cellY = p.y / cellDim.height;
-                    System.out.println("Cell x: " + cellX);
-                    System.out.println("Cell y: " + cellY);
+                   // System.out.println("Cell x: " + cellX);
+                   // System.out.println("Cell y: " + cellY);
                     grid[cellY][cellX] = 1F;
                     // NOTE: pretty lazy repaint here, we could optimize but probably won't
                     repaint();
@@ -183,7 +181,7 @@ public class GUI extends JFrame {
     public GUI() {
         super("OCR-Perceptron");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // TODO: implement a resize way to resize window dynamically
+        // TODO: implement a way to resize window dynamically
         setResizable(false);
         DrawPanel drawPanel = new DrawPanel(700,700);
         DrawNetwork drawNet = new DrawNetwork(700,700);
