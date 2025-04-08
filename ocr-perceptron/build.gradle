@@ -14,6 +14,13 @@ repositories {
     mavenCentral()
 }
 
+task gui(type: JavaExec) {
+    group = "Execution"
+    description = "Run the GUI main method"
+    classpath = sourceSets.main.runtimeClasspath
+    main = "com.perceptron.gui.GUI"
+}
+
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
