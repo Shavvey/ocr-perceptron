@@ -105,8 +105,6 @@ public class GUI extends JFrame {
         private static int panelWidth;
         private static int panelHeight;
         public static int radius = 20;
-        // public static Graphics2D graphic;
-        public int vertical_space = 30;
 
         public DrawNetwork(int width, int height){ // should pass NeuralNetwork n as an argument
             // NeuralNetwork n = new NeuralNetwork(null, null); // JUST FOR TESTING
@@ -117,9 +115,7 @@ public class GUI extends JFrame {
 
         private void drawStuff(Graphics g){
             int numLayers = 3; // to come from the Neural Network Object (for testing)
-            // int num_layers = n.numLayers;
-            int x = 20;
-            int y = 20;
+            // int numLayers = n.numLayers;
 
             // ArrayList<Layer> layers = n.layers;
 
@@ -127,47 +123,55 @@ public class GUI extends JFrame {
             for(int i=0; i<numLayers; i++){
                 // Layer l = layers.get(i); // not sure if it should be input or output layer?
                 // ArrayList<Neuron> neurons = l.getNeurons();
-                // int num_neurons = neurons.size();
+                // int numNeurons = neurons.size();
                 int numNeurons = 10; // for testing
+                double xOffset = ((double)i/(numLayers-1))*panelWidth;
+                if(i==numLayers-1){
+                    xOffset=panelWidth-radius;
+                }
+
+                int x=(int)xOffset;
 
                 // iterate through each of the layers Neuron objects
                 for(int j=0; j<numNeurons; j++){
+                    double yOffset = ((double)j/(numNeurons-1))*panelHeight;
+                    if(j==numNeurons-1){
+                        yOffset=panelHeight-radius;
+                    }
+
+                    int y = (int)yOffset;
                     // Neuron neuron = neurons.get(i);
-                    addNode(x, y, Color.RED, g);
 
                     // double[] weights = neuron.getWeights();
-                    double[] weights = {1,1,1,1,1,1,1,1}; // for testing
-                    int toY = 20;
+                    double[] weights = {1,0.4,1,1,1,.2,1,1,1,1}; // for testing
 
                     // iterates through the Neurons weights array
+                    int toX = (int)(((double)(i+1)/(numLayers-1))*panelWidth);
+                    int toYOffset = (int)(((double)1/(numNeurons-1))*panelHeight);
+
+                    int toY = 0;
                     for(int w=0; w<weights.length; w++){
                         // only show significant connections (may get rid of later)
-                        if(weights[i]<0.5){
-                            continue;
-                        }
-                        int toX = panelWidth/2;
-                        toY += vertical_space;
-                        drawArrows(x, y, toX, toY, g);
+                        System.out.println("w: " + w);
+                        if(weights[w]>=0.5 && i!=numLayers-1){
+                            drawArrows(x+radius/2, y+radius/2, toX+radius/2, toY+radius/2, g);
+                        } 
+                        toY += toYOffset;
                     }
-                    y += vertical_space;
+                    addNode(x, y, Color.RED, g);
                 }
-                y = 20;
-                x+=panelWidth/2;
             }
-            repaint();
         }
 
         // adding neurons visual area
         private void addNode(int x, int y, Color color, Graphics graphic) {
             graphic.setColor(color); // Set the drawing color
             graphic.fillOval(x, y, radius, radius); // Draw a circle at given coordinates
-            repaint();
         }
 
         private void drawArrows(int fromX, int fromY, int toX, int toY, Graphics graphic){
-            // g.setStroke(new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
             graphic.setColor(Color.BLACK);
-            graphic.drawLine(fromX+radius, fromY+radius, toX, toY);
+            graphic.drawLine(fromX, fromY, toX, toY);
         }
 
         @Override
