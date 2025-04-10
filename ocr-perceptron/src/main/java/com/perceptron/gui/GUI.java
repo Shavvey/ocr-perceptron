@@ -28,6 +28,11 @@ public class GUI extends JFrame {
         JPanel drawing = new JPanel();
         JPanel network = new JPanel();
 
+        JPanel prediction = new JPanel();
+        JLabel text = new JLabel("<html><h3>The prediction is:</h3></html>");
+        prediction.add(text);
+        
+
         BoxLayout drawlayout = new BoxLayout(drawing, BoxLayout.Y_AXIS);
         BoxLayout netlayout = new BoxLayout(network, BoxLayout.Y_AXIS);
         drawing.setLayout(drawlayout);
@@ -48,6 +53,7 @@ public class GUI extends JFrame {
                 buttonPanel.add(back_to_drawing);
                 network.add(drawNet);
                 network.add(buttonPanel);
+                network.add(prediction);
                 setContentPane(network);
                 pack();
                 network.requestFocus();
@@ -62,6 +68,7 @@ public class GUI extends JFrame {
                 buttonPanel.remove(back_to_drawing);
                 buttonPanel.add(viewNet);
                 drawing.add(buttonPanel);
+                drawing.add(prediction);
                 setContentPane(drawing);
                 pack();
                 drawing.requestFocus();
@@ -71,6 +78,7 @@ public class GUI extends JFrame {
 
         drawing.add(drawPanel);
         drawing.add(buttonPanel);
+        drawing.add(prediction);
         setContentPane(drawing);
         pack();
         drawing.requestFocus();
