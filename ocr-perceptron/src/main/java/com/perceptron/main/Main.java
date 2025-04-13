@@ -16,5 +16,6 @@ public class Main {
     NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, hidden, output);
     nn.display();
     nn.train(0.15,1,100);
+    nn.test();
   }
 }

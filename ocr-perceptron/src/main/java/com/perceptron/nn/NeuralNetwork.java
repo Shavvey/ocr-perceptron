@@ -2,6 +2,7 @@ package com.perceptron.nn;
 
 import com.perceptron.test_train.DataFrame;
 import com.perceptron.test_train.ResourceManager;
+import com.perceptron.util.CircularList;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -180,6 +181,7 @@ public class NeuralNetwork implements Serializable {
     public void train(double learning_rate, int epochs, int batchSize) {
         ResourceManager rm = new ResourceManager();
         int trainSize = ResourceManager.getTrainSize();
+        CircularList<Double> cl = new CircularList<>(trainSize / batchSize);
         if (trainSize % batchSize != 0) {
             throw new IllegalArgumentException("[ERROR]: Batch size needs to be divisible by the length of the training set" + trainSize);
         }
@@ -187,6 +189,7 @@ public class NeuralNetwork implements Serializable {
         Iterator<DataFrame> it = rm.getTrainingData();
         int parsed = 0;
         for (int e = 0; e < epochs; e++) {
+            double averageCost = 0;
             while (it.hasNext()) {
                 for (int b = 0; b < batchSize; b++) {
                     DataFrame df = it.next();
@@ -195,8 +198,12 @@ public class NeuralNetwork implements Serializable {
                     // feedback values
                     this.feedback(df);
                     parsed++;
+                    averageCost += getCost(df);;
                 }
+                averageCost /= batchSize;
+                System.out.println("Average cost of batch: " + averageCost);
                 this.learn(learning_rate); // learn off of accrued deltas
+
             }
             rm.reset();
         }
@@ -225,6 +232,7 @@ public class NeuralNetwork implements Serializable {
         int prediction = 0;
         double max = -1000F;
         double[] p = getPredictionVector(df);
+        // get highest activation of the output layer, set this as the prediction of network
         for (int i = 0; i < p.length; i++) {
             if (max < p[i]) {
                 max = p[i];
