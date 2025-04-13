@@ -17,5 +17,6 @@ public class Main {
     nn.display();
     nn.train(0.15,1,100);
     nn.test();
+    nn.serialize("model-1");
   }
 }
