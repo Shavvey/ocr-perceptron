@@ -16,7 +16,7 @@ public class Neuron implements Serializable {
     double activation;
     // weighted sum
     double z;
-    // collection of connected weight to the next layer
+    // collection of connected weights to the next layer
     final ArrayList<Connection> in;
     final ArrayList<Connection> out;
     double bias;

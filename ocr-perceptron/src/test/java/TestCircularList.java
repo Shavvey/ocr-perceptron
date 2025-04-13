@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import com.perceptron.util.CircularList;
 import org.junit.jupiter.api.Test;
 
