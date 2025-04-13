@@ -141,10 +141,11 @@ public class NeuralNetwork implements Serializable {
 
     /**
      * Workhorse of training algorithm, compute cost, and feedback accrued 'delta'
-     * @param t 'truth'/expected values
-     * @param p prediction made of neural network
+     * @param df {@link DataFrame} back-propagated deltas based on the {@link DataFrame}
      */
-    public void feedback(double[] t, double[] p) {
+    public void feedback(DataFrame df) {
+        double[] t = df.getTrueValues();
+        double[] p = outputLayer.getActivations();
         // compute initial deltas at the output layer
         this.outputLayer.setOutputDeltas(t, p);
         // iterate through all layers **except the input layer** to accrue our set of deltas
@@ -178,20 +179,41 @@ public class NeuralNetwork implements Serializable {
      */
     public void train(double learning_rate, int epochs, int batchSize) {
         ResourceManager rm = new ResourceManager();
+        int trainSize = ResourceManager.getTrainSize();
+        if (trainSize % batchSize != 0) {
+            throw new IllegalArgumentException("[ERROR]: Batch size needs to be divisible by the length of the training set" + trainSize);
+        }
         // first, use the resource manager to start pulling data frame
         Iterator<DataFrame> it = rm.getTrainingData();
-        for (int  i = 0; i < epochs; i++) {
-            for (int j = 0; j < batchSize; j++ ) {
-                DataFrame df = it.next();
-                // make a prediction
-                this.getPredictionVector(df);
-                // feedback values
-                this.feedback(df.getTrueValues(), df.flatten());
-
+        int parsed = 0;
+        for (int e = 0; e < epochs; e++) {
+            while (it.hasNext()) {
+                for (int b = 0; b < batchSize; b++) {
+                    DataFrame df = it.next();
+                    // make a prediction
+                    double[] d = this.getPredictionVector(df);
+                    // feedback values
+                    this.feedback(df);
+                    parsed++;
+                }
+                this.learn(learning_rate); // learn off of accrued deltas
             }
-            this.learn(learning_rate); // learn off of accrued deltas
+            rm.reset();
         }
+        System.out.println("Total frames parsed: " + parsed);
 
+
+    }
+
+    /**
+     * Simple getter method that calls {@link CostFunction implementation}.
+     * @param df {@link DataFrame} sample to compute cost of (approximates learning of labeled item)
+     * @return the cost of given instance of labeled {@link DataFrame}.
+     */
+    public double getCost(DataFrame df) {
+        double[] p = this.outputLayer.getActivations();
+        double[] t = df.getTrueValues();
+        return this.cf.cost(p, t);
     }
 
     /**

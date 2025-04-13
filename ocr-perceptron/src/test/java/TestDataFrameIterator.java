@@ -8,14 +8,16 @@ import java.util.Iterator;
 public class TestDataFrameIterator {
     @Test
     public void testIterator() {
+        int parsed = 0;
         ResourceManager rm = new ResourceManager();
         Iterator<DataFrame> it = rm.getTrainingData();
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < ResourceManager.getTrainSize(); i++) {
             if(it.hasNext()) {
                 DataFrame d = it.next();
                 d.display();
             }
-
+            parsed++;
         }
+        System.out.println("Total parsed DataFrames: " + parsed);
     }
 }

@@ -22,7 +22,7 @@ public class TestBackpropagation {
         DataFrame df = rm.getTrainingData().next();
         double[] p = nn.getPredictionVector(df);
         double[] t = df.getTrueValues();
-        nn.feedback(t, p);
+        nn.feedback(df);
         nn.learn(0.15);
     }
 }

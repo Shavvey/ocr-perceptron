@@ -85,7 +85,7 @@ public class Neuron implements Serializable {
     }
 
     /**
-     * feedback at neuron level
+     * Feedback at neuron level
      */
     public void feedback() {
         double sum = 0;
@@ -101,6 +101,7 @@ public class Neuron implements Serializable {
         }
         // sum
         deltaSum += delta;
+        // increment number of delta steps
         deltaStep++;
 
     }
@@ -114,6 +115,10 @@ public class Neuron implements Serializable {
         // adjust the bias the of the neuron based on accrued deltas
         // which were calculated during backpropagation
         this.bias -= learning_rate * deltaSum;
+        for (Connection c : in) {
+            // adjust weights of all incoming connections
+            c.learn(learning_rate);
+        }
         // reset accrued deltas
         deltaSum = 0;
         delta = 0;
