@@ -8,7 +8,8 @@ import java.util.Iterator;
 public class TestDataFrameIterator {
     @Test
     public void testIterator() {
-        Iterator<DataFrame> it = ResourceManager.getTrainingData();
+        ResourceManager rm = new ResourceManager();
+        Iterator<DataFrame> it = rm.getTrainingData();
         for(int i = 0; i < 20; i++) {
             if(it.hasNext()) {
                 DataFrame d = it.next();

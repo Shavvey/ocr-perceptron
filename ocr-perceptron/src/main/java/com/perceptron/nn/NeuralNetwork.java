@@ -24,7 +24,6 @@ public class NeuralNetwork implements Serializable {
     public int numLayers;
     public final ArrayList<Layer> layers;
     public final CostFunction cf;
-    public final ResourceManager rm = new ResourceManager();
 
     /**
      * Constructor to make a neural network, based on layer {@link Layer} configuration
@@ -178,7 +177,7 @@ public class NeuralNetwork implements Serializable {
      * and biases inside the network (useful hyper-parameter in gradient descent)
      */
     public void train(double learning_rate, int epochs, int batchSize) {
-
+        ResourceManager rm = new ResourceManager();
         // first, use the resource manager to start pulling data frame
         Iterator<DataFrame> it = rm.getTrainingData();
         for (int  i = 0; i < epochs; i++) {
@@ -218,6 +217,7 @@ public class NeuralNetwork implements Serializable {
      * Prints out the number of correct and incorrect predictions.
      */
     public void test() {
+        ResourceManager rm = new ResourceManager();
         int misses = 0;
         int hits = 0;
         Iterator<DataFrame> it = rm.getTestData();

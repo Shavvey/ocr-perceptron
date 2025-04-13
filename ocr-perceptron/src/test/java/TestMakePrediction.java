@@ -11,6 +11,7 @@ import java.util.Arrays;
 public class TestMakePrediction {
     @Test
     public void testMakePrediction() {
+        ResourceManager rm = new ResourceManager();
         // configure network to take dataframe
         CostFunction cf = CostFunction.MSE;
         // input layer can hold input as activations
@@ -22,7 +23,7 @@ public class TestMakePrediction {
         // create new nn based on config
         NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, hidden, output);
         // instantiate resource manager to hand us a dataframes (wasteful, but hey it's just a test)
-        DataFrame df = ResourceManager.getTrainingData().next();
+        DataFrame df = rm.getTrainingData().next();
         // now make very wrong prediction based on initial nn config
         double[] p = nn.getPredictionVector(df);
         System.out.println("==PREDICTION==");

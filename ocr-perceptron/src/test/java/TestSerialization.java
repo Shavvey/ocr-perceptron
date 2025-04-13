@@ -11,6 +11,7 @@ import java.util.Arrays;
 public class TestSerialization {
     @Test
     public void testSerialization() {
+        ResourceManager rm = new ResourceManager();
         // input layer can hold input as activations
         Layer input = new Layer(28*28, ActivationFunction.SIGMOID);
         // new cool hidden layer
@@ -20,7 +21,7 @@ public class TestSerialization {
         // create new nn based on config
         NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, hidden, output);
         // instantiate resource manager to hand us a dataframes (wasteful, but hey it's just a test)
-        DataFrame df = ResourceManager.getTrainingData().next();
+        DataFrame df = rm.getTrainingData().next();
         // now make very wrong prediction based on initial nn config
         double[] p = nn.getPredictionVector(df);
         System.out.println(Arrays.toString(p));
