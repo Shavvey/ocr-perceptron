@@ -32,6 +32,12 @@ public class DrawNetwork extends JPanel{
             // ArrayList<Neuron> neurons = l.getNeurons();
             // int numNeurons = neurons.size();
             int numNeurons = 10; // for testing
+
+            // for large numbers of neurons, recalculate the radius
+            if(numNeurons > 30){
+                radius = panelHeight/numNeurons;
+            }
+            
             double xOffset = ((double)i/(numLayers-1))*panelWidth; // calculate where each layer should be drawn
             if(i==numLayers-1){
                 xOffset=panelWidth-radius;
