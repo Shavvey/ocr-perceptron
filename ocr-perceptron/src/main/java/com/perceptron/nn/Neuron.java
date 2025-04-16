@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Neuron the main unit of the {@link NeuralNetwork}
  * contains the basic information we need during test, training
  * and operation: weights, activation, and bias
+ *
  * @author: Cole Johnson
  */
 public class Neuron implements Serializable {
@@ -28,10 +29,11 @@ public class Neuron implements Serializable {
 
     /**
      * Create a new Neuron
+     *
      * @param prevCount previous Layer neuron count
      * @param nextCount next Layer neuron count
      */
-    Neuron(int prevCount,  int nextCount, ActivationFunction af) {
+    Neuron(int prevCount, int nextCount, ActivationFunction af) {
         // init activation to zero
         this.activation = 0;
         // init bias to zero
@@ -42,9 +44,9 @@ public class Neuron implements Serializable {
     }
 
 
-
     /**
      * Getter for activation value
+     *
      * @return the current activation value for Neuron
      */
     public double getActivation() {
@@ -57,6 +59,7 @@ public class Neuron implements Serializable {
 
     /**
      * Return all outgoing connections of Neuron
+     *
      * @return array of weights to each outgoing neuron
      */
     public double[] getWeights() {
@@ -78,7 +81,7 @@ public class Neuron implements Serializable {
         for (Connection incoming : in) {
             double activation = incoming.input.activation;
             double weight = incoming.weight;
-            sum += activation*weight;
+            sum += activation * weight;
         }
         this.z = sum;
         this.activation = af.eval(sum);
@@ -90,7 +93,7 @@ public class Neuron implements Serializable {
     public void feedback() {
         double sum = 0;
         double dZ = af.derivativeEval(z);
-        for (Connection outgoing  : out) {
+        for (Connection outgoing : out) {
             sum += (outgoing.output.getDelta() * outgoing.weight);
         }
         this.delta = sum * dZ;
@@ -108,8 +111,9 @@ public class Neuron implements Serializable {
 
     /**
      * Adjust weights and biases after accruing deltas in feedback step
+     *
      * @param learning_rate user set value, determines how aggressive
-     * the adjustment of weights and biases is
+     *                      the adjustment of weights and biases is
      */
     public void learn(double learning_rate) {
         // adjust the bias the of the neuron based on accrued deltas
@@ -128,6 +132,7 @@ public class Neuron implements Serializable {
 
     /**
      * Helper function that is used to set the delta
+     *
      * @return delta value of neuron
      */
     public double getDelta() {
@@ -138,6 +143,7 @@ public class Neuron implements Serializable {
      * Helper function to check if Neuron is a part of input layer.
      * Works by examining if we have any incoming connections (which
      * an output layer will not have).
+     *
      * @return boolean value representing if neuron is in input layer.
      */
     public boolean isInput() {
@@ -148,11 +154,12 @@ public class Neuron implements Serializable {
      * Helper function to check if Neuron is a part of output layer.
      * Works by examining if we have any outgoing connections (which
      * an output layer will not have).
+     *
      * @return boolean value representing if neuron is in output layer.
      */
     public boolean isOutput() {
         return out.isEmpty();
     }
 
-    
+
 }

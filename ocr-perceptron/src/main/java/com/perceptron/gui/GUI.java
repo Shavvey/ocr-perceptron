@@ -11,13 +11,13 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // TODO: implement a way to resize window dynamically
         setResizable(false);
-        DrawPanel drawPanel = new DrawPanel(700,700);
-        DrawNetwork drawNet = new DrawNetwork(700,700);
+        DrawPanel drawPanel = new DrawPanel(700, 700);
+        DrawNetwork drawNet = new DrawNetwork(700, 700);
         JButton classifyButton = new JButton("Classify");
         JButton clearButton = new JButton("Clear");
 
         JButton viewNet = new JButton("View Neural Network");
-        JButton back_to_drawing = new JButton("Back to Drawing");
+        JButton viewDrawing = new JButton("Back to Drawing");
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(classifyButton);
@@ -30,49 +30,44 @@ public class GUI extends JFrame {
         JPanel prediction = new JPanel();
         JLabel text = new JLabel("<html><h3>The prediction is:</h3></html>");
         prediction.add(text);
-        
 
-        BoxLayout drawlayout = new BoxLayout(drawing, BoxLayout.Y_AXIS);
-        BoxLayout netlayout = new BoxLayout(network, BoxLayout.Y_AXIS);
-        drawing.setLayout(drawlayout);
-        network.setLayout(netlayout);
 
-        clearButton.addActionListener(e -> {
+        BoxLayout drawLayout = new BoxLayout(drawing, BoxLayout.Y_AXIS);
+        BoxLayout netLayout = new BoxLayout(network, BoxLayout.Y_AXIS);
+        drawing.setLayout(drawLayout);
+        network.setLayout(netLayout);
+
+        clearButton.addActionListener(_ -> {
             drawPanel.clear();
             repaint();
         });
 
         // adding buttons to switch view
-        viewNet.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buttonPanel.remove(viewNet);
-                buttonPanel.remove(clearButton);
-                buttonPanel.remove(classifyButton);
-                buttonPanel.add(back_to_drawing);
-                network.add(drawNet);
-                network.add(buttonPanel);
-                network.add(prediction);
-                setContentPane(network);
-                pack();
-                network.requestFocus();
-                repaint();
-            }
+        viewNet.addActionListener(_ -> {
+            buttonPanel.remove(viewNet);
+            buttonPanel.remove(clearButton);
+            buttonPanel.remove(classifyButton);
+            buttonPanel.add(viewDrawing);
+            network.add(drawNet);
+            network.add(buttonPanel);
+            network.add(prediction);
+            setContentPane(network);
+            pack();
+            network.requestFocus();
+            repaint();
         });
-        back_to_drawing.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buttonPanel.add(clearButton);
-                buttonPanel.add(classifyButton);
-                buttonPanel.remove(back_to_drawing);
-                buttonPanel.add(viewNet);
-                drawing.add(buttonPanel);
-                drawing.add(prediction);
-                setContentPane(drawing);
-                pack();
-                drawing.requestFocus();
-                repaint();
-            }
+
+        viewDrawing.addActionListener(_ -> {
+            buttonPanel.add(clearButton);
+            buttonPanel.add(classifyButton);
+            buttonPanel.remove(viewDrawing);
+            buttonPanel.add(viewNet);
+            drawing.add(buttonPanel);
+            drawing.add(prediction);
+            setContentPane(drawing);
+            pack();
+            drawing.requestFocus();
+            repaint();
         });
 
         drawing.add(drawPanel);

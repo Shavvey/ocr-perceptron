@@ -12,6 +12,7 @@ import java.util.Iterator;
  * return each line into a DataFrame. The motivation for this class
  * was to avoid storing all DataFrames at once, increasing the performance
  * of testing and training.
+ *
  * @author: Cole Johnson
  */
 public class DataFrameIterator implements Iterator<DataFrame> {
@@ -24,6 +25,7 @@ public class DataFrameIterator implements Iterator<DataFrame> {
 
     /**
      * Constructs an iterator of DataFrames given a file to data (either training or test).
+     *
      * @param file file that points to neural network training or test data
      */
     DataFrameIterator(File file) {
@@ -75,6 +77,7 @@ public class DataFrameIterator implements Iterator<DataFrame> {
 
     /**
      * Checks whether data has been exhausted.
+     *
      * @return boolean value to determine if no more frames exist
      */
     @Override
@@ -84,6 +87,7 @@ public class DataFrameIterator implements Iterator<DataFrame> {
 
     /**
      * Gives back a DataFrame, should be called during iteration.
+     *
      * @return next DataFrame inside buffer
      */
     @Override

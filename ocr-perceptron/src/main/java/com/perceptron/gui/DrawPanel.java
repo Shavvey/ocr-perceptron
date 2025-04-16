@@ -26,12 +26,12 @@ public class DrawPanel extends JPanel {
         MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                Point p = e.getPoint() ;
+                Point p = e.getPoint();
                 Dimension cellDim = getCellSize();
                 int cellX = p.x / cellDim.width;
                 int cellY = p.y / cellDim.height;
-               // System.out.println("Cell x: " + cellX);
-               // System.out.println("Cell y: " + cellY);
+                // System.out.println("Cell x: " + cellX);
+                // System.out.println("Cell y: " + cellY);
                 grid[cellY][cellX] = 1F;
                 // NOTE: pretty lazy repaint here, we could optimize but probably won't
                 repaint();
@@ -44,13 +44,13 @@ public class DrawPanel extends JPanel {
     public Dimension getCellSize() {
         int height = getHeight();
         int width = getWidth();
-        return new Dimension(width / DF_DIMENSION,  height / DF_DIMENSION);
+        return new Dimension(width / DF_DIMENSION, height / DF_DIMENSION);
     }
 
     @Override
     public Dimension getPreferredSize() {
         // maybe refactor this out as a constant later
-        return new Dimension(panelWidth,panelHeight);
+        return new Dimension(panelWidth, panelHeight);
     }
 
     private boolean isFilled(int y, int x) {
@@ -82,6 +82,7 @@ public class DrawPanel extends JPanel {
             }
         }
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

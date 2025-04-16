@@ -7,6 +7,7 @@ import java.util.Iterator;
  * Utility class to create manage test and train data,
  * mainly provides other classes with a convenient iteration
  * of {@link DataFrame}s
+ *
  * @author: Cole Johnson
  */
 public class ResourceManager {
@@ -39,14 +40,17 @@ public class ResourceManager {
 
     /**
      * Return a iterator of training data.
+     *
      * @return Contains iterator that can be used to loop through
      * all training data without storing it all at once
      */
     public Iterator<DataFrame> getTrainingData() {
         return trainIterator;
     }
+
     /**
      * Return a iterator of test data.
+     *
      * @return Contains iterator that can be used to loop through
      * all testing data without storing it all at once
      */
@@ -56,6 +60,7 @@ public class ResourceManager {
 
     /**
      * Returns the size of the test set.
+     *
      * @return number of {@link DataFrame}s in test set
      */
     public static int getTestSize() {
@@ -64,6 +69,7 @@ public class ResourceManager {
 
     /**
      * Returns the size of the training set
+     *
      * @return number of {@link DataFrame}s in training set
      */
     public static int getTrainSize() {

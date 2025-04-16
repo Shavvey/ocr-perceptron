@@ -2,7 +2,7 @@ package com.perceptron.nn;
 
 import com.perceptron.test_train.DataFrame;
 import com.perceptron.test_train.ResourceManager;
-import com.perceptron.util.CircularList;
+import com.perceptron.util.CostList;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import java.util.Iterator;
  *     <li> {@link Neuron}: a simplified neuron with an activation value, weight, etc. </li>
  *     <li> {@link Layer}: a collection of neurons equipped with an activation and loss function for training </li>
  * </ol>
+ *
  * @author Cole Johnson
  * @version 1.0
  */
@@ -29,9 +30,10 @@ public class NeuralNetwork implements Serializable {
     /**
      * Constructor to make a neural network, based on layer {@link Layer} configuration
      * passed through the constructor, done in a sequential manner.
+     *
      * @param layers a list of Layers that dictate structure of neural network
-     * throws an {@link IllegalArgumentException} if the network is composed
-     * of less than two layers. Should be passed sequentially {input, hidden(s), output}
+     *               throws an {@link IllegalArgumentException} if the network is composed
+     *               of less than two layers. Should be passed sequentially {input, hidden(s), output}
      */
     public NeuralNetwork(CostFunction cf, Layer... layers) {
         this.layers = new ArrayList<>(Arrays.asList(layers));
@@ -74,7 +76,6 @@ public class NeuralNetwork implements Serializable {
     }
 
 
-
     /**
      * Display out the config of the neural network (delegated to the Layer Level)
      */
@@ -87,11 +88,12 @@ public class NeuralNetwork implements Serializable {
 
     /**
      * Returns back a layer in neural network
+     *
      * @param index index of {@link Layer}
      * @return if index is valid, next back that Layer, otherwise return null
      */
     public Layer getLayer(int index) {
-        if(index < 0 || index > numLayers - 1) {
+        if (index < 0 || index > numLayers - 1) {
             return null;
         } else {
             return this.layers.get(index);
@@ -101,6 +103,7 @@ public class NeuralNetwork implements Serializable {
     /**
      * Return number of neurons in given {@link Layer}.
      * If the Layer is undefined, return zero.
+     *
      * @param index index of Layer inside neural network
      * @return the  number of neurons inside the Layer
      */
@@ -142,6 +145,7 @@ public class NeuralNetwork implements Serializable {
 
     /**
      * Workhorse of training algorithm, compute cost, and feedback accrued 'delta'
+     *
      * @param df {@link DataFrame} back-propagated deltas based on the {@link DataFrame}
      */
     public void feedback(DataFrame df) {
@@ -160,8 +164,9 @@ public class NeuralNetwork implements Serializable {
 
     /**
      * Adjust weights and biases after accruing deltas in feedback step
+     *
      * @param learning_rate user set value, determines how aggressive
-     * the adjustment of weights and biases is
+     *                      the adjustment of weights and biases is
      */
     public void learn(double learning_rate) {
         // iterate through all layers **except the input layer**, adjust all
@@ -173,15 +178,16 @@ public class NeuralNetwork implements Serializable {
 
     /**
      * Main method during training of the neural network
+     *
      * @param learning_rate adjust how 'aggressively' we adjust the weights
-     * @param epochs number of complete passes through the data
-     * @param batchSize number of labeled images inside each batch
-     * and biases inside the network (useful hyper-parameter in gradient descent)
+     * @param epochs        number of complete passes through the data
+     * @param batchSize     number of labeled images inside each batch
+     *                      and biases inside the network (useful hyper-parameter in gradient descent)
      */
     public void train(double learning_rate, int epochs, int batchSize) {
         ResourceManager rm = new ResourceManager();
         int trainSize = ResourceManager.getTrainSize();
-        CircularList<Double> cl = new CircularList<>(trainSize / batchSize);
+        CostList cl = new CostList(trainSize / batchSize);
         if (trainSize % batchSize != 0) {
             throw new IllegalArgumentException("[ERROR]: Batch size needs to be divisible by the length of the training set" + trainSize);
         }
@@ -198,7 +204,7 @@ public class NeuralNetwork implements Serializable {
                     // feedback values
                     this.feedback(df);
                     parsed++;
-                    averageCost += getCost(df);;
+                    averageCost += getCost(df);
                 }
                 averageCost /= batchSize;
                 System.out.println("Average cost of batch: " + averageCost);
@@ -214,6 +220,7 @@ public class NeuralNetwork implements Serializable {
 
     /**
      * Simple getter method that calls {@link CostFunction implementation}.
+     *
      * @param df {@link DataFrame} sample to compute cost of (approximates learning of labeled item)
      * @return the cost of given instance of labeled {@link DataFrame}.
      */
@@ -225,6 +232,7 @@ public class NeuralNetwork implements Serializable {
 
     /**
      * Make prediction of a given {@link DataFrame}.
+     *
      * @param df dataframe network predicts off of
      * @return predicted label [0-9], picked based on highest activations
      */
@@ -268,8 +276,9 @@ public class NeuralNetwork implements Serializable {
 
     /**
      * Serializes model to a .ser file
+     *
      * @param name name of the new saved model
-     * throws an {@link IOException} if the model given can't be  serialized.
+     *             throws an {@link IOException} if the model given can't be  serialized.
      */
     public void serialize(String name) {
         final String PATH = "src/main/resources/models/";
@@ -288,6 +297,7 @@ public class NeuralNetwork implements Serializable {
     /**
      * Deserializes model from a .ser file
      * throws an {@link IOException} if file doesn't exist or can't be deserialized.
+     *
      * @param name name of the saved model inside `src/main/resources/models/`
      * @return the new deserialized {@link NeuralNetwork}
      */

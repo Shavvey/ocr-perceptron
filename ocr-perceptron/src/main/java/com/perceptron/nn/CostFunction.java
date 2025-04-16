@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Function used to describe information loss on the layer/neural level.
  * Different functions cans be used for different layouts of neural networks.
+ *
  * @author: Cole Johnson
  */
 public enum CostFunction implements Serializable {
@@ -16,12 +17,16 @@ public enum CostFunction implements Serializable {
 
     /**
      * Constructor for each LossFunction implemented
+     *
      * @param name name of the LossFunction
      */
-    CostFunction(String name) { this.name = name; }
+    CostFunction(String name) {
+        this.name = name;
+    }
 
     /**
      * Return back name of LossFunction used.
+     *
      * @return name of LossFunction
      */
     public String getName() {
@@ -31,6 +36,7 @@ public enum CostFunction implements Serializable {
 
     /**
      * Evaluate loss under LossFunction
+     *
      * @param p prediction values
      * @param y ground "truth" values (comes from DataFrame label)
      * @return "Loss" at a given {@link Layer}
@@ -52,7 +58,7 @@ public enum CostFunction implements Serializable {
                 return sum;
             }
 
-            case MAE ->  {
+            case MAE -> {
                 double sum = 0;
                 double sample;
 
@@ -65,8 +71,7 @@ public enum CostFunction implements Serializable {
                 return sum;
             }
 
-            default ->
-                throw new RuntimeException("[WARNING]: Unimplemented eval!");
+            default -> throw new RuntimeException("[WARNING]: Unimplemented eval!");
         }
     }
 }

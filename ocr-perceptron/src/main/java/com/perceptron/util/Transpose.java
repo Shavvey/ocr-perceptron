@@ -3,6 +3,7 @@ package com.perceptron.util;
 public final class Transpose {
     /**
      * method to transpose some matrix m of lengths (i,j)
+     *
      * @param m original matrix
      * @return new transposed matrix of lengths (j,i)
      */

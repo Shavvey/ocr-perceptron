@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Models individual connections for each {@link Neuron}
+ *
  * @author Cole Johnson
  * @version 1.0
  */
@@ -14,7 +15,7 @@ class Connection implements Serializable {
     double deltaSum;
 
     /**
-     * @param input incoming neuron
+     * @param input  incoming neuron
      * @param output outgoing neuron
      * @param weight the weight between these neurons
      */
@@ -26,6 +27,7 @@ class Connection implements Serializable {
 
     /**
      * learn (adjust weights on connection) after each step
+     *
      * @param learning_rate controlled by learning rate of network
      */
     void learn(double learning_rate) {
@@ -36,9 +38,10 @@ class Connection implements Serializable {
     /**
      * method called during feedback/backpropagation to accrue changes we would
      * like to make to the connection during "mini" batches in training.
+     *
      * @param delta add delta values accrued during backpropagation
      */
-    void addDelta(double delta){
+    void addDelta(double delta) {
         this.deltaSum += delta * this.input.getActivation();
     }
 }
