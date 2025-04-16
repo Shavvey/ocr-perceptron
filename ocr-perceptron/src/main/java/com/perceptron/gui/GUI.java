@@ -1,8 +1,16 @@
 package com.perceptron.gui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import javax.swing.plaf.basic.BasicBorders;
+import java.io.IOException;
+import java.nio.file.DirectoryIteratorException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+
+import static javax.swing.BoxLayout.*;
 
 public class GUI extends JFrame {
 
@@ -18,6 +26,9 @@ public class GUI extends JFrame {
 
         JButton viewNet = new JButton("View Neural Network");
         JButton viewDrawing = new JButton("Back to Drawing");
+
+        // create new drop-down for serialized models
+        JComboBox<String> modelList = new JComboBox<>(getModelOptions());
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(classifyButton);
@@ -69,13 +80,30 @@ public class GUI extends JFrame {
             drawing.requestFocus();
             repaint();
         });
-
+        drawPanel.setBorder(new BasicBorders.MarginBorder());
         drawing.add(drawPanel);
         drawing.add(buttonPanel);
         drawing.add(prediction);
+        drawing.add(modelList, X_AXIS);
         setContentPane(drawing);
         pack();
         drawing.requestFocus();
+    }
+
+    public String[] getModelOptions() {
+        ArrayList<String> files = new ArrayList<>();
+        Path dir = Path.of("src/main/resources/models");
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+            for (Path file : stream) {
+                files.add(file.getFileName().toString());
+            }
+        } catch (IOException | DirectoryIteratorException ex) {
+            // TODO: make a better exception handler
+            throw new RuntimeException(ex);
+        }
+        String[] choices = new String[files.size()];
+        files.toArray(choices);
+        return choices;
     }
 
     public static void main(String[] args) {
