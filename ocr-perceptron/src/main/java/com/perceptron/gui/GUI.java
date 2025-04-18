@@ -1,5 +1,7 @@
 package com.perceptron.gui;
 
+import com.perceptron.nn.NeuralNetwork;
+
 import javax.swing.*;
 
 import javax.swing.plaf.basic.BasicBorders;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 import static javax.swing.BoxLayout.*;
 
 public class GUI extends JFrame {
-
+    NeuralNetwork nn;
     public GUI() {
         super("OCR-Perceptron");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,6 +31,7 @@ public class GUI extends JFrame {
 
         // create new drop-down for serialized models
         JComboBox<String> modelList = new JComboBox<>(getModelOptions());
+
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(classifyButton);
@@ -51,6 +54,16 @@ public class GUI extends JFrame {
         clearButton.addActionListener(_ -> {
             drawPanel.clear();
             repaint();
+        });
+
+        modelList.addActionListener(_ -> {
+            String modelName = (String) modelList.getSelectedItem();
+            if (modelName != null && !modelName.equals("null")) {
+                modelName = modelName.substring(0, modelName.lastIndexOf("."));
+                nn = NeuralNetwork.deserialize(modelName);
+                nn.display();
+            }
+
         });
 
         // adding buttons to switch view
@@ -92,6 +105,8 @@ public class GUI extends JFrame {
 
     public String[] getModelOptions() {
         ArrayList<String> files = new ArrayList<>();
+        // default option (no model is currently loaded)
+        files.add("null");
         Path dir = Path.of("src/main/resources/models");
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
             for (Path file : stream) {
