@@ -81,16 +81,16 @@ public class NetworkPanel extends JPanel {
         double[][] w = getLayersWeights(idx);
         int xEnd = 0;
         if (idx == 1) {
-            xEnd = prevNeuronSize.width/2;;
+            xEnd = prevNeuronSize.width;
         } else {
-            xEnd = prevOffset - prevNeuronSize.width/2;
+            xEnd = prevOffset;
         }
         // iterate across number of neurons
         for (int j = 0; j < w.length; j++) {
             // iterate across number of incoming connections
             // TODO: use weight vals change color or something
             for (int i = 0; i < w[0].length; i++) {
-                g.drawLine(currentOffset - currNeuronSize.width/2, currNeuronSize.height * j + currNeuronSize.height/2,
+                g.drawLine(currentOffset - currNeuronSize.width, currNeuronSize.height * j + currNeuronSize.height/2,
                         xEnd, prevNeuronSize.height * i + prevNeuronSize.height/2);
             }
         }

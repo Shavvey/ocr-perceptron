@@ -131,7 +131,7 @@ public class GUI extends JFrame {
         });
 
         nextButton.addActionListener(_ -> {
-            if (networkPanel.currentSegment < NetworkPanel.INPUT_LAYERS_SEGMENTS) {
+            if (networkPanel.currentSegment < NetworkPanel.INPUT_LAYERS_SEGMENTS - 1) {
                 networkPanel.currentSegment++;
             }
             text.setText("Current Segment: " + networkPanel.currentSegment);
@@ -142,7 +142,6 @@ public class GUI extends JFrame {
             if (networkPanel.currentSegment > 0) {
                 networkPanel.currentSegment--;
             }
-            System.out.println(networkPanel.currentSegment);
             text.setText("Current Segment: " + networkPanel.currentSegment);
             repaint();
         });
