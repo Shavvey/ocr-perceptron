@@ -5,7 +5,6 @@ import com.perceptron.test_train.DataFrame;
 
 import javax.swing.*;
 
-import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.file.DirectoryIteratorException;
@@ -14,49 +13,52 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-import static javax.swing.BoxLayout.*;
+import static javax.swing.BoxLayout.X_AXIS;
 
 public class GUI extends JFrame {
+    private final static Dimension DEFAULT_GUI_DIM = new Dimension(700,700);
     NeuralNetwork nn;
+    final JPanel drawingPanel;
+    final JPanel  networkPanel;
     private static final Font DEFAULT_FONT = new Font("Monaco", Font.PLAIN, 14);
+    // create new drop-down for serialized models
+    final private JComboBox<String> modelList = new JComboBox<>(getModelOptions());
+
     public GUI() {
         super("OCR-Perceptron");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // TODO: implement a way to resize window dynamically
         setResizable(false);
-        DrawPanel drawPanel = new DrawPanel(700, 700);
-        DrawNetwork drawNet = new DrawNetwork(700, 700);
-        JButton classifyButton = new JButton("Classify");
-        JButton clearButton = new JButton("Clear");
+        // set up are two panels, drawing and view panel
+        drawingPanel = makeDrawPanel(DEFAULT_GUI_DIM.width, DEFAULT_GUI_DIM.height);
+        networkPanel = makeNetworkPanel(DEFAULT_GUI_DIM.width, DEFAULT_GUI_DIM.height);
+        // set the drawing panel as the display/content one initially
+        setContentPane(drawingPanel);
+        pack();
+    }
 
-        JButton viewNet = new JButton("View Neural Network");
-        JButton viewDrawing = new JButton("Back to Drawing");
+    private JPanel makeDrawPanel(int width, int height) {;
+        DrawPanel drawPanel = new DrawPanel(width, height);
+        JPanel parent = new JPanel();
 
-        // create new drop-down for serialized models
-        JComboBox<String> modelList = new JComboBox<>(getModelOptions());
-
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(classifyButton);
-        buttonPanel.add(clearButton);
-        buttonPanel.add(viewNet);
-
-        JPanel drawing = new JPanel();
-        JPanel network = new JPanel();
-
+        // configure the layout
+        BoxLayout drawLayout = new BoxLayout(parent, BoxLayout.Y_AXIS);
+        parent.setLayout(drawLayout);
+        // add prediction box
         JPanel prediction = new JPanel();
         JLabel text = new JLabel("<html><h3>The prediction is:</h3></html>");
         prediction.add(text);
 
+        //make the buttons necessary
+        JButton classifyButton = new JButton("Classify");
+        JButton clearButton = new JButton("Clear");
+        JButton viewNet = new JButton("View Neural Network");
 
-        BoxLayout drawLayout = new BoxLayout(drawing, BoxLayout.Y_AXIS);
-        BoxLayout netLayout = new BoxLayout(network, BoxLayout.Y_AXIS);
-        drawing.setLayout(drawLayout);
-        network.setLayout(netLayout);
-
-        clearButton.addActionListener(_ -> {
-            drawPanel.clear();
-            repaint();
+        // configure button action listeners
+        viewNet.addActionListener(_ -> {
+            // switch content to network panel quickly
+            this.setContentPane(networkPanel);
+            pack();
         });
 
         classifyButton.addActionListener(_ ->{
@@ -69,52 +71,61 @@ public class GUI extends JFrame {
             }
         });
 
+        clearButton.addActionListener(_ -> {
+            drawPanel.clear();
+            repaint();
+        });
+
+        // configure the buttons for drawing panel
+        JPanel drawButtons = new JPanel();
+        drawButtons.add(classifyButton);
+        drawButtons.add(clearButton);
+        drawButtons.add(viewNet);
+
+        // add all JPanel elements
+        parent.add(drawPanel);
+        parent.add(prediction);
+        parent.add(modelList, X_AXIS);
+        parent.add(drawButtons);
+
+        // return back configured draw panel
+        return parent;
+    }
+
+    private JPanel makeNetworkPanel(int width, int height) {
+
+        JPanel parent = new JPanel();
+        NetworkPanel networkPanel = new NetworkPanel(width, height);
+
+        // configure action listener for model listing and serializer
         modelList.addActionListener(_ -> {
             String modelName = (String) modelList.getSelectedItem();
             if (modelName != null && !modelName.equals("null")) {
                 modelName = modelName.substring(0, modelName.lastIndexOf("."));
                 nn = NeuralNetwork.deserialize(modelName);
-                drawNet.setModel(nn);
-                nn.display();
+                networkPanel.setModel(nn);
             }
-
         });
+        // configure the layout
+        BoxLayout networkLayout = new BoxLayout(parent, BoxLayout.Y_AXIS);
+        parent.setLayout(networkLayout);
 
-        // adding buttons to switch view
-        viewNet.addActionListener(_ -> {
-            buttonPanel.remove(viewNet);
-            buttonPanel.remove(clearButton);
-            buttonPanel.remove(classifyButton);
-            buttonPanel.add(viewDrawing);
-            network.add(drawNet);
-            network.add(buttonPanel);
-            network.add(prediction);
-            setContentPane(network);
+        // make the buttons
+        JPanel buttonPanel = new JPanel();
+        JButton backButton = new JButton("Back to Drawing");
+        buttonPanel.add(backButton);
+
+        //configure action listeners
+        backButton.addActionListener(_ -> {
+            setContentPane(drawingPanel);
             pack();
-            network.requestFocus();
-            repaint();
         });
 
-        viewDrawing.addActionListener(_ -> {
-            buttonPanel.add(clearButton);
-            buttonPanel.add(classifyButton);
-            buttonPanel.remove(viewDrawing);
-            buttonPanel.add(viewNet);
-            drawing.add(buttonPanel);
-            drawing.add(prediction);
-            setContentPane(drawing);
-            pack();
-            drawing.requestFocus();
-            repaint();
-        });
-        drawPanel.setBorder(new BasicBorders.MarginBorder());
-        drawing.add(drawPanel);
-        drawing.add(buttonPanel);
-        drawing.add(prediction);
-        drawing.add(modelList, X_AXIS);
-        setContentPane(drawing);
-        pack();
-        drawing.requestFocus();
+        // add JPanel elements
+        parent.add(networkPanel);
+        parent.add(buttonPanel);
+        return parent;
+
     }
 
     public String[] getModelOptions() {

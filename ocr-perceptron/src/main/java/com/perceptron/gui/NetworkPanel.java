@@ -5,13 +5,13 @@ import com.perceptron.nn.NeuralNetwork;
 import javax.swing.*;
 import java.awt.*;
 
-public class DrawNetwork extends JPanel {
+public class NetworkPanel extends JPanel {
     private static int panelWidth;
     private static int panelHeight;
     public static int radius = 20;
     private NeuralNetwork nn;
 
-    public DrawNetwork(int width, int height) { // should pass NeuralNetwork n as an argument
+    public NetworkPanel(int width, int height) { // should pass NeuralNetwork n as an argument
         // NeuralNetwork n = new NeuralNetwork(null, null); // JUST FOR TESTING
         setBackground(Color.WHITE);
         panelWidth = width;
