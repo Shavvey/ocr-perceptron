@@ -33,7 +33,7 @@ public class NetworkPanel extends JPanel {
     private void drawNetwork(Graphics g) {
         drawInputSegment(g);
         // draw weights
-        for (int j = 2; j < nn.numLayers; j++) {
+        for (int j = 1; j < nn.numLayers; j++) {
             drawWeights(g, j);
         }
         for (int i = 1; i < nn.numLayers; i++) {
@@ -78,14 +78,20 @@ public class NetworkPanel extends JPanel {
         int prevOffset = getOffset(idx - 1);
         // set colors and begin drawing
         g.setColor(WEIGHT_COLOR);
-        double[][] w = currentLayer.getWeights();
+        double[][] w = getLayersWeights(idx);
+        int xEnd = 0;
+        if (idx == 1) {
+            xEnd = prevNeuronSize.width/2;;
+        } else {
+            xEnd = prevOffset - prevNeuronSize.width/2;
+        }
         // iterate across number of neurons
         for (int j = 0; j < w.length; j++) {
             // iterate across number of incoming connections
             // TODO: use weight vals change color or something
             for (int i = 0; i < w[0].length; i++) {
-                g.drawLine(currentOffset, currNeuronSize.height * j,
-                        prevOffset, prevNeuronSize.height * i);
+                g.drawLine(currentOffset - currNeuronSize.width/2, currNeuronSize.height * j + currNeuronSize.height/2,
+                        xEnd, prevNeuronSize.height * i + prevNeuronSize.height/2);
             }
         }
     }
@@ -109,12 +115,15 @@ public class NetworkPanel extends JPanel {
         if (prev.isInput()) {
             int numNeurons = current.getNumNeurons();
             double[][] w = new double[numNeurons][NEURONS_PER_SEGMENT];
-            // get actual weight extract some segment
+            // get actual weights extracted from current input segment
             double[][] aw = current.getWeights();
             for (int j = 0; j < numNeurons; ++j) {
-
+                for (int i = 0; i < NEURONS_PER_SEGMENT; ++i) {
+                    int offset = currentSegment * NEURONS_PER_SEGMENT;
+                    w[j][i] = aw[j][i + offset];
+                }
             }
-            return aw;
+            return w;
         } else {
             return current.getWeights();
         }
