@@ -1,19 +1,15 @@
 package com.perceptron.gui;
 
-import javax.swing.*;
-import java.awt.*;
-
-import com.perceptron.nn.Neuron;
-import com.perceptron.nn.Layer;
 import com.perceptron.nn.NeuralNetwork;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import javax.swing.*;
+import java.awt.*;
 
 public class DrawNetwork extends JPanel {
     private static int panelWidth;
     private static int panelHeight;
     public static int radius = 20;
+    private NeuralNetwork nn;
 
     public DrawNetwork(int width, int height) { // should pass NeuralNetwork n as an argument
         // NeuralNetwork n = new NeuralNetwork(null, null); // JUST FOR TESTING
@@ -22,10 +18,13 @@ public class DrawNetwork extends JPanel {
         panelHeight = height;
     }
 
-    private void drawStuff(Graphics g) {
-        int numLayers = 3; // to come from the Neural Network Object (for testing)
-        // int numLayers = n.numLayers;
 
+    public void setModel(NeuralNetwork nn) {
+        this.nn = nn;
+    }
+
+    private void drawNetwork(Graphics g) {
+        int numLayers = nn.numLayers; // to come from the Neural Network Object (for testing)
         // ArrayList<Layer> layers = n.layers;
 
         // for loop iterates through Layer object for each Neuron and iterates through its weights
@@ -33,7 +32,7 @@ public class DrawNetwork extends JPanel {
             // Layer l = layers.get(i); // not sure if it should be input or output layer?
             // ArrayList<Neuron> neurons = l.getNeurons();
             // int numNeurons = neurons.size();
-            int numNeurons = 10; // for testing
+            int numNeurons = nn.getLayer(i).getNumNeurons(); // for testing
 
             // for large numbers of neurons, recalculate the radius
             if (numNeurons > 30) {
@@ -115,6 +114,8 @@ public class DrawNetwork extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawStuff(g);
+        if (nn != null) {
+            drawNetwork(g);
+        }
     }
 }

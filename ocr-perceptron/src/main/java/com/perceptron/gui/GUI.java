@@ -1,10 +1,12 @@
 package com.perceptron.gui;
 
 import com.perceptron.nn.NeuralNetwork;
+import com.perceptron.test_train.DataFrame;
 
 import javax.swing.*;
 
 import javax.swing.plaf.basic.BasicBorders;
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
@@ -16,6 +18,7 @@ import static javax.swing.BoxLayout.*;
 
 public class GUI extends JFrame {
     NeuralNetwork nn;
+    private static final Font DEFAULT_FONT = new Font("Monaco", Font.PLAIN, 14);
     public GUI() {
         super("OCR-Perceptron");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,11 +59,22 @@ public class GUI extends JFrame {
             repaint();
         });
 
+        classifyButton.addActionListener(_ ->{
+            if (nn != null) {
+                DataFrame df = drawPanel.exportDataFrame();
+                int p = nn.makePrediction(df);
+                String predictedLabel = Integer.toString(p);
+                text.setText("<html><h3>The prediction is: " + predictedLabel + "</h3></html>");
+
+            }
+        });
+
         modelList.addActionListener(_ -> {
             String modelName = (String) modelList.getSelectedItem();
             if (modelName != null && !modelName.equals("null")) {
                 modelName = modelName.substring(0, modelName.lastIndexOf("."));
                 nn = NeuralNetwork.deserialize(modelName);
+                drawNet.setModel(nn);
                 nn.display();
             }
 

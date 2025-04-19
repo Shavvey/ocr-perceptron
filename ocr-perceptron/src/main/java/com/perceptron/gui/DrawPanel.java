@@ -1,5 +1,7 @@
 package com.perceptron.gui;
 
+import com.perceptron.test_train.DataFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -7,9 +9,9 @@ import java.awt.event.MouseEvent;
 
 public class DrawPanel extends JPanel {
     private static final int DF_DIMENSION = 28;
-    final private static float[][] grid = new float[DF_DIMENSION][DF_DIMENSION];
-    private static int panelWidth;
-    private static int panelHeight;
+    final private double[][] grid = new double[DF_DIMENSION][DF_DIMENSION];
+    private final  int panelWidth;
+    private final  int panelHeight;
     private static final Color GRID_COLOR = Color.GRAY;
     private static final Color FILL_COLOR = Color.YELLOW;
 
@@ -81,6 +83,10 @@ public class DrawPanel extends JPanel {
                 }
             }
         }
+    }
+
+    public DataFrame exportDataFrame() {
+        return new DataFrame(null, grid.clone());
     }
 
     @Override

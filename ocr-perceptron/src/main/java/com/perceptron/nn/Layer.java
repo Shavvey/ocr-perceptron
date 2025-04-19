@@ -121,6 +121,15 @@ public class Layer implements Serializable {
     }
 
     /**
+     * Getter the number of neurons inside the current layer.
+     *
+     * @return the number of neurons inside the layer.
+     */
+    public int getNumNeurons() {
+        return neurons.size();
+    }
+
+    /**
      * display the weights of the current Layer
      */
     public void displayWeights() {
