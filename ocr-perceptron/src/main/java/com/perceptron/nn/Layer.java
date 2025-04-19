@@ -108,13 +108,13 @@ public class Layer implements Serializable {
      * @return weights of layer inside a 2D array
      */
     public double[][] getWeights() {
-        int conCount = neurons.getFirst().out.size();
+        int conCount = neurons.getFirst().in.size();
         double[][] w = new double[neuronCount][conCount];
         for (int j = 0; j < neuronCount; j++) {
             for (int i = 0; i < conCount; i++) {
                 // just use an array copy dummy
                 Neuron n = neurons.get(j);
-                w[j][i] = n.out.get(i).weight;
+                w[j][i] = n.in.get(i).weight;
             }
         }
         return w;

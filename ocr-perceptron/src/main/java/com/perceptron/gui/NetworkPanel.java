@@ -1,15 +1,21 @@
 package com.perceptron.gui;
 
+import com.perceptron.nn.Layer;
 import com.perceptron.nn.NeuralNetwork;
 
 import javax.swing.*;
 import java.awt.*;
 
+
 public class NetworkPanel extends JPanel {
     private static int panelWidth;
     private static int panelHeight;
-    public static int radius = 20;
+    public int currentSegment = 0;
     private NeuralNetwork nn;
+    public final static int INPUT_LAYERS_SEGMENTS = 28;
+    public final static int NEURONS_PER_SEGMENT = 28;
+    private final static Color NEURON_COLOR = Color.BLUE;
+    private final static Color WEIGHT_COLOR = Color.BLACK;
 
     public NetworkPanel(int width, int height) { // should pass NeuralNetwork n as an argument
         // NeuralNetwork n = new NeuralNetwork(null, null); // JUST FOR TESTING
@@ -21,88 +27,97 @@ public class NetworkPanel extends JPanel {
 
     public void setModel(NeuralNetwork nn) {
         this.nn = nn;
+        repaint();
     }
 
     private void drawNetwork(Graphics g) {
-        int numLayers = nn.numLayers; // to come from the Neural Network Object (for testing)
-        // ArrayList<Layer> layers = n.layers;
+        drawInputSegment(g);
+        // draw weights
+        for (int j = 2; j < nn.numLayers; j++) {
+            drawWeights(g, j);
+        }
+        for (int i = 1; i < nn.numLayers; i++) {
+            Layer l = nn.getLayer(i);
+            int offset = getOffset(i);
+            drawLayer(g, l, offset);
+        }
+    }
 
-        // for loop iterates through Layer object for each Neuron and iterates through its weights
-        for (int i = 0; i < numLayers; i++) {
-            // Layer l = layers.get(i); // not sure if it should be input or output layer?
-            // ArrayList<Neuron> neurons = l.getNeurons();
-            // int numNeurons = neurons.size();
-            int numNeurons = nn.getLayer(i).getNumNeurons(); // for testing
+    private int getOffset(int layerIndex) {
+        // compute offset depending on what layer we are on
+        double widthFraction = (double) layerIndex / (nn.numLayers - 1);
+        return (int) (panelWidth * widthFraction);
+    }
 
-            // for large numbers of neurons, recalculate the radius
-            if (numNeurons > 30) {
-                radius = panelHeight / numNeurons;
-            }
+    private void drawInputSegment(Graphics g) {
+        g.setColor(NEURON_COLOR);
+        int width = panelWidth / NEURONS_PER_SEGMENT;
+        int height = panelHeight / NEURONS_PER_SEGMENT;
+        for (int i = 0; i < NEURONS_PER_SEGMENT; i++) {
+            g.fillOval(0, height * i, width, height);
+        }
+    }
 
-            double xOffset = ((double) i / (numLayers - 1)) * panelWidth; // calculate where each layer should be drawn
-            if (i == numLayers - 1) {
-                xOffset = panelWidth - radius;
-            }
+    private void drawLayer(Graphics g, Layer l, int offset) {
+        g.setColor(NEURON_COLOR);
+        Dimension neuronSize = getNeuronSize(l);
+        int numNeurons = l.getNumNeurons();
+        for (int i = 0; i < numNeurons; i++) {
+            g.fillOval(offset - neuronSize.width, neuronSize.height * i, neuronSize.width, neuronSize.height);
+        }
+    }
 
-            int x = (int) xOffset;
-            int red = (int) (Math.random() * 256); // 0 to 255
-            int green = (int) (Math.random() * 256); // 0 to 255
-            int blue = (int) (Math.random() * 256); // 0 to 255
-
-            Color layorColor = new Color(red, green, blue);
-
-            // iterate through each of the layers Neuron objects
-            for (int j = 0; j < numNeurons; j++) {
-                double yOffset = ((double) j / (numNeurons - 1)) * panelHeight; // calculate where the node should be drawn down the layer
-                if (j == numNeurons - 1) {
-                    yOffset = panelHeight - radius;
-                }
-
-                int y = (int) yOffset;
-
-                // Neuron neuron = neurons.get(i);
-
-                // double[] weights = neuron.getWeights();
-                double[] weights = {1, 0.4, 1, 1, 1, .2, 1, 1, 1, 1}; // for testing
-
-                int toX = (int) (((double) (i + 1) / (numLayers - 1)) * panelWidth); // calculate where the arrow should be drawn
-
-                //in order for the line to look correct for the last layer, recalculate toX
-                if (i == numLayers - 2) {
-                    toX -= radius;
-                }
-
-                int toYOffset = (int) (((double) 1 / (numNeurons - 1)) * panelHeight); //calculate spacing between each node
-
-                int toY = 0; // start at y=0
-
-                // iterates through the Neurons weights array
-                for (int w = 0; w < weights.length; w++) {
-                    // in order for the line to look correct for the last node in each layer, recalculate toY
-                    if (w == weights.length - 1) {
-                        toY -= radius;
-                    }
-                    // only show significant connections (may get rid of later)
-                    if (weights[w] >= 0.5 && i != numLayers - 1) {
-                        drawArrows(x + radius / 2, y + radius / 2, toX + radius / 2, toY + radius / 2, g);
-                    }
-                    toY += toYOffset;
-                }
-                addNode(x, y, layorColor, g); // draw the nodes
+    private void drawWeights(Graphics g, int idx) {
+        Layer currentLayer = nn.getLayer(idx);
+        Layer prevLayer = nn.getLayer(idx - 1);
+        // get y dimensions
+        Dimension currNeuronSize = getNeuronSize(currentLayer);
+        Dimension prevNeuronSize = getNeuronSize(prevLayer);
+        // get x dimensions
+        int currentOffset = getOffset(idx);
+        int prevOffset = getOffset(idx - 1);
+        // set colors and begin drawing
+        g.setColor(WEIGHT_COLOR);
+        double[][] w = currentLayer.getWeights();
+        // iterate across number of neurons
+        for (int j = 0; j < w.length; j++) {
+            // iterate across number of incoming connections
+            // TODO: use weight vals change color or something
+            for (int i = 0; i < w[0].length; i++) {
+                g.drawLine(currentOffset, currNeuronSize.height * j,
+                        prevOffset, prevNeuronSize.height * i);
             }
         }
     }
 
-    // adding neurons to visual area
-    private void addNode(int x, int y, Color color, Graphics graphic) {
-        graphic.setColor(color); // Set the drawing color
-        graphic.fillOval(x, y, radius, radius); // Draw a circle at given coordinates
+    private Dimension getNeuronSize(Layer l) {
+        if (l.isInput()) {
+            int width = panelWidth / NEURONS_PER_SEGMENT;
+            int height = panelHeight / NEURONS_PER_SEGMENT;
+            return new Dimension(width, height);
+        } else {
+            int numNeurons = l.getNumNeurons();
+            int width = panelWidth / numNeurons;
+            int height = panelHeight / numNeurons;
+            return new Dimension(width, height);
+        }
     }
 
-    // drawing lines between connected nodes
-    private void drawArrows(int fromX, int fromY, int toX, int toY, Graphics graphic) {
-        graphic.setColor(Color.BLACK);
-        graphic.drawLine(fromX, fromY, toX, toY);
+    private double[][] getLayersWeights(int idx) {
+        Layer current = nn.getLayer(idx);
+        Layer prev = nn.getLayer(idx - 1);
+        if (prev.isInput()) {
+            int numNeurons = current.getNumNeurons();
+            double[][] w = new double[numNeurons][NEURONS_PER_SEGMENT];
+            // get actual weight extract some segment
+            double[][] aw = current.getWeights();
+            for (int j = 0; j < numNeurons; ++j) {
+
+            }
+            return aw;
+        } else {
+            return current.getWeights();
+        }
     }
 
     @Override

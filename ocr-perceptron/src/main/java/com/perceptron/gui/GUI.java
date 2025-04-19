@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import static javax.swing.BoxLayout.X_AXIS;
 
 public class GUI extends JFrame {
-    private final static Dimension DEFAULT_GUI_DIM = new Dimension(700,700);
+    private final static Dimension DEFAULT_GUI_DIM = new Dimension(700, 700);
     NeuralNetwork nn;
     final JPanel drawingPanel;
-    final JPanel  networkPanel;
+    final JPanel networkPanel;
     private static final Font DEFAULT_FONT = new Font("Monaco", Font.PLAIN, 14);
     // create new drop-down for serialized models
     final private JComboBox<String> modelList = new JComboBox<>(getModelOptions());
@@ -37,7 +37,8 @@ public class GUI extends JFrame {
         pack();
     }
 
-    private JPanel makeDrawPanel(int width, int height) {;
+    private JPanel makeDrawPanel(int width, int height) {
+        ;
         DrawPanel drawPanel = new DrawPanel(width, height);
         JPanel parent = new JPanel();
 
@@ -61,7 +62,7 @@ public class GUI extends JFrame {
             pack();
         });
 
-        classifyButton.addActionListener(_ ->{
+        classifyButton.addActionListener(_ -> {
             if (nn != null) {
                 DataFrame df = drawPanel.exportDataFrame();
                 int p = nn.makePrediction(df);
@@ -110,10 +111,18 @@ public class GUI extends JFrame {
         BoxLayout networkLayout = new BoxLayout(parent, BoxLayout.Y_AXIS);
         parent.setLayout(networkLayout);
 
+        // make segment textarea
+        JLabel text = new JLabel("Current Segment: " + networkPanel.currentSegment);
+        JPanel segment = new JPanel();
+        segment.add(text);
         // make the buttons
         JPanel buttonPanel = new JPanel();
         JButton backButton = new JButton("Back to Drawing");
+        JButton prevButton = new JButton("<<");
+        JButton nextButton = new JButton(">>");
+        buttonPanel.add(prevButton);
         buttonPanel.add(backButton);
+        buttonPanel.add(nextButton);
 
         //configure action listeners
         backButton.addActionListener(_ -> {
@@ -121,9 +130,27 @@ public class GUI extends JFrame {
             pack();
         });
 
+        nextButton.addActionListener(_ -> {
+            if (networkPanel.currentSegment < NetworkPanel.INPUT_LAYERS_SEGMENTS) {
+                networkPanel.currentSegment++;
+            }
+            text.setText("Current Segment: " + networkPanel.currentSegment);
+            repaint();
+        });
+
+        prevButton.addActionListener(_ -> {
+            if (networkPanel.currentSegment > 0) {
+                networkPanel.currentSegment--;
+            }
+            System.out.println(networkPanel.currentSegment);
+            text.setText("Current Segment: " + networkPanel.currentSegment);
+            repaint();
+        });
+
         // add JPanel elements
         parent.add(networkPanel);
         parent.add(buttonPanel);
+        parent.add(segment);
         return parent;
 
     }
