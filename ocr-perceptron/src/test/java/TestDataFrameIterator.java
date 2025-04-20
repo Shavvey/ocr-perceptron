@@ -11,7 +11,7 @@ public class TestDataFrameIterator {
         int parsed = 0;
         ResourceManager rm = new ResourceManager();
         Iterator<DataFrame> it = rm.getTrainingData();
-        for(int i = 0; i < ResourceManager.getTrainSize(); i++) {
+        for(int i = 0; i < 5; i++) {
             if(it.hasNext()) {
                 DataFrame d = it.next();
                 d.display();

@@ -139,7 +139,9 @@ public class NetworkPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (nn != null) {
-            drawNetwork(g);
+            Graphics2D g2D = (Graphics2D) g;
+            g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            drawNetwork(g2D);
         }
     }
 }
