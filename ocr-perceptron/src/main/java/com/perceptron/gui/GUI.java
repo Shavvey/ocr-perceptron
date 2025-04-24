@@ -15,6 +15,12 @@ import java.util.ArrayList;
 
 import static javax.swing.BoxLayout.X_AXIS;
 
+/**
+ * Main class for the graphical user interface of the
+ * project
+ *
+ * @author: Lauren Giles and Cole Johnson
+ */
 public class GUI extends JFrame {
     private final static Dimension DEFAULT_GUI_DIM = new Dimension(700, 700);
     NeuralNetwork nn;
@@ -24,6 +30,10 @@ public class GUI extends JFrame {
     // create new drop-down for serialized models
     final private JComboBox<String> modelList = new JComboBox<>(getModelOptions());
 
+    /**
+     * Constructor for GUI, creates the two main components: drawingPanel and networkPanel
+     * and sets one to be the content pane (by default it's the drawingPanel)
+     */
     public GUI() {
         super("OCR-Perceptron");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,8 +47,15 @@ public class GUI extends JFrame {
         pack();
     }
 
+    /**
+     * Helper function to create all the necessary panel components,
+     * along with the main {@link DrawPanel}
+     *
+     * @param width  width of the panel
+     * @param height height the panel
+     * @return created components for drawingPanel
+     */
     private JPanel makeDrawPanel(int width, int height) {
-        ;
         DrawPanel drawPanel = new DrawPanel(width, height);
         JPanel parent = new JPanel();
 
@@ -93,6 +110,14 @@ public class GUI extends JFrame {
         return parent;
     }
 
+    /**
+     * Helper function to create all the necessary panel components,
+     * along with the main {@link NetworkPanel}
+     *
+     * @param width  width of the panel
+     * @param height height the panel
+     * @return created components for networkPanel
+     */
     private JPanel makeNetworkPanel(int width, int height) {
 
         JPanel parent = new JPanel();
@@ -154,6 +179,12 @@ public class GUI extends JFrame {
 
     }
 
+    /**
+     * Creates an array of models options retrieved from project.
+     *
+     * @return {@link String}[] array that represents serialized models
+     * available to the user
+     */
     public String[] getModelOptions() {
         ArrayList<String> files = new ArrayList<>();
         // default option (no model is currently loaded)
@@ -172,6 +203,10 @@ public class GUI extends JFrame {
         return choices;
     }
 
+    /**
+     * Main {@link GUI} methods, just creates GUI and runs in separate thread
+     * @param args main method args
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new GUI();

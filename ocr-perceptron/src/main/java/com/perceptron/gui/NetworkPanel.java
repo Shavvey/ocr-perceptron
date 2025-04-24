@@ -6,7 +6,13 @@ import com.perceptron.nn.NeuralNetwork;
 import javax.swing.*;
 import java.awt.*;
 
-
+/**
+ * Content panel responsible for
+ * showing the current {@link NeuralNetwork}, via it's connected
+ * weights in each layer.
+ *
+ * @author: Lauren Giles and Cole Johnson
+ */
 public class NetworkPanel extends JPanel {
     private static int panelWidth;
     private static int panelHeight;
@@ -17,19 +23,34 @@ public class NetworkPanel extends JPanel {
     private final static Color NEURON_COLOR = Color.BLUE;
     private final static Color WEIGHT_COLOR = Color.BLACK;
 
-    public NetworkPanel(int width, int height) { // should pass NeuralNetwork n as an argument
-        // NeuralNetwork n = new NeuralNetwork(null, null); // JUST FOR TESTING
+    /**
+     * Simple constructor for {@link NetworkPanel}.
+     *
+     * @param width  width of panel
+     * @param height height of panel
+     */
+    public NetworkPanel(int width, int height) {
         setBackground(Color.WHITE);
         panelWidth = width;
         panelHeight = height;
     }
 
-
+    /**
+     * Update the model being used by {@link NetworkPanel}.
+     * Called by {@link GUI} during model selection by user
+     *
+     * @param nn {@link NeuralNetwork} now being used by {@link GUI}
+     */
     public void setModel(NeuralNetwork nn) {
         this.nn = nn;
         repaint();
     }
 
+    /**
+     * Main method to draw the {@link NeuralNetwork}.
+     *
+     * @param g {@link Graphics} context
+     */
     private void drawNetwork(Graphics g) {
         drawInputSegment(g);
         // draw weights
@@ -43,12 +64,23 @@ public class NetworkPanel extends JPanel {
         }
     }
 
+    /**
+     * Get the x-offset of a neuron given its layer index, used for drawing methods.
+     *
+     * @param layerIndex position in network, first layer to last output layer [0, n-1]
+     * @return x-offset
+     */
     private int getOffset(int layerIndex) {
         // compute offset depending on what layer we are on
         double widthFraction = (double) layerIndex / (nn.numLayers - 1);
         return (int) (panelWidth * widthFraction);
     }
 
+    /**
+     * Draw input segment of the network.
+     *
+     * @param g {@link Graphics} context
+     */
     private void drawInputSegment(Graphics g) {
         g.setColor(NEURON_COLOR);
         int width = panelWidth / NEURONS_PER_SEGMENT;
@@ -58,6 +90,13 @@ public class NetworkPanel extends JPanel {
         }
     }
 
+    /**
+     * Draw each respective layer of the network
+     *
+     * @param g      {@link Graphics} context
+     * @param l      {@link Layer} current layer
+     * @param offset x-offset used to draw the layer
+     */
     private void drawLayer(Graphics g, Layer l, int offset) {
         g.setColor(NEURON_COLOR);
         Dimension neuronSize = getNeuronSize(l);
@@ -67,6 +106,12 @@ public class NetworkPanel extends JPanel {
         }
     }
 
+    /**
+     * Draw each neuron's weights.
+     *
+     * @param g   {@link Graphics} context
+     * @param idx layer index
+     */
     private void drawWeights(Graphics g, int idx) {
         Layer currentLayer = nn.getLayer(idx);
         Layer prevLayer = nn.getLayer(idx - 1);
@@ -79,8 +124,9 @@ public class NetworkPanel extends JPanel {
         // set colors and begin drawing
         g.setColor(WEIGHT_COLOR);
         double[][] w = getLayersWeights(idx);
-        int xEnd = 0;
+        int xEnd;
         if (idx == 1) {
+            // if first hidden layer, don't shift by previous offset
             xEnd = prevNeuronSize.width;
         } else {
             xEnd = prevOffset;
@@ -90,12 +136,18 @@ public class NetworkPanel extends JPanel {
             // iterate across number of incoming connections
             // TODO: use weight vals change color or something
             for (int i = 0; i < w[0].length; i++) {
-                g.drawLine(currentOffset - currNeuronSize.width, currNeuronSize.height * j + currNeuronSize.height/2,
-                        xEnd, prevNeuronSize.height * i + prevNeuronSize.height/2);
+                g.drawLine(currentOffset - currNeuronSize.width, currNeuronSize.height * j + currNeuronSize.height / 2,
+                        xEnd, prevNeuronSize.height * i + prevNeuronSize.height / 2);
             }
         }
     }
 
+    /**
+     * Get the neurons dimensions in terms of screen width and height
+     *
+     * @param l layer the neuron occupies
+     * @return {@link Dimension} of neuron
+     */
     private Dimension getNeuronSize(Layer l) {
         if (l.isInput()) {
             int width = panelWidth / NEURONS_PER_SEGMENT;
@@ -109,6 +161,12 @@ public class NetworkPanel extends JPanel {
         }
     }
 
+    /**
+     * Get a neurons weights, depending on layer index.
+     *
+     * @param idx layer index
+     * @return weights stored in 2D array
+     */
     private double[][] getLayersWeights(int idx) {
         Layer current = nn.getLayer(idx);
         Layer prev = nn.getLayer(idx - 1);
@@ -129,12 +187,22 @@ public class NetworkPanel extends JPanel {
         }
     }
 
+    /**
+     * Getter for panel's preferred size.
+     *
+     * @return preferred {@link Dimension}
+     */
     @Override
     public Dimension getPreferredSize() {
         // maybe refactor this out as a constant later
         return new Dimension(panelWidth, panelHeight);
     }
 
+    /**
+     * Tells swing how to paint the {@link NetworkPanel}.
+     *
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
