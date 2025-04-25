@@ -22,7 +22,7 @@ public class DrawPanel extends JPanel {
     private static final Color GRID_COLOR = Color.GRAY;
     private static final Color FILL_COLOR = Color.YELLOW;
     private int drawRadius;
-    private final static int DEFAULT_DRAW_RADIUS = 1;
+    private final static int DEFAULT_DRAW_RADIUS = 2;
 
     /**
      * Simple constructor for {@link DrawPanel} of mouse-input and the panel itself.
@@ -130,7 +130,7 @@ public class DrawPanel extends JPanel {
                 float d = distance(p, center);
                 if (d <= drawRadius) {
                     if (isInBounds(p)) {
-                        grid[p.y][p.x] = 1;
+                        grid[j][i] = Math.max(grid[j][i], 1);
                     }
                 }
             }
@@ -156,12 +156,17 @@ public class DrawPanel extends JPanel {
 
         for (int j = 0; j < DF_DIMENSION; j++) {
             for (int i = 0; i < DF_DIMENSION; i++) {
-                if (grid[j][i] == 0F) {
+                if (grid[j][i] != 0F) {
+                    int rgba = FILL_COLOR.getRGB();
+                    int alpha = (int)(255 * grid[j][i]);
+                    rgba = (rgba & 0xffffff) | (alpha << 24);
+                    // construct new color with alpha value
+                    Color fillColor = new Color(rgba, true);
+                    g.setColor(fillColor);
+                    g.fillRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                } else {
                     g.setColor(GRID_COLOR);
                     g.drawRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
-                } else {
-                    g.setColor(FILL_COLOR);
-                    g.fillRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
                 }
             }
         }
