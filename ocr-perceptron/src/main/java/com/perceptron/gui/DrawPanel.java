@@ -21,6 +21,8 @@ public class DrawPanel extends JPanel {
     private final int panelHeight;
     private static final Color GRID_COLOR = Color.GRAY;
     private static final Color FILL_COLOR = Color.YELLOW;
+    private int drawRadius;
+    private final static int DEFAULT_DRAW_RADIUS = 1;
 
     /**
      * Simple constructor for {@link DrawPanel} of mouse-input and the panel itself.
@@ -30,6 +32,8 @@ public class DrawPanel extends JPanel {
      */
     public DrawPanel(int width, int height) {
         setBackground(Color.BLACK);
+        // set default draw radius
+        drawRadius = DEFAULT_DRAW_RADIUS;
         panelWidth = width;
         panelHeight = height;
         for (int j = 0; j < DF_DIMENSION; j++) {
@@ -45,11 +49,12 @@ public class DrawPanel extends JPanel {
                 Dimension cellDim = getCellSize();
                 int cellX = p.x / cellDim.width;
                 int cellY = p.y / cellDim.height;
-                // System.out.println("Cell x: " + cellX);
-                // System.out.println("Cell y: " + cellY);
-                grid[cellY][cellX] = 1F;
-                // NOTE: pretty lazy repaint here, we could optimize but probably won't
-                repaint();
+                Point gridPoint = new Point(cellX, cellY);
+                if (isInBounds(gridPoint)) {
+                    drawCircle(gridPoint);
+                    repaint();
+                }
+
 
             }
         };
@@ -97,6 +102,48 @@ public class DrawPanel extends JPanel {
             }
         }
     }
+
+    /**
+     * Check to see if x-y (in terms of grid coordinates) is in bounds.
+     *
+     * @param p point in terms of gird coordinates [0,28]
+     * @return boolean value indicating whether position is in bounds
+     */
+    private boolean isInBounds(Point p) {
+        boolean xBound = (p.x >= 0 && p.x < DF_DIMENSION);
+        boolean yBound = (p.y >= 0 && p.y < DF_DIMENSION);
+        return xBound && yBound;
+    }
+
+    /**
+     * Helper function to draw the circle.
+     */
+    private void drawCircle(Point center) {
+        // loop square bounding box, starting at top left
+        int top = center.y - drawRadius;
+        int left = center.x - drawRadius;
+        int right = center.x + drawRadius;
+        int bottom = center.y + drawRadius;
+        for (int j = top; j <= bottom; j++) {
+            for (int i = left; i <= right; i++) {
+                Point p = new Point(i, j);
+                float d = distance(p, center);
+                if (d <= drawRadius) {
+                    if (isInBounds(p)) {
+                        grid[p.y][p.x] = 1;
+                    }
+                }
+            }
+        }
+    }
+
+    private float distance(Point p, Point center) {
+        float dx = (p.x - center.x);
+        float dy = (p.y - center.y);
+        // if Euclidean distance is smaller or equal to radius
+        return (float) Math.sqrt((dx * dx) + (dy * dy));
+    }
+
 
     /**
      * Main draw method. Draws grid onto the {@link DrawPanel}.
