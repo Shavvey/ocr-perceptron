@@ -209,6 +209,7 @@ public class NeuralNetwork implements Serializable {
                 averageCost /= batchSize;
                 System.out.println("Average cost of batch: " + averageCost);
                 this.learn(learning_rate); // learn off of accrued deltas
+                // learning_rate += learning_rate;
 
             }
             rm.reset();

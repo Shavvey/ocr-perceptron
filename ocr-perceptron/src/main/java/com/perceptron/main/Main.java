@@ -6,6 +6,8 @@ import com.perceptron.nn.Layer;
 import com.perceptron.nn.CostFunction;
 import com.perceptron.nn.NeuralNetwork;
 
+import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -17,5 +19,11 @@ public class Main {
         nn.display();
         nn.train(0.15, 1, 100);
         nn.test();
+        System.out.println("Would you like to save this model? (yes or no)");
+        Scanner scan = new Scanner(System.in);
+        String answer = scan.nextLine();
+        if (answer.equals("yes")) {
+            nn.serialize("model-1");
+        }
     }
 }
