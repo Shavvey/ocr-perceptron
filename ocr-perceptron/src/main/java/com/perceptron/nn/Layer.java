@@ -297,7 +297,7 @@ public class Layer implements Serializable {
             for (Connection incoming : n.in) {
                 incoming.addDelta(n.delta);
             }
-            n.deltaSum += n.delta;
+            n.dB += n.delta;
             n.deltaStep++;
         }
     }

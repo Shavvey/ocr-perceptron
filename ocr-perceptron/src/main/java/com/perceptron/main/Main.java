@@ -17,7 +17,7 @@ public class Main {
         // configure the network and create it
         NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, hidden, output);
         nn.display();
-        nn.train(0.15, 1, 100);
+        nn.train(0.30, 5, 10);
         nn.test();
         System.out.println("Would you like to save this model? (yes or no)");
         Scanner scan = new Scanner(System.in);

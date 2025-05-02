@@ -187,6 +187,7 @@ public class NeuralNetwork implements Serializable {
     public void train(double learning_rate, int epochs, int batchSize) {
         ResourceManager rm = new ResourceManager();
         int trainSize = ResourceManager.getTrainSize();
+        int numBatches = trainSize / batchSize;
         CostList cl = new CostList(trainSize / batchSize);
         if (trainSize % batchSize != 0) {
             throw new IllegalArgumentException("[ERROR]: Batch size needs to be divisible by the length of the training set" + trainSize);
@@ -209,7 +210,6 @@ public class NeuralNetwork implements Serializable {
                 averageCost /= batchSize;
                 System.out.println("Average cost of batch: " + averageCost);
                 this.learn(learning_rate); // learn off of accrued deltas
-                // learning_rate += learning_rate;
 
             }
             rm.reset();

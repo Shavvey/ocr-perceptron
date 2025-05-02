@@ -12,7 +12,7 @@ class Connection implements Serializable {
     final Neuron input;
     final Neuron output;
     double weight;
-    double deltaSum;
+    double dZ;
 
     /**
      * @param input  incoming neuron
@@ -31,8 +31,9 @@ class Connection implements Serializable {
      * @param learning_rate controlled by learning rate of network
      */
     void learn(double learning_rate) {
-        this.weight -= learning_rate * this.deltaSum;
-        this.deltaSum = 0;
+        this.weight -= learning_rate * this.dZ;
+        // reset accrued weight deltas after learning
+        this.dZ = 0;
     }
 
     /**
@@ -42,6 +43,6 @@ class Connection implements Serializable {
      * @param delta add delta values accrued during backpropagation
      */
     void addDelta(double delta) {
-        this.deltaSum += delta * this.input.getActivation();
+        this.dZ += delta * this.input.getActivation();
     }
 }

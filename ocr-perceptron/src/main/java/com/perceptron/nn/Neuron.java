@@ -23,7 +23,7 @@ public class Neuron implements Serializable {
     double bias;
     // activation function needed for backpropagation and feedforward
     final ActivationFunction af;
-    double deltaSum;
+    double dB;
     double delta;
     int deltaStep;
 
@@ -103,7 +103,7 @@ public class Neuron implements Serializable {
             incoming.addDelta(this.delta);
         }
         // sum
-        deltaSum += delta;
+        dB += delta;
         // increment number of delta steps
         deltaStep++;
 
@@ -118,13 +118,13 @@ public class Neuron implements Serializable {
     public void learn(double learning_rate) {
         // adjust the bias the of the neuron based on accrued deltas
         // which were calculated during backpropagation
-        this.bias -= learning_rate * deltaSum;
+        this.bias -= learning_rate * dB;
         for (Connection c : in) {
             // adjust weights of all incoming connections
             c.learn(learning_rate);
         }
         // reset accrued deltas
-        deltaSum = 0;
+        dB = 0;
         delta = 0;
         deltaStep = 0;
 
