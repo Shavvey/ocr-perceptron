@@ -158,17 +158,17 @@ public class GUI extends JFrame {
         nextButton.addActionListener(_ -> {
             if (networkPanel.currentSegment < NetworkPanel.INPUT_LAYERS_SEGMENTS - 1) {
                 networkPanel.currentSegment++;
+                text.setText("Current Segment: " + networkPanel.currentSegment);
+                repaint();
             }
-            text.setText("Current Segment: " + networkPanel.currentSegment);
-            repaint();
         });
 
         prevButton.addActionListener(_ -> {
             if (networkPanel.currentSegment > 0) {
                 networkPanel.currentSegment--;
+                text.setText("Current Segment: " + networkPanel.currentSegment);
+                repaint();
             }
-            text.setText("Current Segment: " + networkPanel.currentSegment);
-            repaint();
         });
 
         // add JPanel elements

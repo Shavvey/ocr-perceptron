@@ -62,7 +62,11 @@ public class NetworkPanel extends JPanel {
         for (int i = 1; i < nn.numLayers; i++) {
             Layer l = nn.getLayer(i);
             int offset = getOffset(i);
-            drawLayer(g, l, offset);
+            int red = (int)(Math.random() * 256); // 0 to 255
+            int green = (int)(Math.random() * 256); // 0 to 255
+            int blue = (int)(Math.random() * 256); // 0 to 255
+            Color layerColor = new Color(red,green,blue);
+            drawLayer(g, l, offset, layerColor);
         }
     }
 
@@ -99,8 +103,8 @@ public class NetworkPanel extends JPanel {
      * @param l      {@link Layer} current layer
      * @param offset x-offset used to draw the layer
      */
-    private void drawLayer(Graphics g, Layer l, int offset) {
-        g.setColor(NEURON_COLOR);
+    private void drawLayer(Graphics g, Layer l, int offset, Color layerC) {
+        g.setColor(layerC);
         Dimension neuronSize = getNeuronSize(l);
         int numNeurons = l.getNumNeurons();
         for (int i = 0; i < numNeurons; i++) {
