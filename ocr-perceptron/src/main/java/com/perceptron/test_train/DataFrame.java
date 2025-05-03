@@ -6,7 +6,7 @@ import com.perceptron.nn.CostFunction;
 import java.util.Arrays;
 
 /**
- * Class that encapsulates training and test data for the ocr-perceptron
+ * Class that encapsulates training and test data for the ocr-perceptron.
  *
  * @author Cole Johnson
  */
@@ -76,7 +76,7 @@ public class DataFrame {
     }
 
     /**
-     * Returns the data array
+     * Returns the data array.
      *
      * @return current array of data values
      */
@@ -103,7 +103,7 @@ public class DataFrame {
     }
 
     /**
-     * Set new label
+     * Set new label.
      *
      * @param label new labeled dataframe val
      */
@@ -112,7 +112,7 @@ public class DataFrame {
     }
 
     /**
-     * Wrapper method to index array and set a new value
+     * Wrapper method to index array and set a new value.
      *
      * @param x     x-index
      * @param y     y-index
@@ -125,7 +125,7 @@ public class DataFrame {
     /**
      * decode label into an output value our NN needs to learn from
      * (very useful during backpropagation,
-     * evaluated by LossFunction {@link CostFunction})
+     * evaluated by {@link CostFunction}.
      *
      * @return truth values
      */

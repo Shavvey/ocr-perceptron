@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 
 /**
- * Neural network class is an abstraction of separate smaller class
+ * Neural network class is an abstraction of separate smaller class.
  * <ol>
  *     <li> {@link Neuron}: a simplified neuron with an activation value, weight, etc. </li>
  *     <li> {@link Layer}: a collection of neurons equipped with an activation and loss function for training </li>
@@ -61,7 +61,7 @@ public class NeuralNetwork implements Serializable {
     }
 
     /**
-     * Make full connections using previous and next layer pointers
+     * Make full connections using previous and next layer pointers.
      */
     public void connect() {
         // loop through each layer
@@ -77,7 +77,7 @@ public class NeuralNetwork implements Serializable {
 
 
     /**
-     * Display out the config of the neural network (delegated to the Layer Level)
+     * Display out the config of the neural network (delegated to the Layer Level).
      */
     public void display() {
         for (Layer l : layers) {
@@ -87,7 +87,7 @@ public class NeuralNetwork implements Serializable {
     }
 
     /**
-     * Returns back a layer in neural network
+     * Returns back a layer in neural network.
      *
      * @param index index of {@link Layer}
      * @return if index is valid, next back that Layer, otherwise return null

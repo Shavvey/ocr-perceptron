@@ -6,7 +6,7 @@ import java.util.Iterator;
 /**
  * Utility class to create manage test and train data,
  * mainly provides other classes with a convenient iteration
- * of {@link DataFrame}s
+ * of {@link DataFrame}.
  *
  * @author: Cole Johnson
  */
@@ -68,7 +68,7 @@ public class ResourceManager {
     }
 
     /**
-     * Returns the size of the training set
+     * Returns the size of the training set.
      *
      * @return number of {@link DataFrame}s in training set
      */

@@ -1,6 +1,5 @@
 package com.perceptron.util;
 
-import java.util.ArrayList;
 
 /**
  * Helper class to implement a circular list.

@@ -12,10 +12,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Layer output = new Layer(10, ActivationFunction.SIGMOID);
-        Layer hidden = new Layer(30, ActivationFunction.SIGMOID);
+        Layer hidden1 = new Layer(30, ActivationFunction.SIGMOID);
+        Layer hidden2 = new Layer(30, ActivationFunction.SIGMOID);
         Layer input = new Layer(28 * 28, ActivationFunction.SIGMOID);
         // configure the network and create it
-        NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, hidden, output);
+        NeuralNetwork nn = new NeuralNetwork(CostFunction.MSE, input, hidden1, hidden2, output);
         nn.display();
         nn.train(0.30, 5, 10);
         nn.test();
@@ -23,7 +24,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         String answer = scan.nextLine();
         if (answer.equals("yes")) {
-            nn.serialize("model-1");
+            nn.serialize("model-2");
         }
     }
 }

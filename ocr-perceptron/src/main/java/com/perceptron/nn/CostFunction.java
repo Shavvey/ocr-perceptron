@@ -16,7 +16,7 @@ public enum CostFunction implements Serializable {
     final private String name;
 
     /**
-     * Constructor for each LossFunction implemented
+     * Constructor for each LossFunction implemented.
      *
      * @param name name of the LossFunction
      */
@@ -35,7 +35,7 @@ public enum CostFunction implements Serializable {
 
 
     /**
-     * Evaluate loss under LossFunction
+     * Evaluate loss given prediction and truth values under CostFunction given.
      *
      * @param p prediction values
      * @param y ground "truth" values (comes from DataFrame label)

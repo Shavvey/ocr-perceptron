@@ -23,7 +23,7 @@ public class Layer implements Serializable {
     final ArrayList<Neuron> neurons;
 
     /**
-     * Main constructor for Layer class
+     * Main constructor for Layer class.
      *
      * @param count count of neurons in <em>this</em> layer
      * @param af    ActivationFunction used to determine the activity of next neural layer
@@ -38,7 +38,7 @@ public class Layer implements Serializable {
     }
 
     /**
-     * Helper method to make each {@link Neuron} in the Layer
+     * Helper method to make each {@link Neuron} in the Layer.
      *
      * @param previousCount neuron count of <em>previous</em> Layer
      * @param nextCount     neuron count of <em>next</em> Layer
@@ -54,7 +54,7 @@ public class Layer implements Serializable {
     /**
      * Make outgoing connections on this layer and
      * then form the corresponding incoming connections
-     * on next layer
+     * on next layer.
      *
      * @param next next Layer inside neural network
      */
@@ -76,7 +76,7 @@ public class Layer implements Serializable {
 
 
     /**
-     * Helper method to set activations of the neuron in its own layer
+     * Helper method to set activations of the neuron in its own layer.
      *
      * @param a array of newly computed activations values
      */
@@ -89,7 +89,7 @@ public class Layer implements Serializable {
 
 
     /**
-     * Set weights for each neuron in the Layer
+     * Set weights for each neuron in the Layer.
      *
      * @param w weight matrix to set Neurons
      */
@@ -103,7 +103,7 @@ public class Layer implements Serializable {
     }
 
     /**
-     * create 2D matrix of all the weights on this layer
+     * create 2D matrix of all the weights on this layer.
      *
      * @return weights of layer inside a 2D array
      */
@@ -130,7 +130,7 @@ public class Layer implements Serializable {
     }
 
     /**
-     * display the weights of the current Layer
+     * display the weights of the current Layer.
      */
     public void displayWeights() {
         double[][] w = this.getWeights();
@@ -140,7 +140,7 @@ public class Layer implements Serializable {
     }
 
     /**
-     * display the weights of the current Layer
+     * display the weights of the current Layer.
      */
     public void displayTransposeWeights() {
         double[][] w = this.getTransposedWeights();
@@ -150,7 +150,7 @@ public class Layer implements Serializable {
     }
 
     /**
-     * Create new 2D array that represents the transpose of the weights
+     * Create new 2D array that represents the transpose of the weights.
      *
      * @return new transposed weight matrix
      */
@@ -160,7 +160,7 @@ public class Layer implements Serializable {
 
 
     /**
-     * Return biases of entire Layer
+     * Return biases of entire Layer.
      *
      * @return array of biases gathered from current Layer of neurons
      */
@@ -305,12 +305,12 @@ public class Layer implements Serializable {
     /**
      * Adjust weights and biases after accruing deltas in feedback step
      *
-     * @param learning_rate user set value, determines how aggressive
+     * @param learningRate user set value, determines how aggressive
      *                      the adjustment of weights and biases is
      */
-    public void learn(double learning_rate) {
+    public void learn(double learningRate) {
         for (Neuron n : neurons) {
-            n.learn(learning_rate);
+            n.learn(learningRate);
         }
     }
 

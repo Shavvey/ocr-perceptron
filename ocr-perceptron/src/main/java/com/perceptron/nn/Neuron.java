@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Neuron the main unit of the {@link NeuralNetwork}
  * contains the basic information we need during test, training
- * and operation: weights, activation, and bias
+ * and operation: weights, activation, and bias.
  *
  * @author: Cole Johnson
  */
@@ -28,7 +28,7 @@ public class Neuron implements Serializable {
     int deltaStep;
 
     /**
-     * Create a new Neuron
+     * Create a new Neuron.
      *
      * @param prevCount previous Layer neuron count
      * @param nextCount next Layer neuron count
@@ -45,7 +45,7 @@ public class Neuron implements Serializable {
 
 
     /**
-     * Getter for activation value
+     * Getter for the activation value.
      *
      * @return the current activation value for Neuron
      */
@@ -53,12 +53,17 @@ public class Neuron implements Serializable {
         return activation;
     }
 
+    /**
+     * Setting for the activation value of the Neuron.
+     *
+     * @param a new activation for the Neuron
+     */
     public void setActivation(double a) {
         this.activation = a;
     }
 
     /**
-     * Return all outgoing connections of Neuron
+     * Return all outgoing connections of Neuron.
      *
      * @return array of weights to each outgoing neuron
      */
@@ -112,16 +117,16 @@ public class Neuron implements Serializable {
     /**
      * Adjust weights and biases after accruing deltas in feedback step
      *
-     * @param learning_rate user set value, determines how aggressive
-     *                      the adjustment of weights and biases is
+     * @param learningRate user set value, determines how aggressive
+     *                     the adjustment of weights and biases is
      */
-    public void learn(double learning_rate) {
+    public void learn(double learningRate) {
         // adjust the bias the of the neuron based on accrued deltas
         // which were calculated during backpropagation
-        this.bias -= learning_rate * dB;
+        this.bias -= learningRate * dB;
         for (Connection c : in) {
             // adjust weights of all incoming connections
-            c.learn(learning_rate);
+            c.learn(learningRate);
         }
         // reset accrued deltas
         dB = 0;

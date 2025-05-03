@@ -43,7 +43,7 @@ public class DataFrameIterator implements Iterator<DataFrame> {
     }
 
     /**
-     * Advances the cursor to create and save a new DataFrame
+     * Advances the cursor to create and save a new DataFrame.
      */
     private void advance() {
         // get current string content from cursor
