@@ -77,9 +77,10 @@ public class Neuron implements Serializable {
     }
 
     /**
-     * Every Neuron iterates through all incoming weights
-     * and activation to obtain weighted sum 'z' then
-     * we use the non-linear af to obtain activations.
+     * Every Neuron iterates through all incoming weights and
+     * previous activations, through {@link Connection}, with an input bias
+     * to obtain weighted sum 'z'. Then we apply the non-linear
+     * {@link ActivationFunction} to get a new activation for the Neuron.
      */
     public void feedforward() {
         double sum = bias;
@@ -93,7 +94,9 @@ public class Neuron implements Serializable {
     }
 
     /**
-     * Feedback at neuron level
+     * Feedback at the neuron level. Determine the "delta", which
+     * represent the changes we would like to make to the network
+     * for each training sample we encounter.
      */
     public void feedback() {
         double sum = 0;

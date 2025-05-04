@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        // create different layers, with different layer count and ActivationFunction
         Layer output = new Layer(10, ActivationFunction.SIGMOID);
         Layer hidden1 = new Layer(30, ActivationFunction.SIGMOID);
         Layer hidden2 = new Layer(30, ActivationFunction.SIGMOID);
@@ -20,11 +21,5 @@ public class Main {
         nn.display();
         nn.train(0.30, 5, 10);
         nn.test();
-        System.out.println("Would you like to save this model? (yes or no)");
-        Scanner scan = new Scanner(System.in);
-        String answer = scan.nextLine();
-        if (answer.equals("yes")) {
-            nn.serialize("model-2");
-        }
     }
 }

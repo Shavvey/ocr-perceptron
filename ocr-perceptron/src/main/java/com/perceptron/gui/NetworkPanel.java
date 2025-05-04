@@ -22,8 +22,7 @@ public class NetworkPanel extends JPanel {
     public final static int NEURONS_PER_SEGMENT = 28;
     private final static Color NEURON_COLOR = Color.BLUE;
     private final static Color WEIGHT_COLOR = Color.BLACK;
-    private final static Color NEURON_POS_COLOR = Color.BLUE;
-    private final static Color NEURON_NEG_COLOR = Color.RED;
+
 
     /**
      * Simple constructor for {@link NetworkPanel}.
