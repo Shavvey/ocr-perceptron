@@ -38,7 +38,7 @@ public class GUI extends JFrame {
         super("OCR-Perceptron");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // TODO: implement a way to resize window dynamically
-        setResizable(true);
+        setResizable(false);
         // set up are two panels, drawing and view panel
         drawingPanel = makeDrawPanel(DEFAULT_GUI_DIM.width, DEFAULT_GUI_DIM.height);
         networkPanel = makeNetworkPanel(DEFAULT_GUI_DIM.width, DEFAULT_GUI_DIM.height);
@@ -58,6 +58,7 @@ public class GUI extends JFrame {
     private JPanel makeDrawPanel(int width, int height) {
         DrawPanel drawPanel = new DrawPanel(width, height);
         JPanel parent = new JPanel();
+
 
         // configure the layout
         BoxLayout drawLayout = new BoxLayout(parent, BoxLayout.Y_AXIS);
@@ -121,7 +122,7 @@ public class GUI extends JFrame {
     private JPanel makeNetworkPanel(int width, int height) {
 
         JPanel parent = new JPanel();
-        parent.setBackground(Color.BLACK);
+        parent.setBackground(Color.WHITE);
         NetworkPanel networkPanel = new NetworkPanel(width, height);
         // configure action listener for model listing and serializer
         modelList.addActionListener(_ -> {

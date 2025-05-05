@@ -13,6 +13,7 @@ public enum ActivationFunction implements Serializable {
     SIGMOID("SIGMOID"),
     IDENTITY("IDENTITY"),
     GAUSSIAN("GAUSSIAN"),
+    SOFTMAX("SOFTMAX"),
     RELU("ReLU");
     final private String name;
 
