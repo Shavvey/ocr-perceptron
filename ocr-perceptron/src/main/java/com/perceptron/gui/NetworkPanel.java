@@ -5,6 +5,7 @@ import com.perceptron.nn.NeuralNetwork;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Content panel responsible for
@@ -22,7 +23,8 @@ public class NetworkPanel extends JPanel {
     public final static int NEURONS_PER_SEGMENT = 28;
     private final static Color NEURON_COLOR = Color.BLUE;
     private final static Color WEIGHT_COLOR = Color.BLACK;
-
+    private final static Color POS_WEIGHT_COLOR = Color.BLUE;
+    private final static Color NEG_WEIGHT_COLOR = Color.RED;
 
     /**
      * Simple constructor for {@link NetworkPanel}.
@@ -34,6 +36,47 @@ public class NetworkPanel extends JPanel {
         setBackground(Color.WHITE);
         panelWidth = width;
         panelHeight = height;
+
+    }
+
+    /**
+     * Linear map / interpolation function that changes the each weight
+     * to a given value.
+     *
+     * @param val weight value
+     * @return new linear interpolated color
+     */
+    Color linearMap(double val) {
+        final float INT_TO_FLOAT = 1f / 255f;
+        // what fraction [0,1] of the line in color space we are in
+        float fraction = (float) ((val + 1) / 2);
+        // get input colors
+        final float startRed = NEG_WEIGHT_COLOR.getRed() * INT_TO_FLOAT;
+        final float startBlue = NEG_WEIGHT_COLOR.getBlue() * INT_TO_FLOAT;
+        // get ending color
+        final float endRed = POS_WEIGHT_COLOR.getRed() * INT_TO_FLOAT;
+        final float endBlue = POS_WEIGHT_COLOR.getBlue() * INT_TO_FLOAT;
+
+        float red = startRed + (endRed - startRed) * fraction;
+        float blue = startBlue + (endBlue - startBlue) * fraction;
+        red = Math.min(red, 1f);
+        red = Math.max(red, 0f);
+        blue = Math.min(blue, 1f);
+        blue = Math.max(blue, 0f);
+        return new Color(red, 0, blue);
+
+    }
+
+    /**
+     * Returns a random color.
+     *
+     * @return random color value
+     */
+    Color randomColor() {
+        int red = (int) (Math.random() * 256); // 0 to 255
+        int green = (int) (Math.random() * 256); // 0 to 255
+        int blue = (int) (Math.random() * 256); // 0 to 255
+        return new Color(red, green, blue);
     }
 
     /**
@@ -61,11 +104,7 @@ public class NetworkPanel extends JPanel {
         for (int i = 1; i < nn.numLayers; i++) {
             Layer l = nn.getLayer(i);
             int offset = getOffset(i);
-            int red = (int)(Math.random() * 256); // 0 to 255
-            int green = (int)(Math.random() * 256); // 0 to 255
-            int blue = (int)(Math.random() * 256); // 0 to 255
-            Color layerColor = new Color(red,green,blue);
-            drawLayer(g, l, offset, layerColor);
+            drawLayer(g, l, offset);
         }
     }
 
@@ -87,7 +126,7 @@ public class NetworkPanel extends JPanel {
      * @param g {@link Graphics} context
      */
     private void drawInputSegment(Graphics g) {
-        g.setColor(NEURON_COLOR);
+        g.setColor(randomColor());
         int width = panelWidth / NEURONS_PER_SEGMENT;
         int height = panelHeight / NEURONS_PER_SEGMENT;
         for (int i = 0; i < NEURONS_PER_SEGMENT; i++) {
@@ -102,8 +141,8 @@ public class NetworkPanel extends JPanel {
      * @param l      {@link Layer} current layer
      * @param offset x-offset used to draw the layer
      */
-    private void drawLayer(Graphics g, Layer l, int offset, Color layerC) {
-        g.setColor(layerC);
+    private void drawLayer(Graphics g, Layer l, int offset) {
+        g.setColor(randomColor());
         Dimension neuronSize = getNeuronSize(l);
         int numNeurons = l.getNumNeurons();
         for (int i = 0; i < numNeurons; i++) {
@@ -141,6 +180,8 @@ public class NetworkPanel extends JPanel {
             // iterate across number of incoming connections
             // TODO: use weight vals change color or something
             for (int i = 0; i < w[0].length; i++) {
+                Color c = linearMap(w[j][i]);
+                g.setColor(c);
                 g.drawLine(currentOffset - currNeuronSize.width, currNeuronSize.height * j + currNeuronSize.height / 2,
                         xEnd, prevNeuronSize.height * i + prevNeuronSize.height / 2);
             }
