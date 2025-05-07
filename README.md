@@ -12,3 +12,5 @@ Neural Networks for the purposes of optical character recognition.
 
 
 ![Example Image](images/example.png)
+
+## Compiling the Project

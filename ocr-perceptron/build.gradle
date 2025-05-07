@@ -7,7 +7,7 @@ application {
 }
 
 group = 'org.example'
-version = '1.0-SNAPSHOT'
+version = '1.0-BUILD'
 
 repositories {
     // use Maven central for resolving dependencies
@@ -44,10 +44,11 @@ java {
 
 }
 
+
 jar {
   // create manifest file that contains entry point for the main class
   from ('src/main/java') {
-    include 'models/*.ser'
+       include 'models/*.ser'
   }
   manifest {
     attributes 'Main-Class' : 'com.perceptron.gui.GUI'

@@ -72,9 +72,9 @@ TASKS = pd.DataFrame(
             Assigned="Cole, John",
         ),
         dict(
-            Task="Implement supervised learner",
+            Task="Implement Supervised Learning Method",
             Start="2025-3-3",
-            Finish="2025-3-18",
+            Finish="2025-4-18",
             Assigned="Group",
         ),
         dict(
@@ -88,12 +88,6 @@ TASKS = pd.DataFrame(
             Start="2025-3-10",
             Finish="2025-4-21",
             Assigned="Lauren, Cole"
-        ),
-        dict(
-            Task="Make web-based version of system",
-            Start="2025-4-21",
-            Finish="2025-4-28",
-            Assigned="John"
         ),
     ]
 )
