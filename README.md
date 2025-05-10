@@ -23,6 +23,11 @@ will build aspects of the project.
 ```./gradlew gui```
 
 
-- To run a training example with an default
+- To run a training example with a default
 configuration of the network, use the command:
 ```./gradlew run```
+
+- There is also a pre-compiled jar named `ocr-perceptron-1.0-BUILD.jar`
+with the necessary class files to run the GUI. To launch the jar,
+use the command ```java -jar ocr-perceptron-1.0-BUILD.jar```
+
