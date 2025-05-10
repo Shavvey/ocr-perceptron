@@ -14,3 +14,15 @@ Neural Networks for the purposes of optical character recognition.
 ![Example Image](images/example.png)
 
 ## Compiling the Project
+Once you have cloned the main repository, navigate
+to the source code directory called `ocr-perceptron`.
+From there, you can access a few gradle tasks that
+will build aspects of the project.
+
+- To run the GUI, you can use the command:
+```./gradlew gui```
+
+
+- To run a training example with an default
+configuration of the network, use the command:
+```./gradlew run```
